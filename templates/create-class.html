@@ -1,0 +1,107 @@
+{% extends 'base.html' %} 
+
+{% block head %}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+
+{% endblock %}
+
+
+{% block body %}
+  <h3>Create a Class</h3>
+
+  <p>This is the Class Creation Page. Make a Portuguese class!!!</p>
+
+  <form method="POST" action="/teacherclass">
+    
+    <div class="form-group">
+      Language: 
+      <select name="languagetype" class="form-control">
+          <option value="Portuguese">Portuguese</option>
+          <option value="Spanish">Spanish</option>
+          <option value="Mandarin">Mandarin</option>
+          <option value="Korean">Korean</option>
+          <option value="French">French</option>
+      </select>
+    
+    <div class="form-group">
+      Level: 
+      <select name="leveltype" class="form-control">
+          <option value=1>Beginner</option>
+          <option value=2>Pre-Intermediate</option>
+          <option value=3>Intermediate</option>
+          <option value=4>Upper Intermediate</option>
+          <option value=5>Advanced</option>
+          <option value=6>Native Speaker</option>
+          <option value=7>Mixed Levels</option>
+    </div>
+
+
+  <!-- This is from Bootstrap, it's what the teacher charges -->
+      <div class="form-group">
+        <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+         <div class="input-group">
+         <div class="input-group-addon">$</div>
+        <input type="text" name="pricetype"class="form-control" id="exampleInputAmount" placeholder="Amount">
+          <div class="input-group-addon">.00</div>
+        </div>
+      </div>
+    
+    <div class="form-group">
+      Minimum number of students for class to run: 
+        <input type="number" name="min" class="min-students">
+    </div>
+
+    <div class="form-group">
+      Maximum number of students that can join: 
+        <input type="number" name="max" class="max-students">
+    </div>
+
+    <div class="form-group">
+        Days:
+      <input type="checkbox" name="days" value="Monday">Monday
+      <input type="checkbox" name="days" value="Tuesday">Tuesday
+      <input type="checkbox" name="days" value="Wednesday">Wednesday
+      <input type="checkbox" name="days" value="Thursday">Thursday
+      <input type="checkbox" name="days" value="Friday">Friday
+      <input type="checkbox" name="days" value="Saturday">Saturday
+      <input type="checkbox" name="days" value="Sunday">Sunday
+    </div>
+
+
+    <script>
+    $(function() {
+      $( "#datepicker" ).datepicker();
+    });
+    </script>
+    <p>Start Date: <input type="date" id="datepicker" name="start"></p>
+     
+
+    <script>
+    $(function() {
+      $( "#datepicker" ).datepicker();
+    });
+    </script>
+    <p>End Date: <input type="date" id="datepicker" name="end"></p>
+
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.timepicker.js"></script>
+
+    <p>Class Time: <input type="time" id="timepicker" name="time"></p>
+    
+      
+
+    <div>
+    Create
+      <button type="submit" class="btn btn-primary" name="submit" value="Create it!">
+    </div>
+
+  
+  </form>
+ 
+  {% endblock %}
+

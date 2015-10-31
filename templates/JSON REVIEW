@@ -1,0 +1,32 @@
+JSON REVIEW
+
+Itunes API returns json
+
+in JS can load in as an object
+
+string can also be used in Python as a dictionary
+
+in the API talk
+
+use the library to retreive JSON string
+use python requests library to pull json in and make/get a dictionary
+
+the library will do it for you
+
+make a request to an API endpoint, that returns json that you want in your db, 
+
+if we use the requests api to ask iturnes to return "watermelon" stuff, we get json, that we can treat like a dict if we look through the json
+
+visual inspection is good
+
+maybe need to import another library????
+
+import requests
+
+jdict = r.json()
+
+num_results = jdict['resultCount']
+
+for i in rante(num_results):
+    trackName = jdict['results'][i].get('trackName')
+    artistName = jdict['results'][i].get('artistName')

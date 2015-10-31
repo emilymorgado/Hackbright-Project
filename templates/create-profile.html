@@ -1,0 +1,82 @@
+{% extends 'base.html' %} 
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  {% endwith %}
+
+
+
+
+<h3>Create a Profile<h3>
+
+<form method="POST" action="/new-profile">
+
+    <!-- Email -->
+  <div class="form-group">
+    Email address:
+    <input type="email" name="email" class="form-control" placeholder="Email">
+  </div>
+
+
+    <!-- First name -->
+  <div class="form-group">
+    <label for="exampleInputName2">First Name</label>
+    <input type="text" class="form-control" name="fname" placeholder="Monster">
+  </div>
+
+
+    <!-- Last name -->
+  <div class="form-group">
+    <label for="exampleInputName2">Last Name</label>
+    <input type="text" class="form-control" name="lname" placeholder="Om nom nom">
+  </div>
+
+
+  <!-- Username -->
+  <div class="form-group">
+    <label for="exampleInputName2">What would you like your username to be?</label>
+    <input type="text" class="form-control" name="username" placeholder="think hard...">
+  </div>
+
+  <!-- Password -->
+  <div class="form-group">
+    Password:
+    <input type="password" name="password" class="form-control" placeholder="Password">
+  </div>
+
+  <!-- Is teacher/student -->
+    <label>I'm a:</label>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" id="teacher" value="teacher" checked>
+        Teacher
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" id="student" value="student">
+        Student
+      </label>
+    </div>
+
+  <!-- Bio -->
+  <textarea class="form-control" name="bio" rows="3"></textarea>
+
+  <!-- Submit button -->
+  <input class="btn btn-default" name="submitbutton" type="submit" value="Submit">
+
+</form>
+
+{% endblock %}

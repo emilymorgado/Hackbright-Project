@@ -1,0 +1,87 @@
+{% extends 'base.html' %} 
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+
+<h3>Search for a class!</h3>
+
+<div>
+<form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+</div>
+<br><br>
+
+<section>
+<h3>Or browse open classes:<h3>
+</section>
+
+<div>
+    <form method="GET" action="">
+      Language: 
+      <select name="languagetype" class="form-control">
+          <option value="Portuguese">Portuguese</option>
+          <option value="Spanish">Spanish</option>
+          <option value="Mandarin">Mandarin</option>
+          <option value="Korean">Korean</option>
+          <option value="French">French</option>
+      </select>
+    </form>
+</div>
+
+<div>
+<form method="GET" action="">
+    Level: 
+    <select name="leveltype" class="form-control">
+        <option value=1>Beginner</option>
+        <option value=2>Pre-Intermediate</option>
+        <option value=3>Intermediate</option>
+        <option value=4>Upper Intermediate</option>
+        <option value=5>Advanced</option>
+        <option value=6>Native Speaker</option>
+        <option value=7>Mixed Levels</option>
+    </select>
+  </form>
+</div>
+
+<div>
+  <form action="" method="GET">
+      Days:
+    <input type="checkbox" name="days" value="Monday">Monday
+    <input type="checkbox" name="days" value="Tuesday">Tuesday
+    <input type="checkbox" name="days" value="Wednesday">Wednesday
+    <input type="checkbox" name="days" value="Thursday">Thursday
+    <input type="checkbox" name="days" value="Friday">Friday
+    <input type="checkbox" name="days" value="Saturday">Saturday
+    <input type="checkbox" name="days" value="Sunday">Sunday
+  </form>
+</div>
+   
+<div>
+  <form action="" method="GET">
+    Start Date:
+    <input type="date" name="start" class="form-control">
+  </form>
+</div>
+
+<div>
+  <form action="" method="GET">
+    Last Day:
+    <input type="date" name="end" class="form-control">
+  </form>
+</div>
+
+<div>
+  <form action="" method="GET">
+    Class Time:
+    <input type="time" name-"timetype" class="form-control">
+    <button type="submit" class="btn btn-primary">Create it!</button>
+  </form>
+</div>
+
+{% endblock %}
