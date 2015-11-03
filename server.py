@@ -82,9 +82,20 @@ def profile():
     return render_template("profile.html")
 
 
-@app.route('/search')
+@app.route('/search', methods=(["GET"]))
 def search_classes():
     """Search Box and browsing/parameter ticking"""
+    # selectedlanguage = use the get for languagetype() 
+    # languages = db.session(Classroom).filter(Classroom.language==selectedlang).all()
+    # for language in languages:
+    # level = language.level
+    language = db.session.query(Classroom.language).all()
+    level = db.session.query(Classroom.level).all()
+    days = db.session.query(Classroom.class_days).all()
+    start_date = db.session.query(Classroom.start_date).all()
+    end_date = db.session.query(Classroom.end_date).all()
+    start_time = db.session.query(Classroom.start_time).all()
+
 
     return render_template('search.html')
 
@@ -92,6 +103,7 @@ def search_classes():
 @app.route('/class-info')
 def class_info():
     """Reveals information about a class. Such as: language, level, days, times, teacher, students"""
+
 
     # lat = Class.query.filter(class_id)
     # lng=get from db, I don't remember how
@@ -116,20 +128,20 @@ def class_submission():
     price = request.form.get('pricetype')
     min_students = request.form.get('min')
     max_students = request.form.get('max')
-    days = str(request.form.get('days'))
-    start_date = request.form.get('start')
-    start_date = str(request.form.get('%A, %B, %d, %Y'))
-    end_date = request.form.get('end')
-    end_date = str(request.form.get('%A, %B, %d, %Y'))
-    time = request.form.get('timetype')
-    time = str(request.form.get('%H, %M'))
+    days = request.form.get('days').encode('utf8')
+    start_date = request.form.get('start').encode('utf8')
+    end_date = request.form.get('end').encode('utf8')
+    start_time = request.form.get('start-time').encode('utf8')
+    end_time = request.form.get('end-time').encode('utf8')
+    per_time = request.form.get('per-time')
 
-    print type(start_date)
-    print type(end_date)
-    print type(time)
-    newclass = Classroom(language=language, level=level, cost=price, min_students=min_students, 
+    # print "Monster!"
+
+    newclass = Classroom(language=language, level=level, min_students=min_students, 
                         max_students=max_students, class_days=days, 
-                        start_date=start_date, end_date=end_date, time=time)
+                        start_date=start_date, end_date=end_date, cost=price, 
+                        start_time=start_time, end_time=end_time, per_time=per_time) 
+
 
 
     db.session.add(newclass)

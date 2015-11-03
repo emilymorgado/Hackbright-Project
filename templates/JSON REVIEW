@@ -15,7 +15,7 @@ the library will do it for you
 
 make a request to an API endpoint, that returns json that you want in your db, 
 
-if we use the requests api to ask iturnes to return "watermelon" stuff, we get json, that we can treat like a dict if we look through the json
+if we use the requests api to ask itunes to return "watermelon" stuff, we get json, that we can treat like a dict if we look through the json
 
 visual inspection is good
 

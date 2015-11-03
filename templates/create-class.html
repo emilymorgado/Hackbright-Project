@@ -2,106 +2,158 @@
 
 {% block head %}
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <link rel="stylesheet" type="text/css" href="static/map.css">
+
+  <script jquery.timepicker.js></script>
+  <script jquery.timepicker.css></script>
+
+  <script src="https://code.jquery.com/jquery.js"></script>
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css">
+
+  <style type="text/css">
+  html, body { height: 100%; margin: 0; padding: 0; }
+
+  /* meta and style relate to the map*/
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+  </style>
+
 
 {% endblock %}
 
 
 {% block body %}
+
   <h3>Create a Class</h3>
 
-  <p>This is the Class Creation Page. Make a Portuguese class!!!</p>
-
-  <form method="POST" action="/teacherclass">
+  <form method="POST" action="/teacherclass" id="create-class">
     
+    <!-- Language -->
     <div class="form-group">
       Language: 
-      <select name="languagetype" class="form-control">
+      <select id="languagetype" name="languagetype" class="form-control">
           <option value="Portuguese">Portuguese</option>
           <option value="Spanish">Spanish</option>
           <option value="Mandarin">Mandarin</option>
           <option value="Korean">Korean</option>
           <option value="French">French</option>
       </select>
-    
-    <div class="form-group">
-      Level: 
-      <select name="leveltype" class="form-control">
-          <option value=1>Beginner</option>
-          <option value=2>Pre-Intermediate</option>
-          <option value=3>Intermediate</option>
-          <option value=4>Upper Intermediate</option>
-          <option value=5>Advanced</option>
-          <option value=6>Native Speaker</option>
-          <option value=7>Mixed Levels</option>
-    </div>
 
 
-  <!-- This is from Bootstrap, it's what the teacher charges -->
+      <!-- Level -->
       <div class="form-group">
-        <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
-         <div class="input-group">
-         <div class="input-group-addon">$</div>
-        <input type="text" name="pricetype"class="form-control" id="exampleInputAmount" placeholder="Amount">
-          <div class="input-group-addon">.00</div>
-        </div>
+        Level: 
+        <select name="leveltype" class="form-control">
+            <option value=1>Beginner</option>
+            <option value=2>Pre-Intermediate</option>
+            <option value=3>Intermediate</option>
+            <option value=4>Upper Intermediate</option>
+            <option value=5>Advanced</option>
+            <option value=6>Native Speaker</option>
+            <option value=7>Mixed Levels</option>
       </div>
-    
-    <div class="form-group">
-      Minimum number of students for class to run: 
-        <input type="number" name="min" class="min-students">
-    </div>
-
-    <div class="form-group">
-      Maximum number of students that can join: 
-        <input type="number" name="max" class="max-students">
-    </div>
-
-    <div class="form-group">
-        Days:
-      <input type="checkbox" name="days" value="Monday">Monday
-      <input type="checkbox" name="days" value="Tuesday">Tuesday
-      <input type="checkbox" name="days" value="Wednesday">Wednesday
-      <input type="checkbox" name="days" value="Thursday">Thursday
-      <input type="checkbox" name="days" value="Friday">Friday
-      <input type="checkbox" name="days" value="Saturday">Saturday
-      <input type="checkbox" name="days" value="Sunday">Sunday
-    </div>
 
 
-    <script>
-    $(function() {
-      $( "#datepicker" ).datepicker();
-    });
-    </script>
-    <p>Start Date: <input type="date" id="datepicker" name="start"></p>
-     
-
-    <script>
-    $(function() {
-      $( "#datepicker" ).datepicker();
-    });
-    </script>
-    <p>End Date: <input type="date" id="datepicker" name="end"></p>
+      <!-- Min num of Students -->
+      <div class="form-group">
+        Minimum number of students for class to run: 
+          <input type="text" name="min" class="min-students">
+      </div>
 
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="jquery.timepicker.js"></script>
+      <!-- Max num of Students -->
+      <div class="form-group">
+        Maximum number of students that can join: 
+          <input type="text" name="max" class="max-students">
+      </div>
 
-    <p>Class Time: <input type="time" id="timepicker" name="time"></p>
-    
-      
 
+      <!-- Days -->
+      <div class="form-group" id="days">
+          Days:
+        <input type="checkbox" name="days" value="Monday">Monday
+        <input type="checkbox" name="days" value="Tuesday">Tuesday
+        <input type="checkbox" name="days" value="Wednesday">Wednesday
+        <input type="checkbox" name="days" value="Thursday">Thursday
+        <input type="checkbox" name="days" value="Friday">Friday
+        <input type="checkbox" name="days" value="Saturday">Saturday
+        <input type="checkbox" name="days" value="Sunday">Sunday
+      </div>
+
+
+      <!-- Start Date -->
+      <p>Start Date: <input type="date" id="datepicker" name="start"></p>
+
+
+      <!-- End Date -->
+      <p>End Date: <input type="date" id="datepicker" name="end"></p>
+
+
+      <!-- Start Time  -->
+      <input type="time" class="timepicker" name="start-time" id=
+      "start-time">
+
+      <!-- End Time  -->
+      <input type="time" class="timepicker" name="end-time" id=
+      "end-time">
+
+
+      <!-- Price Picker -->
+      <div class="form-group">
+          <label class="sr-only" name="pricetype">Amount (in dollars)</label>
+          <div class="input-group">
+            <div class="input-group-addon">$</div>
+            <input type="text" class="form-control" name="pricetype" placeholder="Amount">
+            <div class="input-group-addon">.00</div>
+            <div name="per-time">
+              <select name="per-time" class="form-control">
+                  <option value="hour">/hour</option>
+                  <option value="week">/week</option>
+                  <option value="month">/month</option>
+                  <option value="year">/year</option>
+              </select>
+          </div>
+        </div>
     <div>
-    Create
-      <button type="submit" class="btn btn-primary" name="submit" value="Create it!">
-    </div>
+      <button type="submit" class="btn btn-primary" name="createit" id="createit" value="Create it!">Create it!</button>
 
+    </div>
+   </form>
+
+
+   <script>
+
+    $(function() {
+     $( "#datepicker" ).datepicker();
+   }); 
+
+    $("input:checkbox[name=days]:checked").each(function(){
+        yourArray.push($(this).val());
+    });
+
+
+   // Nothing will run until the DOM is ready
+   $(document).ready(function() {
   
-  </form>
+
+    // When the button is clicked, the form is serialized and posted
+    $('#createit').click(function(event)){   
+      $.post("/teacherclass", $("#create-class").serialize(),
+    }
+
+   }
+
+   </script>
+
  
   {% endblock %}
 

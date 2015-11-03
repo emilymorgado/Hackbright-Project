@@ -24,7 +24,9 @@ class Classroom(db.Model):
     class_days = db.Column(db.String, nullable=False)
     start_date = db.Column(db.String, nullable=False)
     end_date = db.Column(db.String, nullable=True)
-    time = db.Column(db.String, nullable=False)
+    start_time = db.Column(db.String, nullable=False)
+    end_time = db.Column(db.String, nullable=False)
+    per_time = db.Column(db.String, nullable=False)
 
 
     def __repr__(self):
@@ -96,3 +98,7 @@ if __name__ == "__main__":
     from server import app
     connect_to_db(app)
     print "Connected to DB."
+
+
+
+    # 'postgresql://localhost/classfinder'
