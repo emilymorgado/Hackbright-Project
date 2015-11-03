@@ -12,20 +12,36 @@
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=true&callback=initMap"
+      async defer></script>
+  <script>
+   var map;
+    function initMap() {
+
+        var myLatLng = {lat: -9.679445, lng: -48.804154};
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+        center: myLatLng,
+        zoom: 12
+      });
+
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            title: 'Classroom Location'
+        });
+    }
+    </script>
+   <!--      /* meta and style relate to the map*/ -->
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
 
   <style type="text/css">
   html, body { height: 100%; margin: 0; padding: 0; }
 
-  /* meta and style relate to the map*/
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+
   </style>
+
 
 
 {% endblock %}
@@ -99,12 +115,12 @@
 
 
       <!-- Start Time  -->
-      <input type="time" class="timepicker" name="start-time" id=
-      "start-time">
+      <p>Class starts at: <input type="time" class="timepicker" name="start-time" id=
+      "start-time"></p>
 
       <!-- End Time  -->
-      <input type="time" class="timepicker" name="end-time" id=
-      "end-time">
+      <p>Class ends at: <input type="time" class="timepicker" name="end-time" id=
+      "end-time"></p>
 
 
       <!-- Price Picker -->
@@ -123,9 +139,23 @@
               </select>
           </div>
         </div>
+
+
+        <!-- Map -->
+        <!-- Left off here -->
+
+
+         <div onload="initialize()"></div>
+         <div id="map" style="width: 320px; height: 480px;"></div>
+          <div>
+            <input id="address" type="textbox" value="San Francisco, CA">
+            <input type="button" value="Encode" onclick="codeAddress()">
+          </div>
+
+      
+          <!-- Submission Button -->
     <div>
       <button type="submit" class="btn btn-primary" name="createit" id="createit" value="Create it!">Create it!</button>
-
     </div>
    </form>
 
@@ -141,6 +171,61 @@
     });
 
 
+// Address Selection and Map Rendering
+   // var map;
+   //  function initMap() {
+
+   //      var myLatLng = {lat: -9.679445, lng: -48.804154};
+
+   //      var map = new google.maps.Map(document.getElementById('map'), {
+   //      center: myLatLng,
+   //      zoom: 12
+   //    });
+
+   //      var marker = new google.maps.Marker({
+   //          position: myLatLng,
+   //          map: map,
+   //          title: 'Classroom Location'
+   //      });
+   //  }
+
+  // var geocoder;
+
+  //  function initialize() {
+  //    geocoder = new google.maps.Geocoder();
+  //    // var latlng = new google.maps.LatLng(37.777937, -122.4409755);
+  //    var myLatLng = {lat: -9.679445, lng: -48.804154};
+  //    var mapOptions = {
+  //      zoom: 14,
+  //      center: latlng
+  //    }
+  //    map = new google.maps.Map(document.getElementById("map"), mapOptions);
+  //  }
+
+   // function codeAddress() {
+   //   var address = document.getElementById("address").value;
+   //   geocoder.geocode( { 'address': address}, function(results, status) {
+   //     if (status == google.maps.GeocoderStatus.OK) {
+   //       map.setCenter(results[0].geometry.location);
+   //       var marker = new google.maps.Marker({
+   //           map: map,
+   //           position: results[0].geometry.location
+   //       });
+   //     } else {
+   //       alert("Geocode was not successful for the following reason: " + status);
+   //     }
+   //   });
+   // }
+// initialize();
+
+
+
+
+
+
+
+
+    // Form Submission
    // Nothing will run until the DOM is ready
    $(document).ready(function() {
   

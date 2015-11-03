@@ -9,7 +9,7 @@
 
     <style type="text/css">
       html, body { height: 100%; margin: 0; padding: 0; }
-      #map { height: 50%; width: 50%;}
+      #map { height: 300px; width: 300px;}
     </style>
 
 
@@ -22,7 +22,7 @@
     
     <!-- Basic Class info: Language, Level, Days, Times, Start, End -->
 
-  <h3> Lanugage <h3>
+  <h3> Language <h3>
 
     <h3> Level <h3>
 
@@ -30,40 +30,23 @@
 
     <div id="map"></div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <script type="text/javascript">
 
 var map;
 function initMap() {
-
-    var myLatLng = {lat: -9.679445, lng: -48.804154};
-
-    var map = new google.maps.Map(document.getElementById('map'), {
-    center: myLatLng,
-    zoom: 12
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 8
   });
-
-    var marker = new google.maps.Marker({
-        position: myLatLng,
-        map: map,
-        title: 'Classroom Location'
-    });
 }
+
+
+//     var marker = new google.maps.Marker({
+//         position: myLatLng,
+//         map: map,
+//         title: 'Classroom Location'
+//     });
+// }
 
     </script>
 
