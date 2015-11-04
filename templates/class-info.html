@@ -7,46 +7,55 @@
 
   <link rel="stylesheet" type="text/css" href="static/map.css">
 
-    <style type="text/css">
-      html, body { height: 100%; margin: 0; padding: 0; }
-      #map { height: 300px; width: 300px;}
-    </style>
+   <!-- meta and style relate to the map -->
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+
+    <!-- Map! -->
+    <script src="static/classmap.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=true&callback=initMap"
+         async defer></script>
+
+      <div id="map" style="width: 700px; height: 700px"></div> 
+
 
 
 {% endblock %}
 
 {% block body %}
 
-    <p>SHOW ME SOMETHING!!!! THIS IS THE CLASS INFO PAGE</p>
-
     
     <!-- Basic Class info: Language, Level, Days, Times, Start, End -->
 
-  <h3> Language <h3>
+  <div>
+    <h3>{{ all_classes.language }} Class, {{ stulevel }} Level</h3>
+  </div>
 
-    <h3> Level <h3>
+  <div>
+    <h5>Schedule: {{ all_classes.class_days }} from {{ all_classes.start_time }} to {{ all_classes.end_time }}</h5>
+  </div>
+
+  <div>
+    <h5>First Day: {{ all_classes.start_date }} Last Day: {{ all_classes.end_date }}</h5>
+  </div>
+
+  <div>
+    <h5>Minimum: {{ all_classes.min_students }} students. Maximum: {{ all_classes.max_students }} students.</h5>
+  </div>
+
+  <div>
+    <h5>Costs ${{ all_classes.cost }}0/{{ all_classes.per_time }}</h5>
+  </div>
+
+  <div>
+    <h5>Location: {{ all_classes.address }}</h5>
+  </div>
 
 
 
-    <div id="map"></div>
-
-    <script type="text/javascript">
-
-var map;
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
-    zoom: 8
-  });
-}
 
 
-//     var marker = new google.maps.Marker({
-//         position: myLatLng,
-//         map: map,
-//         title: 'Classroom Location'
-//     });
-// }
+
 
     </script>
 
@@ -59,7 +68,7 @@ function initMap() {
 
 
 
-
+<!-- 
 function geocodeAddress(geocoder, resultsMap) {
   var address = document.getElementById('address').value;
   geocoder.geocode({'address': address}, function(results, status) {
@@ -73,4 +82,4 @@ function geocodeAddress(geocoder, resultsMap) {
       alert('Geocode was not successful for the following reason: ' + status);
     }
   });
-}
+} -->

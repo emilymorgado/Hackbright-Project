@@ -104,11 +104,30 @@ def search_classes():
 def class_info():
     """Reveals information about a class. Such as: language, level, days, times, teacher, students"""
 
+    all_classes = db.session.query(Classroom).first()
+    # first_day = Classroom.query.get(start_date)
+    # first_day = first_day.strftime(%B, %-d, %Y)
+    stulevel = all_classes.level
+    if stulevel == 1:
+        stulevel = "Beginning"
+    elif stulevel == 2:
+        stulevel = "Pre-Intermediate"
+    elif stulevel == 3:
+        stulevel = "Intermediate"
+    elif stulevel == 4:
+        stulevel = "Upper Intermediate"
+    elif stulevel == 5:
+        stulevel = "Advanced"    
+    elif stulevel == 6:
+        stulevel = "Native Speaking"
+    elif stulevel == 7:
+        stulevel = "Mixed"
 
-    # lat = Class.query.filter(class_id)
-    # lng=get from db, I don't remember how
+    # firstday = all_classes.start_date.strftime(%B, %-d, %Y)
+
     
-    return render_template("class-info.html")
+    return render_template("class-info.html", all_classes=all_classes, 
+                                            stulevel=stulevel)
 
 
 @app.route('/create-class')
@@ -144,7 +163,6 @@ def class_submission():
                         start_date=start_date, end_date=end_date, cost=price, 
                         start_time=start_time, end_time=end_time, per_time=per_time, 
                         address=address) 
-
 
 
     db.session.add(newclass)
