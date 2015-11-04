@@ -134,13 +134,16 @@ def class_submission():
     start_time = request.form.get('start-time').encode('utf8')
     end_time = request.form.get('end-time').encode('utf8')
     per_time = request.form.get('per-time')
+    address = request.form.get('address')
+    # lng = request.form.get('lng')
 
     # print "Monster!"
 
     newclass = Classroom(language=language, level=level, min_students=min_students, 
                         max_students=max_students, class_days=days, 
                         start_date=start_date, end_date=end_date, cost=price, 
-                        start_time=start_time, end_time=end_time, per_time=per_time) 
+                        start_time=start_time, end_time=end_time, per_time=per_time, 
+                        address=address) 
 
 
 
