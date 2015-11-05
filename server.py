@@ -82,22 +82,53 @@ def profile():
     return render_template("profile.html")
 
 
-@app.route('/search', methods=(["GET"]))
+@app.route('/search')
 def search_classes():
-    """Search Box and browsing/parameter ticking"""
+    """Search Box and browsing/parameters"""
     # selectedlanguage = use the get for languagetype() 
     # languages = db.session(Classroom).filter(Classroom.language==selectedlang).all()
     # for language in languages:
     # level = language.level
-    language = db.session.query(Classroom.language).all()
-    level = db.session.query(Classroom.level).all()
-    days = db.session.query(Classroom.class_days).all()
-    start_date = db.session.query(Classroom.start_date).all()
-    end_date = db.session.query(Classroom.end_date).all()
-    start_time = db.session.query(Classroom.start_time).all()
-
 
     return render_template('search.html')
+
+
+@app.route('/search-lang', methods=(["GET"]))
+def search_by_lang():
+    """Search Results"""
+
+    # Gets language input from dropdown in search.html
+    languagetype = request.args.get("languagetype")
+    print languagetype
+
+    stuff = db.session.query(Classroom.class_id, Classroom.language).all()
+
+    for lang in stuff:
+        for tup in lang:
+            if tup == languagetype:
+                print lang
+
+
+    # lang_result = class_result.language
+
+    # for lang in lang_result:
+    #     if lang == languagetype:
+    #         return lang
+    #         print lang
+
+    # for lang in lang_result:
+    #     if lang == languagetype:
+    #         print "Monsters rule"
+    #         print lang
+    #         return lang
+    #     else:
+    #         return "Sorry, there aren't any classes for that language right now."
+
+    # level = db.session.query(Classroom.level).all()
+
+    # return render_template('search-results.html')
+
+    return "Done!"
 
 
 @app.route('/class-info')

@@ -4,12 +4,20 @@
 
 <script src="https://code.jquery.com/jquery.js"></script>
 
+<!-- Modal Window -->
+<script>
+$('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').focus()
+})
+</script>
+
 {% endblock %}
 
 {% block body %}
 
 <h3>Search for a class!</h3>
 
+<!-- Search Box -->
 <div>
 <form class="navbar-form navbar-left" role="search" id="form-submission">
       <div class="form-group">
@@ -20,12 +28,13 @@
 </div>
 <br><br>
 
+<!-- Parameters -->
 <section>
 <h3>Or browse open classes:<h3>
 </section>
 
 <div>
-    <form method="GET" action="/search" >
+    <form id="search-by-lang" method="GET" action="/search-lang" >
       Language: 
       <select name="languagetype" class="form-control">
           <option value="Portuguese">Portuguese</option>
@@ -49,7 +58,7 @@
     </select>
   </div>
 
-  <div>
+ <!--  <div>
       Days:
     <input type="checkbox" name="days" value="Monday">Monday
     <input type="checkbox" name="days" value="Tuesday">Tuesday
@@ -74,24 +83,43 @@
   <div>
     Class Time:
     <input type="time" name-"timetype" class="form-control">
-  </div>
+  </div> -->
   <div>
-    <button type="submit" id="submission"class="btn btn-primary">Search for it!</button>
+    <button type="submit" id="submission" class="btn btn-primary">Search for it!</button>
   </div>
+
+<!-- <script>
+
+  // // Work, please!
+  // $(document).ready(function() {
+  //   debugger
+  //  $('#submission').click(function(event)){   
+  //    $.get("/search", $("#form-submission")
+  //     console.log("It sent!")
+  //  }
+
+  // };
+
+
+
+</script> -->
+
 
 <script>
 
-  // Work, please!
-  $(document).ready(function() {
-    debugger
-   $('#submission').click(function(event)){   
-     $.get("/search", $("#form-submission")
-      console.log("It sent!")
-   }
 
-  };
+ // Form Submission
+// Nothing will run until the DOM is ready
+$(document).ready(function() {
 
 
+ // When the button is clicked, the form is serialized and posted
+ $('#submission').click(function(event)){   
+   $.get("/search.json", $("#submission")
+    console.log("Sent");
+ }
+
+}
 
 </script>
 
