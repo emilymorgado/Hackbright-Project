@@ -95,36 +95,31 @@ def search_classes():
 
 @app.route('/search-lang', methods=(["GET"]))
 def search_by_lang():
-    """Search Results"""
+    """Search Results for Language and Level"""
 
     # Gets language input from dropdown in search.html
-    languagetype = request.args.get("languagetype")
-    print languagetype
+    # languagetype = request.args.get("languagetype")
+    # print languagetype
 
-    stuff = db.session.query(Classroom.class_id, Classroom.language).all()
+    # lang_result  = db.session.query(Classroom.class_id, Classroom.language).all()
 
-    for lang in stuff:
-        for tup in lang:
-            if tup == languagetype:
-                print lang
+    # for lang in lang_result :
+    #     for tup in lang:
+    #         if tup == languagetype:
+    #             print lang
 
+    leveltype = request.args.get("leveltype")
+    # print leveltype
 
-    # lang_result = class_result.language
+    level_result  = db.session.query(Classroom.class_id, Classroom.level).all()
+    # print level_result
 
-    # for lang in lang_result:
-    #     if lang == languagetype:
-    #         return lang
-    #         print lang
-
-    # for lang in lang_result:
-    #     if lang == languagetype:
-    #         print "Monsters rule"
-    #         print lang
-    #         return lang
-    #     else:
-    #         return "Sorry, there aren't any classes for that language right now."
-
-    # level = db.session.query(Classroom.level).all()
+    for lev in level_result:
+        for thing in lev:
+            if thing == leveltype:
+                print lev
+    else:
+        print "Sorry, that doesn't exist right now"
 
     # return render_template('search-results.html')
 
