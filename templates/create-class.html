@@ -28,7 +28,7 @@
 
   <h3>Create a Class</h3>
 
-  <form method="POST" action="/created" id="create-class">
+  <form method="POST" action="/created-results" id="create-class">
     
     <!-- Language -->
     <div class="form-group">
@@ -137,7 +137,7 @@
 
 
 
-   <script>
+  <!--  <script>
 
    //  $(function() {
    //   $( "#datepicker" ).datepicker();
@@ -159,34 +159,34 @@
     // Form Submission
    // Nothing will run until the DOM is ready
 
-   function woohoo(data) {
-            console.log("Yay, it worked")
-            return "Woohoo!"
-    };
+//    function woohoo(data) {
+//             console.log("Yay, it worked")
+//             return "Woohoo!"
+//     };
   
 
 
-    var inputs = $('#create-class').serialize();
+//     var inputs = $('#create-class').serialize();
 
-// $('#b-form input:checkbox:checked').serialize()
+// // $('#b-form input:checkbox:checked').serialize()
 
-    // When the button is clicked, the form is serialized and posted
+//     // When the button is clicked, the form is serialized and posted
 
-    // var inputs = $("input:checkbox[name=days]:checked").serialize();
+//     // var inputs = $("input:checkbox[name=days]:checked").serialize();
 
-    // annonymous function, can't be called outside
+//     // annonymous function, can't be called outside
 
-    $(document).ready(function(evt) {
-      $('#createit').click(function(evt){ 
-        evt.preventDefault();  
-        $.post("/created.json", inputs, woohoo);
-      });
-   });
+//     $(document).ready(function(evt) {
+//       $('#createit').click(function(evt){ 
+//         evt.preventDefault();  
+//         $.post("/created.json", inputs, woohoo);
+//       });
+//    });
 
 
  
 
-   </script>
+   </script>  -->
 
 
        <!-- <script>

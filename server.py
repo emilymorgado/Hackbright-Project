@@ -2,7 +2,7 @@
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, redirect, request, flash, session
+from flask import Flask, render_template, redirect, request, flash, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, Classroom, User, ClassUser
@@ -22,7 +22,7 @@ app.jinja_env.undefined = StrictUndefined
 def search():
     """Homepage is the Search page"""
 
-    return render_template("search.html")
+    return render_template("home.html")
 
 
 @app.route('/login')
@@ -36,7 +36,6 @@ def check_login():
     """Checks info and logs user in to session"""
 
     # Flask Post
-
     email = request.form.get("email")
     password = request.form.get("password")
 
@@ -103,7 +102,9 @@ def new_profile_confirmation():
         #white is above vars, orange is db fieldnames
         db.session.add(user)
         db.session.commit()
+        session["user-email"] = email
         print "New user added"
+        print session["user-email"]
         return redirect('/profile')
 
         # JS asks if exising account
@@ -120,6 +121,20 @@ def new_profile_confirmation():
 @app.route('/profile')
 def profile():
     """Profile page with user information"""
+
+    session_email = session["user-email"]
+
+    user_info = db.session.query.(User).first()
+    print user_info
+    print "gatinha"
+
+
+
+    # all_users = User.query.all()
+    # print all_users
+
+    # print "user_account.email:" + user_account.email
+
 
     return render_template("profile.html")
 
@@ -187,11 +202,6 @@ def search_by_lang():
     # return jsonify({"emotion" : "sad"})
 
 
-
-
-
-
-
 @app.route('/class-info')
 def class_info():
     """Reveals information about a class. Such as: language, level, days, times, teacher, students"""
@@ -211,7 +221,7 @@ def create_class_form():
     return render_template('create-class.html')
 
 
-@app.route('/created.json', methods=(["POST"]))
+@app.route('/created-results', methods=(["POST"]))
 def class_submission():
     """Message that class has been created"""
 
@@ -229,19 +239,19 @@ def class_submission():
     per_time = request.form.get('pertime')
     address = request.form.get('address')
 
-    
-
-    return "Monster!"
-
-    # newclass = Classroom(language=language, level=level, min_students=min_students, 
-    #                     max_students=max_students, class_days=days, 
-    #                     start_date=start_date, end_date=end_date, cost=price, 
-    #                     start_time=start_time, end_time=end_time, per_time=per_time, 
-    #                     address=address) 
+    newclass = Classroom(language=language, level=level, min_students=min_students, 
+                        max_students=max_students, class_days=days, 
+                        start_date=start_date, end_date=end_date, cost=price, 
+                        start_time=start_time, end_time=end_time, per_time=per_time, 
+                        address=address) 
 
 
-    # db.session.add(newclass)
-    # db.session.commit()
+    db.session.add(newclass)
+    db.session.commit()
+
+    return render_template('newclass.html')
+
+
 
     # return render_template("newclass.html", language=language, level=level, min_students=min_students, 
     #                     max_students=max_students, class_days=days, start_date=start_date, 
