@@ -229,7 +229,9 @@ def class_submission():
     per_time = request.form.get('pertime')
     address = request.form.get('address')
 
-    print "Monster!"
+    
+
+    return "Monster!"
 
     # newclass = Classroom(language=language, level=level, min_students=min_students, 
     #                     max_students=max_students, class_days=days, 
@@ -247,12 +249,14 @@ def class_submission():
     #                     address=address)
 
 
-        # NOTES FROM DOBS!!!!!
+
     # form_inputs = request.form.get("form")
     # form inputs will be gargbae
     # have to do regex
     # return "WE are good"
     # return jsonify({"emotion" : "sad"})
+
+
 
 
 

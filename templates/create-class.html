@@ -79,7 +79,7 @@
         <input type="checkbox" id="days" name="days" checked="checked" value="Thursday">Thursday
         <input type="checkbox" id="days" name="days" checked="checked" value="Friday">Friday
         <input type="checkbox" id="days" name="days" checked="checked" value="Saturday">Saturday
-        <input type="checkbox" id="days" name="days" vchecked="checked" alue="Sunday">Sunday
+        <input type="checkbox" id="days" name="days" checked="checked" alue="Sunday">Sunday
       </div>
 
       <!-- Start Date -->
@@ -158,26 +158,32 @@
 
     // Form Submission
    // Nothing will run until the DOM is ready
-  function runMe(data) {
-    console.log("Yay, it worked")
-    return "Woohoo!"
-  };
+
+   function woohoo(data) {
+            console.log("Yay, it worked")
+            return "Woohoo!"
+    };
+  
 
 
-    var inputs = $('#days input:checkbox:checked').serialize();
+    var inputs = $('#create-class').serialize();
+
 // $('#b-form input:checkbox:checked').serialize()
 
     // When the button is clicked, the form is serialized and posted
 
     // var inputs = $("input:checkbox[name=days]:checked").serialize();
 
-    $(document).ready(function() {
-      $('#createit').click(function(event){   
-        $.post("/created.json", inputs, languagetype, leveltype, min, max, 
-                                start, end, starttime, endtime, pricetype, 
-                                pertime, address, runMe);
-    };
-   };
+    // annonymous function, can't be called outside
+
+    $(document).ready(function(evt) {
+      $('#createit').click(function(evt){ 
+        evt.preventDefault();  
+        $.post("/created.json", inputs, woohoo);
+      });
+   });
+
+
  
 
    </script>
