@@ -4,13 +4,9 @@
   
   <!-- CSS -->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
   <link rel="stylesheet" type="text/css" href="static/map.css">
 
-  <!-- Jquery widgets -->
-  <script src="https://jquery.timepicker.js"></script>
-  <link rel="stylesheet" href="jquery.timepicker.css"></link>
-
+  <!--jquery-->
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -77,15 +73,14 @@
       <!-- Days -->
       <div class="form-group" id="days">
           Days:
-        <input type="checkbox" name="days" value="Monday">Monday
-        <input type="checkbox" name="days" value="Tuesday">Tuesday
-        <input type="checkbox" name="days" value="Wednesday">Wednesday
-        <input type="checkbox" name="days" value="Thursday">Thursday
-        <input type="checkbox" name="days" value="Friday">Friday
-        <input type="checkbox" name="days" value="Saturday">Saturday
-        <input type="checkbox" name="days" value="Sunday">Sunday
+        <input type="checkbox" id="days" name="days" checked="checked" value="Monday">Monday
+        <input type="checkbox" id="days" name="days" checked="checked" value="Tuesday">Tuesday
+        <input type="checkbox" id="days" name="days" checked="checked" value="Wednesday">Wednesday
+        <input type="checkbox" id="days" name="days" checked="checked" value="Thursday">Thursday
+        <input type="checkbox" id="days" name="days" checked="checked" value="Friday">Friday
+        <input type="checkbox" id="days" name="days" checked="checked" value="Saturday">Saturday
+        <input type="checkbox" id="days" name="days" vchecked="checked" alue="Sunday">Sunday
       </div>
-
 
       <!-- Start Date -->
       <p>Start Date: <input type="date" id="datepicker" name="start"></p>
@@ -96,12 +91,12 @@
 
 
       <!-- Start Time  -->
-      <p>Class starts at: <input type="time" class="timepicker" name="start-time" id=
-      "start-time"></p>
+      <p>Class starts at: <input type="time" class="timepicker" name="starttime" id=
+      "starttime"></p>
 
       <!-- End Time  -->
-      <p>Class ends at: <input type="time" class="timepicker" name="end-time" id=
-      "end-time"></p>
+      <p>Class ends at: <input type="time" class="timepicker" name="endtime" id=
+      "endtime"></p>
 
 
       <!-- Price Picker -->
@@ -112,7 +107,7 @@
             <input type="text" class="form-control" name="pricetype" placeholder="Amount">
             <div class="input-group-addon">.00</div>
             <div name="per-time">
-              <select name="per-time" class="form-control">
+              <select name="pertime" class="form-control">
                   <option value="hour">/hour</option>
                   <option value="week">/week</option>
                   <option value="month">/month</option>
@@ -137,31 +132,81 @@
    </form>
 
 
+
+
+
+
+
    <script>
 
-    $(function() {
-     $( "#datepicker" ).datepicker();
-   }); 
+   //  $(function() {
+   //   $( "#datepicker" ).datepicker();
+   // }); 
 
-    $("input:checkbox[name=days]:checked").each(function(){
-        yourArray.push($(this).val());
-    });
+   //  $("input:checkbox[name=days]:checked").each(function(){
+   //      yourArray.push($(this).val());
+   //  });
 
+
+     // function showValues() {
+     //   var str = $( "form" ).serialize();
+     //   $( "#results" ).text( str );
+     // }
+     // $( "input[type='checkbox'], input[type='radio']" ).on( "click", showValues );
+     // $( "select" ).on( "change", showValues );
+     // showValues();
 
     // Form Submission
    // Nothing will run until the DOM is ready
-   $(document).ready(function() {
-  
+  function runMe(data) {
+    console.log("Yay, it worked")
+    return "Woohoo!"
+  };
+
+
+    var inputs = $('#days input:checkbox:checked').serialize();
+// $('#b-form input:checkbox:checked').serialize()
 
     // When the button is clicked, the form is serialized and posted
-    $('#createit').click(function(event)){   
-      $.post("/created", $("#create-class").serialize(),
-    }
 
-   }
+    // var inputs = $("input:checkbox[name=days]:checked").serialize();
+
+    $(document).ready(function() {
+      $('#createit').click(function(event){   
+        $.post("/created.json", inputs, languagetype, leveltype, min, max, 
+                                start, end, starttime, endtime, pricetype, 
+                                pertime, address, runMe);
+    };
+   };
+ 
 
    </script>
+
+
+       <!-- <script>
+    // Form Submission
+   // Nothing will run until the DOM is ready
+   // $(document).ready(function() {
+
+
+    // When the button is clicked, the form is serialized and posted
+    // $('#log').click(function(event)){   
+    //   $.post("/login-success", $("#login"))
+    //    });
+
+    //   });
+   </script> -->
+
 
  
   {% endblock %}
 
+  function update(data){
+  console.log(data.sad)
+
+}
+var inputs ={ "form": $("input:[checkbox]").seralize()}
+.post("/created.json", inputs, update)
+
+AJAX needs: url (same in server), what are you passing (each item in form - should serialize)
+,

@@ -31,14 +31,44 @@ def loginpage():
 
     return render_template("login.html")
 
-@app.route('/login-success', methods=(["POST"]))
-def logged_in():
-    """Logs user in to session"""
+@app.route('/login-success', methods=["POST"])
+def check_login():
+    """Checks info and logs user in to session"""
 
-    email = request.form.get("user-email")
+    # Flask Post
+
+    email = request.form.get("email")
     password = request.form.get("password")
 
-    return password
+    # all_users = User.query.all()
+    # print all_users
+
+    user_account = User.query.filter(User.email == email, User.password == password).first()
+    print user_account
+
+    # print "user_account.email:" + user_account.email
+
+    if user_account:
+        print user_account
+        session["user-email"] = email
+        # flash("You're logged in now!")
+        print session["user-email"]
+        # url = '/profile/' + str(user_account.user_id)
+        # return redirect(url)
+        return render_template("profile.html")
+    else:
+        flash("Wrong email or password, try again")
+        return redirect ("/login")
+
+    # elif email == user_account:
+    #         flash("That email is invalid.")
+    #         return redirect('/login')
+    # elif password != user_account:
+    #     flash("That password is invalid.")
+    #     return redirect('/login')
+
+
+    # return render_template("/profile")
 
 
 
@@ -49,9 +79,11 @@ def create_user_profile():
     return render_template('create-profile.html')
 
 
-@app.route('/new-profile', methods=(["POST"]))
+@app.route('/new-profile', methods=["POST"])
 def new_profile_confirmation():
     """Messages that profile has been created"""
+
+    # Flask Post
 
     email = request.form.get("email")
     username = request.form.get("username")
@@ -103,13 +135,13 @@ def search_classes():
     return render_template('search.html')
 
 
-@app.route('/search-results', methods=(["GET"]))
+@app.route('/search-results', methods=["GET"])
 def search_by_lang():
     """Search Results for Language and Level"""
 
     # Gets language input from dropdown in search.html
     languagetype = request.args.get("languagetype")
-    # print languagetype
+    print languagetype
 
     lang_result  = db.session.query(Classroom.class_id, Classroom.language).all()
 
@@ -121,7 +153,7 @@ def search_by_lang():
 
     # Gets level input from dropdown and returns classes by level
     leveltype = request.args.get("leveltype")
-    # print leveltype
+    print leveltype
 
     level_result  = db.session.query(Classroom.class_id, Classroom.level).all()
     # print level_result
@@ -131,19 +163,33 @@ def search_by_lang():
         for thing in lev:
             if thing == leveltype:
                 print lev
-    else:
-        print "Sorry, that doesn't exist right now"
+    # else:
+    #     print "Sorry, that doesn't exist right now"
 
         # let's improve this to check that the glass and the level coincide and not show repeats
         # the else statement can be separated, to avoid reprinting repeatedly
         # The search box can be for if you want to only search for one parameter
 
-    if lev[0] == lang[0]:
-        print "Rar"
+    # print lev
+    # print lang
+
+    # if lev[0] == lang[0]:
+    #     print "Rar"
 
     # return render_template('search-results.html')
 
-    return "Done!"
+
+    # NOTES FROM DOBS!!!!!
+    #     form_inputs = request.form.get("form")
+    # form inputs will be gargbae
+    # have to do regex
+    # return "WE are good"
+    # return jsonify({"emotion" : "sad"})
+
+
+
+
+
 
 
 @app.route('/class-info')
@@ -152,28 +198,10 @@ def class_info():
 
     all_classes = db.session.query(Classroom).first()
 
-
-    # stulevel = all_classes.level
-    # if stulevel == 1:
-    #     stulevel = "Beginning"
-    # elif stulevel == 2:
-    #     stulevel = "Pre-Intermediate"
-    # elif stulevel == 3:
-    #     stulevel = "Intermediate"
-    # elif stulevel == 4:
-    #     stulevel = "Upper Intermediate"
-    # elif stulevel == 5:
-    #     stulevel = "Advanced"    
-    # elif stulevel == 6:
-    #     stulevel = "Native Speaking"
-    # elif stulevel == 7:
-    #     stulevel = "Mixed"
-
     # firstday = all_classes.start_date.strftime(%B, %-d, %Y)
 
     
-    return render_template("class-info.html", all_classes=all_classes, 
-                                            stulevel=stulevel)
+    return render_template("class-info.html", all_classes=all_classes)
 
 
 @app.route('/create-class')
@@ -183,7 +211,7 @@ def create_class_form():
     return render_template('create-class.html')
 
 
-@app.route('/created', methods=(["POST"]))
+@app.route('/created.json', methods=(["POST"]))
 def class_submission():
     """Message that class has been created"""
 
@@ -196,30 +224,35 @@ def class_submission():
     days = request.form.get('days').encode('utf8')
     start_date = request.form.get('start').encode('utf8')
     end_date = request.form.get('end').encode('utf8')
-    start_time = request.form.get('start-time').encode('utf8')
-    end_time = request.form.get('end-time').encode('utf8')
-    per_time = request.form.get('per-time')
+    start_time = request.form.get('starttime').encode('utf8')
+    end_time = request.form.get('endtime').encode('utf8')
+    per_time = request.form.get('pertime')
     address = request.form.get('address')
 
-    # print "Monster!"
+    print "Monster!"
 
-    newclass = Classroom(language=language, level=level, min_students=min_students, 
-                        max_students=max_students, class_days=days, 
-                        start_date=start_date, end_date=end_date, cost=price, 
-                        start_time=start_time, end_time=end_time, per_time=per_time, 
-                        address=address) 
+    # newclass = Classroom(language=language, level=level, min_students=min_students, 
+    #                     max_students=max_students, class_days=days, 
+    #                     start_date=start_date, end_date=end_date, cost=price, 
+    #                     start_time=start_time, end_time=end_time, per_time=per_time, 
+    #                     address=address) 
 
 
-    db.session.add(newclass)
-    db.session.commit()
+    # db.session.add(newclass)
+    # db.session.commit()
 
-    return render_template("newclass.html", language=language, level=level, min_students=min_students, 
-                        max_students=max_students, class_days=days, start_date=start_date, 
-                        end_date=end_date, start_time=start_time, end_time=end_time,
-                        address=address)
+    # return render_template("newclass.html", language=language, level=level, min_students=min_students, 
+    #                     max_students=max_students, class_days=days, start_date=start_date, 
+    #                     end_date=end_date, start_time=start_time, end_time=end_time,
+    #                     address=address)
 
-    # class then needs to be added to the class-info page
-    # class needs to be searchable once posted
+
+        # NOTES FROM DOBS!!!!!
+    # form_inputs = request.form.get("form")
+    # form inputs will be gargbae
+    # have to do regex
+    # return "WE are good"
+    # return jsonify({"emotion" : "sad"})
 
 
 
