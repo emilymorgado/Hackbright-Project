@@ -8,8 +8,8 @@
   <link rel="stylesheet" type="text/css" href="static/map.css">
 
   <!-- Jquery widgets -->
-  <script jquery.timepicker.js></script>
-  <script jquery.timepicker.css></script>
+  <script src="https://jquery.timepicker.js"></script>
+  <link rel="stylesheet" href="jquery.timepicker.css"></link>
 
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -123,7 +123,7 @@
 
 
         <!-- Map -->
-         <div id="map" style="width: 320px; height: 480px;"></div>
+         <div onload="initialize()" id="map" style="width: 320px; height: 480px;"></div>
           <div>
             <input id="address" type="textbox" name="address">
             <input type="button" value="Encode" onclick="codeAddress()">

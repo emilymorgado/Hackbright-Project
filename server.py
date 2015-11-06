@@ -103,33 +103,43 @@ def search_classes():
     return render_template('search.html')
 
 
-@app.route('/search-lang', methods=(["GET"]))
+@app.route('/search-results', methods=(["GET"]))
 def search_by_lang():
     """Search Results for Language and Level"""
 
     # Gets language input from dropdown in search.html
-    # languagetype = request.args.get("languagetype")
+    languagetype = request.args.get("languagetype")
     # print languagetype
 
-    # lang_result  = db.session.query(Classroom.class_id, Classroom.language).all()
+    lang_result  = db.session.query(Classroom.class_id, Classroom.language).all()
 
-    # for lang in lang_result :
-    #     for tup in lang:
-    #         if tup == languagetype:
-    #             print lang
+    # enough for search box
+    for lang in lang_result :
+        for tup in lang:
+            if tup == languagetype:
+                print lang
 
+    # Gets level input from dropdown and returns classes by level
     leveltype = request.args.get("leveltype")
     # print leveltype
 
     level_result  = db.session.query(Classroom.class_id, Classroom.level).all()
     # print level_result
 
+    # enough for search box
     for lev in level_result:
         for thing in lev:
             if thing == leveltype:
                 print lev
     else:
         print "Sorry, that doesn't exist right now"
+
+        # let's improve this to check that the glass and the level coincide and not show repeats
+        # the else statement can be separated, to avoid reprinting repeatedly
+        # The search box can be for if you want to only search for one parameter
+
+    if lev[0] == lang[0]:
+        print "Rar"
 
     # return render_template('search-results.html')
 

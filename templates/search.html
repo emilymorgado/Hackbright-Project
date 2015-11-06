@@ -2,11 +2,10 @@
 
 {% block head %}
 
-<script src="https://code.jquery.com/jquery.js"></script>
 
 <!-- Modal Window -->
 <script>
-$('#myModal').modal('show')
+
 // $('#submission').modal('show')
 </script>
 
@@ -28,13 +27,15 @@ $('#myModal').modal('show')
 </div>
 <br><br>
 
+
+
 <!-- Parameters -->
 <section>
 <h3>Or browse open classes:<h3>
 </section>
 
 <div>
-    <form id="search-by-lang" data-target="#myModal" method="GET" action="/search-lang" >
+    <form id="search-by-lang" data-target=".bs-example-modal-lg" method="GET" action="/search-results">
       Language: 
       <select name="languagetype" class="form-control">
           <option value="Portuguese">Portuguese</option>
@@ -58,9 +59,35 @@ $('#myModal').modal('show')
     </select>
   </div>
 
+
+
   <div>
-    <button type="submit" id="submission" class="btn btn-primary">Search for it!</button>
+    <p id="submission" class="btn btn-primary">Search for it!</p>
   </div>
+</form>
+
+  <div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          <p>One fine body&hellip;</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+
+
+
 
  <!--  <div>
       Days:
@@ -91,39 +118,24 @@ $('#myModal').modal('show')
  
 
 
-<!-- <script>
-
-  // // Work, please!
-  // $(document).ready(function() {
-  //   debugger
-  //  $('#submission').click(function(event)){   
-  //    $.get("/search", $("#form-submission")
-  //     console.log("It sent!")
-  //  }
-
-  // };
-
-
-
-</script> -->
-
-
 <script>
 
+  // Work, please!
+  $(document).ready(function() {
+    debugger
+   $('#submission').click(function(event){   
+    event.preventDefault();
+     // $.get("/search", populateModal)
+     //  console.log("It sent!")
+     $('#myModal').modal('show');
+  });
 
- // Form Submission
-// Nothing will run until the DOM is ready
-$(document).ready(function() {
+  });
 
 
- // When the button is clicked, the form is serialized and posted
- $('#submission').click(function(event)){   
-   $.get("/search.json", $("#submission")
-    console.log("Sent");
- }
-
-}
 
 </script>
+
+
 
 {% endblock %}
