@@ -6,9 +6,8 @@
 
 <!-- Modal Window -->
 <script>
-$('#myModal').on('shown.bs.modal', function () {
-  $('#myInput').focus()
-})
+$('#myModal').modal('show')
+// $('#submission').modal('show')
 </script>
 
 {% endblock %}
@@ -16,6 +15,7 @@ $('#myModal').on('shown.bs.modal', function () {
 {% block body %}
 
 <h3>Search for a class!</h3>
+
 
 <!-- Search Box -->
 <div>
@@ -34,7 +34,7 @@ $('#myModal').on('shown.bs.modal', function () {
 </section>
 
 <div>
-    <form id="search-by-lang" method="GET" action="/search-lang" >
+    <form id="search-by-lang" data-target="#myModal" method="GET" action="/search-lang" >
       Language: 
       <select name="languagetype" class="form-control">
           <option value="Portuguese">Portuguese</option>
@@ -56,6 +56,10 @@ $('#myModal').on('shown.bs.modal', function () {
         <option value="Native Speaking">Native Speaker</option>
         <option value="Mixed Level">Mixed Levels</option>
     </select>
+  </div>
+
+  <div>
+    <button type="submit" id="submission" class="btn btn-primary">Search for it!</button>
   </div>
 
  <!--  <div>
@@ -84,9 +88,8 @@ $('#myModal').on('shown.bs.modal', function () {
     Class Time:
     <input type="time" name-"timetype" class="form-control">
   </div> -->
-  <div>
-    <button type="submit" id="submission" class="btn btn-primary">Search for it!</button>
-  </div>
+ 
+
 
 <!-- <script>
 

@@ -31,6 +31,16 @@ def loginpage():
 
     return render_template("login.html")
 
+@app.route('/login-success', methods=(["POST"]))
+def logged_in():
+    """Logs user in to session"""
+
+    email = request.form.get("user-email")
+    password = request.form.get("password")
+
+    return password
+
+
 
 @app.route('/create-profile')
 def create_user_profile():
@@ -131,23 +141,23 @@ def class_info():
     """Reveals information about a class. Such as: language, level, days, times, teacher, students"""
 
     all_classes = db.session.query(Classroom).first()
-    # first_day = Classroom.query.get(start_date)
-    # first_day = first_day.strftime(%B, %-d, %Y)
-    stulevel = all_classes.level
-    if stulevel == 1:
-        stulevel = "Beginning"
-    elif stulevel == 2:
-        stulevel = "Pre-Intermediate"
-    elif stulevel == 3:
-        stulevel = "Intermediate"
-    elif stulevel == 4:
-        stulevel = "Upper Intermediate"
-    elif stulevel == 5:
-        stulevel = "Advanced"    
-    elif stulevel == 6:
-        stulevel = "Native Speaking"
-    elif stulevel == 7:
-        stulevel = "Mixed"
+
+
+    # stulevel = all_classes.level
+    # if stulevel == 1:
+    #     stulevel = "Beginning"
+    # elif stulevel == 2:
+    #     stulevel = "Pre-Intermediate"
+    # elif stulevel == 3:
+    #     stulevel = "Intermediate"
+    # elif stulevel == 4:
+    #     stulevel = "Upper Intermediate"
+    # elif stulevel == 5:
+    #     stulevel = "Advanced"    
+    # elif stulevel == 6:
+    #     stulevel = "Native Speaking"
+    # elif stulevel == 7:
+    #     stulevel = "Mixed"
 
     # firstday = all_classes.start_date.strftime(%B, %-d, %Y)
 
@@ -163,7 +173,7 @@ def create_class_form():
     return render_template('create-class.html')
 
 
-@app.route('/teacherclass', methods=(["POST"]))
+@app.route('/created', methods=(["POST"]))
 def class_submission():
     """Message that class has been created"""
 
@@ -180,7 +190,6 @@ def class_submission():
     end_time = request.form.get('end-time').encode('utf8')
     per_time = request.form.get('per-time')
     address = request.form.get('address')
-    # lng = request.form.get('lng')
 
     # print "Monster!"
 
@@ -194,9 +203,11 @@ def class_submission():
     db.session.add(newclass)
     db.session.commit()
 
-    return render_template("class-created.html")
+    return render_template("newclass.html", language=language, level=level, min_students=min_students, 
+                        max_students=max_students, class_days=days, start_date=start_date, 
+                        end_date=end_date, start_time=start_time, end_time=end_time,
+                        address=address)
 
-    # This needs to be a post method
     # class then needs to be added to the class-info page
     # class needs to be searchable once posted
 

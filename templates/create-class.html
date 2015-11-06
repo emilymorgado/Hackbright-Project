@@ -32,7 +32,7 @@
 
   <h3>Create a Class</h3>
 
-  <form method="POST" action="/teacherclass" id="create-class">
+  <form method="POST" action="/created" id="create-class">
     
     <!-- Language -->
     <div class="form-group">
@@ -123,7 +123,6 @@
 
 
         <!-- Map -->
-         <div></div>
          <div id="map" style="width: 320px; height: 480px;"></div>
           <div>
             <input id="address" type="textbox" name="address">
@@ -156,7 +155,7 @@
 
     // When the button is clicked, the form is serialized and posted
     $('#createit').click(function(event)){   
-      $.post("/teacherclass", $("#create-class").serialize(),
+      $.post("/created", $("#create-class").serialize(),
     }
 
    }

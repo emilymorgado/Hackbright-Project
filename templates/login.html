@@ -1,31 +1,42 @@
 <!doctype html>
 
 {% block head %}
-<head>
-    <title>Login</title>
-</head>
+
+<script src="https://code.jquery.com/jquery.js"></script>
+
 {% endblock %}
+
 
 {% block body %}
 <body>
 
-<form class="form-inline">
-  Login
+<form method="POST" action="/login-success" class="form-inline" id="login">
+  Have an account? Log in here:
   <div class="form-group">
-    <label class="sr-only" for="exampleInputEmail3">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+    <label class="sr-only" for="emailinput">Email address</label>
+    <input type="email" class="form-control" id="user-email" placeholder="Email">
   </div>
   <div class="form-group">
-    <label class="sr-only" for="exampleInputPassword3">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
-  </div>
-  <div class="checkbox">
-    <label>
-      <input type="checkbox"> Remember me
-    </label>
+    <label class="sr-only" for="passwordinput">Password</label>
+    <input type="password" class="form-control" id="password" placeholder="Password">
   </div>
   <button type="submit" class="btn btn-default">Sign in</button>
 </form>
 
+
+
+<script>
+ // Form Submission
+// Nothing will run until the DOM is ready
+$(document).ready(function() {
+
+
+ // When the button is clicked, the form is serialized and posted
+ $('#createit').click(function(event)){   
+   $.post("/teacherclass", $("#create-class").serialize(),
+ }
+
+}
+</script>
 
 {% endblock %}

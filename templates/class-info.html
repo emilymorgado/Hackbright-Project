@@ -16,8 +16,6 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=true&callback=initMap"
          async defer></script>
 
-      <div id="map" style="width: 700px; height: 700px"></div> 
-
 
 
 {% endblock %}
@@ -51,9 +49,11 @@
     <h5>Location: {{ all_classes.address }}</h5>
   </div>
 
-
-
-
+  <div id="map" style="width: 700px; height: 700px"></div> 
+  <div>
+    <input id="address" type="textbox" name="address">
+    <input type="button" value="Encode" onclick="codeAddress()">
+  </div>
 
 
 
