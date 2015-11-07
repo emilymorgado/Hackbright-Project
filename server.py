@@ -42,22 +42,19 @@ def check_login():
     # all_users = User.query.all()
     # print all_users
 
-    user_account = User.query.filter(User.email == email, User.password == password).first()
+    user_account = User.query.filter_by(email=email, password=password).first()
     print user_account
 
     # print "user_account.email:" + user_account.email
 
     if user_account:
         print user_account
-        session["user-email"] = email
-        # flash("You're logged in now!")
-        print session["user-email"]
-        # url = '/profile/' + str(user_account.user_id)
-        # return redirect(url)
-        return render_template("profile.html")
-    else:
-        flash("Wrong email or password, try again")
-        return redirect ("/login")
+        session["user_id"] = user_account.user_id
+        print session["user_id"]
+        return render_template("login-success.html")
+    # else:
+    #     flash("Wrong email or password, try again")
+    #     return redirect ("/login")
 
     # elif email == user_account:
     #         flash("That email is invalid.")
@@ -65,9 +62,6 @@ def check_login():
     # elif password != user_account:
     #     flash("That password is invalid.")
     #     return redirect('/login')
-
-
-    # return render_template("/profile")
 
 
 
@@ -102,9 +96,9 @@ def new_profile_confirmation():
         #white is above vars, orange is db fieldnames
         db.session.add(user)
         db.session.commit()
-        session["user-email"] = email
+        session["user_id"] = email
         print "New user added"
-        print session["user-email"]
+        print session["user_id"]
         return redirect('/profile')
 
         # JS asks if exising account
@@ -120,24 +114,30 @@ def new_profile_confirmation():
 
 @app.route('/profile')
 def profile():
-    """Profile page with user information"""
+    """Profile page renders user information if user is logged in"""
 
-    session_email = session["user-email"]
-    print session_email
+    session_id = session["user_id"]
+    print session_id
 
-    user_email = db.session.query(User).filter(User.email == session_email).first()
+    user_email = db.session.query(User).filter(User.user_id == session_id).first()
     print user_email
     print "gatinha"
 
+    user_classes = db.session.query(Classroom).join(ClassUser).filter(User.user_id == session_id).first
+    print user_classes
+    print "bonitinha"
+
+    return render_template("profile.html", user_email=user_email, user_classes=user_classes)
 
 
-    # all_users = User.query.all()
-    # print all_users
+@app.route('/logout')
+def logout():
+    """Logout button and session end"""
 
-    # print "user_account.email:" + user_account.email
+    session.clear()
 
+    return render_template("goodbye.html")
 
-    return render_template("profile.html", user_email=user_email)
 
 
 @app.route('/search')

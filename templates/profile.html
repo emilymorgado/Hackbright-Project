@@ -8,9 +8,25 @@
 
 <h3>Hello {{ user_email.fname }}</h3>
 
+<h5>Here's where your image might go!</h5>
 
-<p>You can search for your new class <a href="/search">here</a></p>
+<h5>Account information: </h5>
+<ul>
+    <li>First name: {{ user_email.fname }}</li>
+    <li>Last name: {{ user_email.lname }}</li>
+    <li>Username: {{ user_email.username }}</li>
+    <li>Email: {{ user_email.email }}</li>
+    <li>{{ user_email.is_teacher }}</li>  !!!!
+    <li>Your Bio: {{ user_email.bio }}</li>
 
+<h5>Here are the classes you're taking</h5>
+<h3>There are not classes because it's not yet possible to join classes, muahahaha!</h3>
+
+<p>You can search for classes <a href="/search">here</a></p>
+
+<form action='/logout'>
+    <button id="logout" type="submit" class="btn btn-default">Log Out</button>
+</form>
 
 
 
