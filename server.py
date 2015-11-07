@@ -237,11 +237,36 @@ def class_info():
     """Reveals information about a class. Such as: language, level, days, times, teacher, students"""
 
     all_classes = db.session.query(Classroom).first()
-
+    print "Class id: ", all_classes.class_id
     # firstday = all_classes.start_date.strftime(%B, %-d, %Y)
 
     
     return render_template("class-info.html", all_classes=all_classes)
+
+
+@app.route('/join-class', methods=["POST"])
+def join_class():
+    """Adds a user_id to a class and shows update on profile.html"""
+
+
+    # gets class_id from viewed class
+    id_class = request.form.get("id-class")
+
+    # checks if user is logged in
+    user_account = User.query.filter_by(user_id=session["user_id"]).first()
+
+    # adds logged in user-class association to db
+    if not user_account:
+        flash("you need to log in")
+    else:
+        add_stud = ClassUser(user_id=user_account.user_id, class_id=id_class)
+        print "Yeah!"
+
+        db.session.add(add_stud)
+        db.session.commit()
+
+        print "dinosaur"
+        return render_template("test.html")
 
 
 

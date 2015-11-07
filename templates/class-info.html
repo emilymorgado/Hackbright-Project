@@ -25,7 +25,6 @@
 
     
     <!-- Basic Class info: Language, Level, Days, Times, Start, End -->
-
   <div>
     <h3>{{ all_classes.language }} Class, {{ all_classes.level }} Level</h3>
   </div>
@@ -50,20 +49,18 @@
     <h5>Location: {{ all_classes.address }}</h5>
   </div>
 
+  <form action="/join-class" method="POST" id="join">
+    <input type="hidden" name="id-class" id="id-class" value={{ all_classes.class_id }}>
+    <button type="submit" class="btn btn-primary" name="join-it" id="join-it">Join</button>
+  </form>
+
+<!--
   <div id="map" style="width: 700px; height: 700px"></div> 
   <div>
     <input id="address" type="textbox" name="address">
     <input type="button" value="Encode" onclick="codeAddress()">
   </div>
-
-
-
-    </script>
-
-    <!-- Key that connects to Google Maps API asychronously -->
-    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&callback=initMap">
-    </script>
+-->
 
 {% endblock %}
 
