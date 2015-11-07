@@ -123,9 +123,10 @@ def profile():
     """Profile page with user information"""
 
     session_email = session["user-email"]
+    print session_email
 
-    user_info = db.session.query.(User).first()
-    print user_info
+    user_email = db.session.query(User).filter(User.email == session_email).first()
+    print user_email
     print "gatinha"
 
 
@@ -136,7 +137,7 @@ def profile():
     # print "user_account.email:" + user_account.email
 
 
-    return render_template("profile.html")
+    return render_template("profile.html", user_email=user_email)
 
 
 @app.route('/search')
