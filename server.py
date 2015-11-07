@@ -155,30 +155,59 @@ def search_classes():
 def search_by_lang():
     """Search Results for Language and Level"""
 
+
+
     # Gets language input from dropdown in search.html
     languagetype = request.args.get("languagetype")
-    print languagetype
+    # print languagetype
 
-    lang_result  = db.session.query(Classroom.class_id, Classroom.language).all()
+    lang_result = db.session.query(Classroom.class_id, Classroom.language).all()
+    # print lang_result
 
-    # enough for search box
-    for lang in lang_result :
-        for tup in lang:
-            if tup == languagetype:
-                print lang
+    # language parameter:
+    # for lang in lang_result:
+    #     for tup in lang:
+    #         if tup == languagetype:
+    #             # this prints the class id
+    #             print lang[0]
 
     # Gets level input from dropdown and returns classes by level
     leveltype = request.args.get("leveltype")
-    print leveltype
+    # print leveltype
 
-    level_result  = db.session.query(Classroom.class_id, Classroom.level).all()
-    # print level_result
+    level_result = db.session.query(Classroom.class_id, Classroom.level).all()
+    print level_result
 
-    # enough for search box
+
+    # if languagetype and leveltype in db:
+        # render results
     for lev in level_result:
-        for thing in lev:
-            if thing == leveltype:
-                print lev
+        for tup in lev:
+            if tup == leveltype:
+                # this prints the class id
+                print lev[0]
+                return "something else"
+
+    # for lev in level_result:
+    #     for part in lev:
+    #         if part == leveltype:
+    #             print part
+        # if  == leveltype:
+            # print lev
+        # if lev[1] == leveltype:
+        # print lev
+    # if lev[1] == leveltype:
+            # print lev
+            # print level_result
+                # print "monsters!!!"
+                # return "something"
+                # print lev.class_id
+                # print lev[0]
+                # return render_template('search-results.html', leveltype=leveltype, languagetype=languagetype)
+
+
+
+                # return jsonify({'leveltype : leveltype'})
     # else:
     #     print "Sorry, that doesn't exist right now"
 
@@ -192,7 +221,7 @@ def search_by_lang():
     # if lev[0] == lang[0]:
     #     print "Rar"
 
-    # return render_template('search-results.html')
+
 
 
     # NOTES FROM DOBS!!!!!
@@ -215,11 +244,13 @@ def class_info():
     return render_template("class-info.html", all_classes=all_classes)
 
 
+
 @app.route('/create-class')
 def create_class_form():
     """Take teacher input from class creation form"""
     
     return render_template('create-class.html')
+
 
 
 @app.route('/created-results', methods=(["POST"]))
@@ -250,14 +281,10 @@ def class_submission():
     db.session.add(newclass)
     db.session.commit()
 
-    return render_template('newclass.html')
-
-
-
-    # return render_template("newclass.html", language=language, level=level, min_students=min_students, 
-    #                     max_students=max_students, class_days=days, start_date=start_date, 
-    #                     end_date=end_date, start_time=start_time, end_time=end_time,
-    #                     address=address)
+    return render_template("newclass.html", language=language, level=level, min_students=min_students, 
+                        max_students=max_students, class_days=days, start_date=start_date, 
+                        end_date=end_date, start_time=start_time, end_time=end_time,
+                        address=address)
 
 
 
@@ -267,7 +294,7 @@ def class_submission():
     # return "WE are good"
     # return jsonify({"emotion" : "sad"})
 
-
+    #return jsonify "str" jsonify { apple: 1, berry:2}
 
 
 

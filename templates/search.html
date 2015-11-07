@@ -35,7 +35,7 @@
 </section>
 
 <div>
-    <form id="search-by-lang" data-target=".bs-example-modal-lg" method="GET" action="/search-results">
+    <form id="searchparams" method="GET" action="/search-results" data-target=".bs-example-modal-lg" >
       Language: 
       <select name="languagetype" class="form-control">
           <option value="Portuguese">Portuguese</option>
@@ -59,12 +59,11 @@
     </select>
   </div>
 
-
-
   <div>
-    <p id="submission" class="btn btn-primary">Search for it!</p>
+    <button id="submission" class="btn btn-primary">Search for it!</button>
   </div>
 </form>
+
 
   <div id="myModal" class="modal fade">
     <div class="modal-dialog">
@@ -118,27 +117,34 @@
  
 
 
-<script>
-
-  // Work, please!
-  $(document).ready(function() {
-   $('#submission').click(function(event){   
-    event.preventDefault();
-     $.get("/search-results", populateModal)
-     //  console.log("It sent!")
-     $('#myModal').modal('show');
-  });
-
-  });
-
-  function populateModal(event){
-    
-    // take search result and render it
-  }
+<!--<script>
 
 
+// function populateModal(data){
+//  console.log(data) 
+//   // take search result and render it
+// };
 
-</script>
+//   var results = {
+//     'languagetype' : languagetype, 
+//     'leveltype' : leveltype
+//   }
+
+//   $(document).ready(function() {
+//    $('#submission').click(function(evt){   
+//     event.preventDefault();
+
+//      $.get("/search.json", results, populateModal)
+//      //  console.log("It sent!")
+//      // $('#myModal').modal('show');
+//   });
+
+//   });
+
+
+//   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+</script> -->
 
 
 

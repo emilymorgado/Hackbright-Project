@@ -59,14 +59,14 @@
       <!-- Min num of Students -->
       <div class="form-group">
         Minimum number of students for class to run: 
-          <input type="text" name="min" class="min-students">
+          <input type="text" name="min" id="min" class="min-students">
       </div>
 
 
       <!-- Max num of Students -->
       <div class="form-group">
         Maximum number of students that can join: 
-          <input type="text" name="max" class="max-students">
+          <input type="text" name="max" id="max" class="max-students">
       </div>
 
 
@@ -83,11 +83,11 @@
       </div>
 
       <!-- Start Date -->
-      <p>Start Date: <input type="date" id="datepicker" name="start"></p>
+      <p>Start Date: <input type="date" id="start" name="start"></p>
 
 
       <!-- End Date -->
-      <p>End Date: <input type="date" id="datepicker" name="end"></p>
+      <p>End Date: <input type="date" id="end" name="end"></p>
 
 
       <!-- Start Time  -->
@@ -101,10 +101,10 @@
 
       <!-- Price Picker -->
       <div class="form-group">
-          <label class="sr-only" name="pricetype">Amount (in dollars)</label>
+          <label class="sr-only" for="pricetype">Amount (in dollars)</label>
           <div class="input-group">
             <div class="input-group-addon">$</div>
-            <input type="text" class="form-control" name="pricetype" placeholder="Amount">
+            <input type="text" class="form-control" name="pricetype" id="pricetype" placeholder="Amount">
             <div class="input-group-addon">.00</div>
             <div name="per-time">
               <select name="pertime" class="form-control">
@@ -137,36 +137,39 @@
 
 
 
-  <!--  <script>
+   <script>
 
-   //  $(function() {
-   //   $( "#datepicker" ).datepicker();
-   // }); 
+//     $(function() {
+//      $( "#datepicker" ).datepicker();
+//    }); 
 
-   //  $("input:checkbox[name=days]:checked").each(function(){
-   //      yourArray.push($(this).val());
-   //  });
+//     $("input:checkbox[name=days]:checked").each(function(){
+//         yourArray.push($(this).val());
+//     });
 
 
-     // function showValues() {
-     //   var str = $( "form" ).serialize();
-     //   $( "#results" ).text( str );
-     // }
-     // $( "input[type='checkbox'], input[type='radio']" ).on( "click", showValues );
-     // $( "select" ).on( "change", showValues );
-     // showValues();
+//      function showValues() {
+//        var str = $( "form" ).serialize();
+//        $( "#results" ).text( str );
+//      }
+//      $( "input[type='checkbox'], input[type='radio']" ).on( "click", showValues );
+//      $( "select" ).on( "change", showValues );
+//      showValues();
 
-    // Form Submission
-   // Nothing will run until the DOM is ready
+//     Form Submission
+//    Nothing will run until the DOM is ready
 
 //    function woohoo(data) {
-//             console.log("Yay, it worked")
+//             console.log(data.berry)
+//             $(#modalID).modal()
 //             return "Woohoo!"
+
 //     };
   
 
-
-//     var inputs = $('#create-class').serialize();
+// //make inputs and object with only checkboxes serialized and pass that
+//     var inputs = {"days": $('#create-class').serialize(),
+//                   "end-date": $("enddate").val()};
 
 // // $('#b-form input:checkbox:checked').serialize()
 
@@ -186,7 +189,7 @@
 
  
 
-   </script>  -->
+   </script> 
 
 
        <!-- <script>
