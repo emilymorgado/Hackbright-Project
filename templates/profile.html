@@ -20,7 +20,15 @@
     <li>Your Bio: {{ user_email.bio }}</li>
 
 <h5>Here are the classes you're taking</h5>
-<h3>There are not classes because it's not yet possible to join classes, muahahaha!</h3>
+
+<h1>JK, this is broken, muahahahaha!<h1>
+
+<ul id="users-classes">
+{% for dino in user_classes %}
+    <li>{{ dino.level }} {{ dino.language }}</li>
+{% endfor %}
+</ul>
+
 
 <p>You can search for classes <a href="/search">here</a></p>
 

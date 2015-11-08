@@ -123,11 +123,20 @@ def profile():
     print user_email
     print "gatinha"
 
-    user_classes = db.session.query(Classroom).join(ClassUser).filter(User.user_id == session_id).first
+    user_classes = db.session.query(Classroom).join(ClassUser).filter(User.user_id == session_id).all()
     print user_classes
     print "bonitinha"
 
-    return render_template("profile.html", user_email=user_email, user_classes=user_classes)
+    # class_list = user_classes.language
+    # print class_list
+
+    for thing in user_classes:
+        print "thing"
+        print thing
+        # return thing
+
+
+    return render_template("profile.html", user_email=user_email, user_classes=user_classes, thing=thing)
 
 
 @app.route('/logout')
@@ -255,8 +264,13 @@ def join_class():
     # checks if user is logged in
     user_account = User.query.filter_by(user_id=session["user_id"]).first()
 
+    class_info = db.session.query(Classroom).filter_by(class_id=id_class).one()
+    print "class_info"
+    print type(class_info)
+    print class_info.language
+
     # adds logged in user-class association to db
-    if not user_account:
+    if not session["user_id"]:
         flash("you need to log in")
     else:
         add_stud = ClassUser(user_id=user_account.user_id, class_id=id_class)
@@ -266,7 +280,7 @@ def join_class():
         db.session.commit()
 
         print "dinosaur"
-        return render_template("test.html")
+        return render_template("join-class.html", class_info=class_info)
 
 
 
