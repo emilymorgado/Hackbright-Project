@@ -164,15 +164,56 @@ def search_classes():
 def search_by_lang():
     """Search Results for Language and Level"""
 
-
-
     # Gets language input from dropdown in search.html
     languagetype = request.args.get("languagetype")
+    leveltype = request.args.get("leveltype")
     # print languagetype
 
     lang_result = db.session.query(Classroom.class_id, Classroom.language).all()
     # print lang_result
 
+    # all_results = Classroom.query.all()
+    # print "all_results"
+    # print all_results
+    # print "all_results.language"
+    # print all_results.language
+    # print "Classroom.language"
+    # print Classroom.language
+    # print "all_results[1]"
+    # print all_results[1]
+
+    # gives me a list of objects
+    spec_results = db.session.query(Classroom).filter(Classroom.language==languagetype, Classroom.level==leveltype).all()
+    # print "spec_results"
+    # print spec_results
+
+    # results = []
+
+    # for res in spec_results:
+    #     results.append(res.class_id)
+
+    results = {}
+
+    for res in spec_results:
+        results[res.class_id] = res.cost
+
+
+    # >>> for animal, number in animals.items():
+    # ...    print "%s: %d" % (animal, number)
+
+    for thing, dino in results.items():
+        print "(thing, dino)"
+        print (thing, dino)
+        
+    print "results"
+    print results
+    return render_template('search-results.html', thing=thing, dino=dino, results=results, spec_results=spec_results, 
+                                                res=res, leveltype=leveltype, languagetype=languagetype)
+
+
+
+    # print "spec_results.level"
+    # print spec_results.level
     # language parameter:
     # for lang in lang_result:
     #     for tup in lang:
@@ -181,21 +222,40 @@ def search_by_lang():
     #             print lang[0]
 
     # Gets level input from dropdown and returns classes by level
-    leveltype = request.args.get("leveltype")
+    # leveltype = request.args.get("leveltype")
+    # print "leveltype"
     # print leveltype
 
-    level_result = db.session.query(Classroom.class_id, Classroom.level).all()
-    print level_result
+    # level_result = db.session.query(Classroom.class_id, Classroom.level).all()
+    # print "level_result"
+    # print level_result
 
 
     # if languagetype and leveltype in db:
         # render results
-    for lev in level_result:
-        for tup in lev:
-            if tup == leveltype:
-                # this prints the class id
-                print lev[0]
-                return "something else"
+    # class_dict = {}
+
+    # for res in all_results:
+    #     class_dict[all_results.class_id = all_results.language
+    #     print "class_dict"
+    #     print class_dict
+
+    # for dino in 
+        
+    # for lev in level_result:
+    #     print "lev"
+    #     print lev
+    #     for tup in lev:
+    #         print "tup"
+    #         print tup
+    #         if tup == leveltype:
+
+    #             # this prints the class id
+    #             print "tup == leveltype"
+    #             print tup
+    #             print "lev[0]"
+    #             print lev[0]
+    #             return "I heart dinosaurs"
 
     # for lev in level_result:
     #     for part in lev:

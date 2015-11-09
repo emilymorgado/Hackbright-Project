@@ -8,4 +8,22 @@
 
 <h3>Monster Classes<h3>
 
+<h5>{{ results }} </h5>
+
+<h5>{{ results.keys() }} </h5>
+
+<h5>{{ results.values() }} </h5>
+
+<h5>{{ results.items() }} </h5>
+
+
+
+<ul id="classes-results">
+    {% for dino in results.items() %}
+    <li>{{ dino }}</li>
+    {% endfor %}
+</ul>
+
+
 {% endblock %}
+
