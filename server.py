@@ -170,22 +170,10 @@ def search_by_lang():
     # print languagetype
 
     lang_result = db.session.query(Classroom.class_id, Classroom.language).all()
-    # print lang_result
 
-    # all_results = Classroom.query.all()
-    # print "all_results"
-    # print all_results
-    # print "all_results.language"
-    # print all_results.language
-    # print "Classroom.language"
-    # print Classroom.language
-    # print "all_results[1]"
-    # print all_results[1]
 
     # gives me a list of objects
     spec_results = db.session.query(Classroom).filter(Classroom.language==languagetype, Classroom.level==leveltype).all()
-    # print "spec_results"
-    # print spec_results
 
     # results = []
 
@@ -195,102 +183,17 @@ def search_by_lang():
     results = {}
 
     for res in spec_results:
-        results[res.class_id] = res.cost
-
-
-    # >>> for animal, number in animals.items():
-    # ...    print "%s: %d" % (animal, number)
+        results[res.class_name] = [res.cost, res.per_time]
 
     for thing, dino in results.items():
         print "(thing, dino)"
-        print (thing, dino)
-        
+    mon = '{}: {}0/{}'.format(thing, dino[0], dino[1])
+
+
     print "results"
     print results
-    return render_template('search-results.html', thing=thing, dino=dino, results=results, spec_results=spec_results, 
+    return render_template('search-results.html', mon=mon, thing=thing, dino=dino, results=results, spec_results=spec_results, 
                                                 res=res, leveltype=leveltype, languagetype=languagetype)
-
-
-
-    # print "spec_results.level"
-    # print spec_results.level
-    # language parameter:
-    # for lang in lang_result:
-    #     for tup in lang:
-    #         if tup == languagetype:
-    #             # this prints the class id
-    #             print lang[0]
-
-    # Gets level input from dropdown and returns classes by level
-    # leveltype = request.args.get("leveltype")
-    # print "leveltype"
-    # print leveltype
-
-    # level_result = db.session.query(Classroom.class_id, Classroom.level).all()
-    # print "level_result"
-    # print level_result
-
-
-    # if languagetype and leveltype in db:
-        # render results
-    # class_dict = {}
-
-    # for res in all_results:
-    #     class_dict[all_results.class_id = all_results.language
-    #     print "class_dict"
-    #     print class_dict
-
-    # for dino in 
-        
-    # for lev in level_result:
-    #     print "lev"
-    #     print lev
-    #     for tup in lev:
-    #         print "tup"
-    #         print tup
-    #         if tup == leveltype:
-
-    #             # this prints the class id
-    #             print "tup == leveltype"
-    #             print tup
-    #             print "lev[0]"
-    #             print lev[0]
-    #             return "I heart dinosaurs"
-
-    # for lev in level_result:
-    #     for part in lev:
-    #         if part == leveltype:
-    #             print part
-        # if  == leveltype:
-            # print lev
-        # if lev[1] == leveltype:
-        # print lev
-    # if lev[1] == leveltype:
-            # print lev
-            # print level_result
-                # print "monsters!!!"
-                # return "something"
-                # print lev.class_id
-                # print lev[0]
-                # return render_template('search-results.html', leveltype=leveltype, languagetype=languagetype)
-
-
-
-                # return jsonify({'leveltype : leveltype'})
-    # else:
-    #     print "Sorry, that doesn't exist right now"
-
-        # let's improve this to check that the glass and the level coincide and not show repeats
-        # the else statement can be separated, to avoid reprinting repeatedly
-        # The search box can be for if you want to only search for one parameter
-
-    # print lev
-    # print lang
-
-    # if lev[0] == lang[0]:
-    #     print "Rar"
-
-
 
 
     # NOTES FROM DOBS!!!!!
@@ -357,6 +260,7 @@ def class_submission():
     """Message that class has been created"""
 
     # This is where the create-class info is held as a post
+    title = request.form.get("class-name")
     language = request.form.get("languagetype")
     level = request.form.get('leveltype')
     price = request.form.get('pricetype')
@@ -374,16 +278,17 @@ def class_submission():
                         max_students=max_students, class_days=days, 
                         start_date=start_date, end_date=end_date, cost=price, 
                         start_time=start_time, end_time=end_time, per_time=per_time, 
-                        address=address) 
+                        address=address, class_name=title) 
 
 
     db.session.add(newclass)
     db.session.commit()
 
-    return render_template("newclass.html", language=language, level=level, min_students=min_students, 
-                        max_students=max_students, class_days=days, start_date=start_date, 
-                        end_date=end_date, start_time=start_time, end_time=end_time,
-                        address=address)
+    return render_template("newclass.html", language=language, level=level, 
+                        min_students=min_students, max_students=max_students, class_days=days, 
+                        start_date=start_date, end_date=end_date, cost=price, 
+                        start_time=start_time, end_time=end_time, per_time=per_time, 
+                        address=address, class_name=title)
 
 
 

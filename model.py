@@ -14,6 +14,7 @@ class Classroom(db.Model):
     __tablename__ = "classes"
 
     class_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    class_name = db.Column(db.String(35), nullable=False)
     language = db.Column(db.String(40), nullable=False)
     level = db.Column(db.String, nullable=False)
     cost = db.Column(db.Float, nullable=True)

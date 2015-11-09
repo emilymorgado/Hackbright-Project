@@ -26,7 +26,11 @@
     
     <!-- Basic Class info: Language, Level, Days, Times, Start, End -->
   <div>
-    <h3>{{ all_classes.language }} Class, {{ all_classes.level }} Level</h3>
+    <h3>{{ all_classes.class_name }}</h3>
+  </div>
+
+  <div>
+    <h5>{{ all_classes.language }} Class, {{ all_classes.level }} Level</h5>
   </div>
 
   <div>
@@ -38,7 +42,7 @@
   </div>
 
   <div>
-    <h5>Minimum: {{ all_classes.min_students }} students. Maximum: {{ all_classes.max_students }} students.</h5>
+    <h5>For: {{ all_classes.min_students }} to {{ all_classes.max_students }} students.</h5>
   </div>
 
   <div>

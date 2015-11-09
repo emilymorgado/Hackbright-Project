@@ -6,24 +6,16 @@
 
 {% block body %}
 
-<h3>Monster Classes<h3>
-
-<h5>{{ results }} </h5>
-
-<h5>{{ results.keys() }} </h5>
-
-<h5>{{ results.values() }} </h5>
-
-<h5>{{ results.items() }} </h5>
-
+<h3>Available Classes:<h3>
 
 
 <ul id="classes-results">
-    {% for dino in results.items() %}
-    <li>{{ dino }}</li>
+    {% for thing, dino in results.items() %}
+    <li>{{ thing }}: {{ dino[0] }}0/{{ dino[1] }}</li>
     {% endfor %}
 </ul>
 
 
 {% endblock %}
+
 
