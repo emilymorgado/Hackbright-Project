@@ -90,13 +90,15 @@ def new_profile_confirmation():
     # Can add or statement later
 
     if not existing_account and len(password) > 0:
-        flash("Your account has been created!")
+
         user = User(email=email, username=username, fname=fname, lname=lname, 
             password=password, is_teacher=isteacher, bio=bio)
         #white is above vars, orange is db fieldnames
         db.session.add(user)
         db.session.commit()
-        session["user_id"] = email
+
+        session["user_id"] = user.user_id
+
         print "New user added"
         print session["user_id"]
         return redirect('/profile')
@@ -117,10 +119,13 @@ def profile():
     """Profile page renders user information if user is logged in"""
 
     session_id = session["user_id"]
+    print "session_id"
     print session_id
 
     user_email = db.session.query(User).filter(User.user_id == session_id).first()
+    print "user_email"
     print user_email
+    print type(user_email)
     print "gatinha"
 
     user_classes = db.session.query(Classroom).join(ClassUser).filter(User.user_id == session_id).all()
@@ -130,13 +135,12 @@ def profile():
     # class_list = user_classes.language
     # print class_list
 
-    for thing in user_classes:
-        print "thing"
-        print thing
-        # return thing
+    # for in_class in user_classes:
+    #     print "in_class"
+    #     print in_class
 
 
-    return render_template("profile.html", user_email=user_email, user_classes=user_classes, thing=thing)
+    return render_template("profile.html", user_email=user_email, user_classes=user_classes)
 
 
 @app.route('/logout')
@@ -190,8 +194,7 @@ def search_by_lang():
     mon = '{}: {}0/{}'.format(thing, dino[0], dino[1])
 
 
-    print "results"
-    print results
+
     return render_template('search-results.html', mon=mon, thing=thing, dino=dino, results=results, spec_results=spec_results, 
                                                 res=res, leveltype=leveltype, languagetype=languagetype)
 
