@@ -5,10 +5,10 @@
 
 {% block body %}
 
-<h3>Hello!</h3>
+<h3>Hello, {{ user_account.fname }}!</h3>
  <h5>Would you like to:</h5>
 
     <a href="/search"><button id="search" class="btn btn-default">Search for classes</button></a>
-    <a href="/profile"><button id="profile" class="btn btn-default">See your profile</button></a>
+    <a href="/profile/{{user_username}}"><button id="profile" class="btn btn-default">See your profile</button></a>
 
 {% endblock %}

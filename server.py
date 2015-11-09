@@ -2,12 +2,13 @@
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, redirect, request, flash, session, jsonify
+from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, Classroom, User, ClassUser
 
 from datetime import datetime
+
 
 # This is how Flask knows what module to scan for things like routes
 app = Flask(__name__)
@@ -31,6 +32,8 @@ def loginpage():
 
     return render_template("login.html")
 
+
+
 @app.route('/login-success', methods=["POST"])
 def check_login():
     """Checks info and logs user in to session"""
@@ -44,6 +47,8 @@ def check_login():
 
     user_account = User.query.filter_by(email=email, password=password).first()
     print user_account
+    user_username = user_account.username
+    print user_username
 
     # print "user_account.email:" + user_account.email
 
@@ -51,7 +56,7 @@ def check_login():
         print user_account
         session["user_id"] = user_account.user_id
         print session["user_id"]
-        return render_template("login-success.html")
+        return render_template("login-success.html", user_account=user_account, user_username=user_username)
     # else:
     #     flash("Wrong email or password, try again")
     #     return redirect ("/login")
@@ -114,9 +119,10 @@ def new_profile_confirmation():
         return redirect('/create-profile')
 
 
-@app.route('/profile')
-def profile():
+@app.route('/profile/<user_username>')
+def profile(user_username):
     """Profile page renders user information if user is logged in"""
+
 
     session_id = session["user_id"]
     print "session_id"
@@ -140,7 +146,7 @@ def profile():
     #     print in_class
 
 
-    return render_template("profile.html", user_email=user_email, user_classes=user_classes)
+    return render_template("profile.html", user_email=user_email, user_classes=user_classes, user_username=user_username)
 
 
 @app.route('/logout')
