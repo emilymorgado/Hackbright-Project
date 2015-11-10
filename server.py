@@ -307,6 +307,12 @@ def class_submission():
     user_account = User.query.filter_by(user_id=session["user_id"]).first()
     user_username = user_account.username
 
+    add_teach = ClassUser(user_id=user_account.user_id, class_id=newclass.class_id)
+    print "Yeah!"
+
+    db.session.add(add_teach)
+    db.session.commit()
+
     return render_template("newclass.html", language=language, level=level, 
                         min_students=min_students, max_students=max_students, class_days=days, 
                         start_date=start_date, end_date=end_date, cost=price, 
