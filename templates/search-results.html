@@ -10,8 +10,8 @@
 
 
 <ul id="classes-results">
-    {% for thing, dino in results.items() %}
-    <li>{{ thing }}: {{ dino[0] }}0/{{ dino[1] }}</li>
+    {% for name, cost_time in results.items() %}
+    <a href="/class-info/{{ url_id }}"><li>{{ name }}: {{ cost_time[0] }}0/{{ cost_time[1] }}</li>
     {% endfor %}
 </ul>
 

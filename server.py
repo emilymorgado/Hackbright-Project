@@ -146,7 +146,7 @@ def profile(user_username):
     #     print in_class
 
 
-    return render_template("profile.html", user_email=user_email, user_classes=user_classes, user_username=user_username)
+    return render_template("profile.html", user_email=user_email, user_classes=user_classes)
 
 
 @app.route('/logout')
@@ -162,10 +162,6 @@ def logout():
 @app.route('/search')
 def search_classes():
     """Search Box and browsing/parameters"""
-    # selectedlanguage = use the get for languagetype() 
-    # languages = db.session(Classroom).filter(Classroom.language==selectedlang).all()
-    # for language in languages:
-    # level = language.level
 
     return render_template('search.html')
 
@@ -184,7 +180,9 @@ def search_by_lang():
 
     # gives me a list of objects
     spec_results = db.session.query(Classroom).filter(Classroom.language==languagetype, Classroom.level==leveltype).all()
+    # print spec_results
 
+    # url_id = spec_results.class_id
     # results = []
 
     # for res in spec_results:
@@ -193,16 +191,17 @@ def search_by_lang():
     results = {}
 
     for res in spec_results:
+        url_id = res.class_id
         results[res.class_name] = [res.cost, res.per_time]
 
-    for thing, dino in results.items():
-        print "(thing, dino)"
-    mon = '{}: {}0/{}'.format(thing, dino[0], dino[1])
+    for name, cost_time in results.items():
+        render_results = '{}: {}0/{}'.format(name, cost_time[0], cost_time[1])
 
 
 
-    return render_template('search-results.html', mon=mon, thing=thing, dino=dino, results=results, spec_results=spec_results, 
-                                                res=res, leveltype=leveltype, languagetype=languagetype)
+    return render_template('search-results.html', render_results=render_results, name=name, cost_time=cost_time, 
+                                                results=results, spec_results=spec_results, res=res, url_id=url_id,
+                                                leveltype=leveltype, languagetype=languagetype)
 
 
     # NOTES FROM DOBS!!!!!
@@ -213,16 +212,28 @@ def search_by_lang():
     # return jsonify({"emotion" : "sad"})
 
 
-@app.route('/class-info')
-def class_info():
+@app.route('/class-info/<url_id>')
+def class_info(url_id):
     """Reveals information about a class. Such as: language, level, days, times, teacher, students"""
 
-    all_classes = db.session.query(Classroom).first()
-    print "Class id: ", all_classes.class_id
+    returned_classes = db.session.query(Classroom).filter(Classroom.class_id==url_id).first()
+    print "returned class info:"
+    print returned_classes
+    print returned_classes.class_name
+
+    # for item in returned_classes:
+    #     print item.class_id
+    #     if item.class_id == url_id:
+    # return "Monsters!"
+
+    # print "Class id: ", all_classes.class_id
     # firstday = all_classes.start_date.strftime(%B, %-d, %Y)
 
-    
-    return render_template("class-info.html", all_classes=all_classes)
+
+    # if results.class_id == url_id:
+    #     print results.class_id    
+    # return "Monsters!"
+    return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id)
 
 
 @app.route('/join-class', methods=["POST"])

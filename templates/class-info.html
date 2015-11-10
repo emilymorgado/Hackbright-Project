@@ -26,35 +26,35 @@
     
     <!-- Basic Class info: Language, Level, Days, Times, Start, End -->
   <div>
-    <h3>{{ all_classes.class_name }}</h3>
+    <h3>{{ returned_classes.class_name }}</h3>
   </div>
 
   <div>
-    <h5>{{ all_classes.language }} Class, {{ all_classes.level }} Level</h5>
+    <h5>{{ returned_classes.language }} Class, {{ returned_classes.level }} Level</h5>
   </div>
 
   <div>
-    <h5>Schedule: {{ all_classes.class_days }} from {{ all_classes.start_time }} to {{ all_classes.end_time }}</h5>
+    <h5>Schedule: {{ returned_classes.class_days }} from {{ returned_classes.start_time }} to {{ returned_classes.end_time }}</h5>
   </div>
 
   <div>
-    <h5>First Day: {{ all_classes.start_date }} Last Day: {{ all_classes.end_date }}</h5>
+    <h5>First Day: {{ returned_classes.start_date }} Last Day: {{ returned_classes.end_date }}</h5>
   </div>
 
   <div>
-    <h5>For: {{ all_classes.min_students }} to {{ all_classes.max_students }} students.</h5>
+    <h5>For: {{ returned_classes.min_students }} to {{ returned_classes.max_students }} students.</h5>
   </div>
 
   <div>
-    <h5>Costs: ${{ all_classes.cost }}0/{{ all_classes.per_time }}</h5>
+    <h5>Costs: ${{ returned_classes.cost }}0/{{ returned_classes.per_time }}</h5>
   </div>
 
   <div>
-    <h5>Location: {{ all_classes.address }} </h5>
+    <h5>Location: {{ returned_classes.address }} </h5>
   </div>
 
   <form action="/join-class" method="POST" id="join">
-    <input type="hidden" name="id-class" id="id-class" value={{ all_classes.class_id }}>
+    <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
     <button type="submit" class="btn btn-primary" name="join-it" id="join-it">Join</button>
   </form>
 
