@@ -256,14 +256,18 @@ def join_class():
     if not session["user_id"]:
         flash("you need to log in")
     else:
+        the_class = ClassUser.query.filter(ClassUser.class_id==id_class).first()
         add_stud = ClassUser(user_id=user_account.user_id, class_id=id_class)
         print "Yeah!"
 
-        db.session.add(add_stud)
-        db.session.commit()
+        if add_stud.user_id != the_class.user_id:
+            db.session.add(add_stud)
+            db.session.commit()
 
-        print "dinosaur"
-        return render_template("join-class.html", class_info=class_info, user_username=user_username)
+            print "dinosaur"
+            return render_template("join-class.html", class_info=class_info, user_username=user_username)
+        else:
+            return "You're already in that class!"
 
 
 
