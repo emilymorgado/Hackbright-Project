@@ -131,10 +131,8 @@ def profile(user_username):
     user_email = db.session.query(User).filter(User.user_id == session_id).first()
     print "user_email"
     print user_email
-    print type(user_email)
-    print "gatinha"
 
-    user_classes = db.session.query(Classroom).join(ClassUser).filter(User.user_id == session_id).all()
+    user_classes = db.session.query(Classroom).join(ClassUser).filter(ClassUser.user_id == session_id).all()
     print user_classes
     print "bonitinha"
 
@@ -214,25 +212,15 @@ def search_by_lang():
 
 @app.route('/class-info/<url_id>')
 def class_info(url_id):
-    """Reveals information about a class. Such as: language, level, days, times, teacher, students"""
+    """Renders information about a class that has been selected."""
 
+    # Queries db for clicked on class
     returned_classes = db.session.query(Classroom).filter(Classroom.class_id==url_id).first()
     print "returned class info:"
     print returned_classes
     print returned_classes.class_name
 
-    # for item in returned_classes:
-    #     print item.class_id
-    #     if item.class_id == url_id:
-    # return "Monsters!"
 
-    # print "Class id: ", all_classes.class_id
-    # firstday = all_classes.start_date.strftime(%B, %-d, %Y)
-
-
-    # if results.class_id == url_id:
-    #     print results.class_id    
-    # return "Monsters!"
     return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id)
 
 
@@ -246,6 +234,8 @@ def join_class():
 
     # checks if user is logged in
     user_account = User.query.filter_by(user_id=session["user_id"]).first()
+    user_username = user_account.username
+    print user_username
 
     class_info = db.session.query(Classroom).filter_by(class_id=id_class).one()
     print "class_info"
@@ -263,7 +253,7 @@ def join_class():
         db.session.commit()
 
         print "dinosaur"
-        return render_template("join-class.html", class_info=class_info)
+        return render_template("join-class.html", class_info=class_info, user_username=user_username)
 
 
 
