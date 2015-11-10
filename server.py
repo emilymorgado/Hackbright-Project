@@ -226,7 +226,7 @@ def class_info(url_id):
     print returned_classes
     print returned_classes.class_name
 
-    all_class = db.session.query(User.username).join(ClassUser).filter(ClassUser.class_id==url_id).all()
+    all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id==url_id).all()
     # for user in all_class:
     # print all_class.user_id
 
@@ -304,11 +304,14 @@ def class_submission():
     db.session.add(newclass)
     db.session.commit()
 
+    user_account = User.query.filter_by(user_id=session["user_id"]).first()
+    user_username = user_account.username
+
     return render_template("newclass.html", language=language, level=level, 
                         min_students=min_students, max_students=max_students, class_days=days, 
                         start_date=start_date, end_date=end_date, cost=price, 
                         start_time=start_time, end_time=end_time, per_time=per_time, 
-                        address=address, class_name=title)
+                        address=address, class_name=title, user_username=user_username)
 
 
 

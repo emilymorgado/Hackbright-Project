@@ -54,11 +54,18 @@
   </div>
 
   <div>
-    <h5>The other students:</h5>
+    <h5>The students:</h5>
       <ul>
         {% for stu in all_class %}
+        {% if stu.is_teacher == 0 %}
         <li>{{ stu.username }}</li>
+      </ul>
+        {% else %}
+        <h5>The teacher:</h5>
+        <p>{{ stu.username }}</p>
+        {% endif %}
         {% endfor %}
+
       </ul>
   </div>
 
