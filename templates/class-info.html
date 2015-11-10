@@ -54,6 +54,15 @@
   </div>
 
   <div>
+    <h5>The other students:</h5>
+      <ul>
+        {% for stu in all_class %}
+        <li>{{ stu.username }}</li>
+        {% endfor %}
+      </ul>
+  </div>
+
+  <div>
     <form action="/join-class" method="POST" id="join">
       <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
       <button type="submit" class="btn btn-primary" name="join-it" id="join-it">Join</button>

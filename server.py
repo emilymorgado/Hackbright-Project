@@ -226,8 +226,12 @@ def class_info(url_id):
     print returned_classes
     print returned_classes.class_name
 
+    all_class = db.session.query(User.username).join(ClassUser).filter(ClassUser.class_id==url_id).all()
+    # for user in all_class:
+    # print all_class.user_id
 
-    return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id)
+
+    return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class)
 
 
 @app.route('/join-class', methods=["POST"])
