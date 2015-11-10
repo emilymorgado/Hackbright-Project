@@ -22,8 +22,8 @@
 <h5>Here are the classes you're taking:</h5>
 
 <ul id="users-classes">
-{% for dino in user_classes %}
-    <li>{{ dino.class_name }}: {{ dino.level }} {{ dino.language }}</li>
+{% for item in user_classes %}
+    <a href="/class-info/{{ item.class_id }}"><li>{{ item.class_name }}: {{ item.level }} {{ item.language }}</li></a>
 {% endfor %}
 </ul>
 
@@ -37,3 +37,4 @@
 
 
 {% endblock %}
+
