@@ -161,7 +161,11 @@ def logout():
 def search_classes():
     """Search Box and browsing/parameters"""
 
-    return render_template('search.html')
+    user_email = db.session.query(User).filter(User.user_id == session["user_id"]).first()
+
+    user_username = user_email.username
+
+    return render_template('search.html', user_username=user_username)
 
 
 @app.route('/search-results', methods=["GET"])
@@ -188,18 +192,20 @@ def search_by_lang():
 
     results = {}
 
+    # add matching classes to results dictionary
     for res in spec_results:
         url_id = res.class_id
         results[res.class_name] = [res.cost, res.per_time]
 
-    for name, cost_time in results.items():
-        render_results = '{}: {}0/{}'.format(name, cost_time[0], cost_time[1])
+    if results.items():
+        for name, cost_time in results.items():
+            render_results = '{}: {}0/{}'.format(name, cost_time[0], cost_time[1])
 
-
-
-    return render_template('search-results.html', render_results=render_results, name=name, cost_time=cost_time, 
-                                                results=results, spec_results=spec_results, res=res, url_id=url_id,
-                                                leveltype=leveltype, languagetype=languagetype)
+        return render_template('search-results.html', render_results=render_results, name=name, cost_time=cost_time, 
+                                                    results=results, spec_results=spec_results, res=res, url_id=url_id,
+                                                    leveltype=leveltype, languagetype=languagetype)
+    else:
+        return "Sorry, we don't have that class right now"
 
 
     # NOTES FROM DOBS!!!!!

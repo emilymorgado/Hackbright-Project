@@ -53,11 +53,15 @@
     <h5>Location: {{ returned_classes.address }} </h5>
   </div>
 
-  <form action="/join-class" method="POST" id="join">
-    <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
-    <button type="submit" class="btn btn-primary" name="join-it" id="join-it">Join</button>
-  </form>
+  <div>
+    <form action="/join-class" method="POST" id="join">
+      <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
+      <button type="submit" class="btn btn-primary" name="join-it" id="join-it">Join</button>
+    </form>
 
+      <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
+      <a href="/search"><button class="btn btn-primary" name="return-search" id="return-search">Not what I wanted</button>
+  </div>  
 <!--
   <div id="map" style="width: 700px; height: 700px"></div> 
   <div>
