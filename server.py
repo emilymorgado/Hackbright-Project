@@ -203,8 +203,8 @@ def search_by_lang():
         for name, cost_time in results.items():
             # render_results = '{}: {}/{}, {}'.format(name, cost_time[0], cost_time[1], cost_time[2])
 
-            return render_template('search-results.html', name=name, cost_time=cost_time, results=results, parameter_results=parameter_results, 
-                                                        res=res, leveltype=leveltype, languagetype=languagetype, url_id=res.class_id)
+                return render_template('search-results.html', name=name, cost_time=cost_time, results=results, parameter_results=parameter_results, 
+                                                            res=res, leveltype=leveltype, languagetype=languagetype, url_id=res.class_id)
     else:
         return "Sorry, we don't have that class right now"
 
@@ -215,6 +215,12 @@ def search_by_lang():
     # have to do regex
     # return "WE are good"
     # return jsonify({"emotion" : "sad"})
+
+@app.route('/testing.json', methods=["GET"])
+def search_reults_ajax():
+    """Does all the things!"""
+
+    print "Woot"
 
 
 @app.route('/class-info/<url_id>')
@@ -368,7 +374,18 @@ def class_submission():
 def test_map():
     """This is a testing route"""
 
-    return render_template('test.html')
+    # returned_classes = db.session.query(Classroom).filter(Classroom.class_id==url_id).first()
+    # print "returned class info:"
+    # print returned_classes
+    # print returned_classes.class_name
+
+    all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id=="10").all()
+    # for user in all_class:
+    # print all_class.user_id
+
+
+
+    return render_template('test.html', all_class=all_class)
 
 
 

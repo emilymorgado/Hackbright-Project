@@ -4,7 +4,6 @@
 
   <title>Class Info</title>
   <meta charset=utf-8/>
-  <script src="/static/testing.js"></script>
 
 
 
@@ -19,7 +18,7 @@
   </div>
 
   <div>
-    <h5 id="monster">{{ returned_classes.language }} Class, {{ returned_classes.level }} Level</h5>
+    <h5>{{ returned_classes.language }} Class, {{ returned_classes.level }} Level</h5>
   </div>
 
   <div>
@@ -67,39 +66,10 @@
   <div>
     <form action="/join-class" method="POST" id="join">
       <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
-      <button type="submit" class="btn btn-primary" name="join-it" id="join-it">Join</button>
+      <button type="submit" class="btn btn-primary" name="join-it" id="join-it">Drop Class</button>
     </form>
 
-      <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
-      <a href="/search"><button class="btn btn-primary" name="return-search" id="return-search">Not what I wanted</button>
   </div>  
-<!--
-  <div id="map" style="width: 700px; height: 700px"></div> 
-  <div>
-    <input id="address" type="textbox" name="address">
-    <input type="button" value="Encode" onclick="codeAddress()">
-  </div>
--->
 
 
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-
-{% endblock %}
-
-
-
-<!-- 
-function geocodeAddress(geocoder, resultsMap) {
-  var address = document.getElementById('address').value;
-  geocoder.geocode({'address': address}, function(results, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
-      resultsMap.setCenter(results[0].geometry.location);
-      var marker = new google.maps.Marker({
-        map: resultsMap,
-        position: results[0].geometry.location
-      });
-    } else {
-      alert('Geocode was not successful for the following reason: ' + status);
-    }
-  });
-} -->
+  {% endblock %}
