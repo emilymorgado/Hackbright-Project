@@ -4,10 +4,15 @@ function getMonster(evt){
 
     console.log("getMonster worked!");
     var inputs = {
-        "class-info" : $("monster").html()
+        "class-info" : $("#monster").html()
     }
 
     $.get("/testing.json", inputs, map)
+}
+
+function map(data) {
+    console.log("really sent this time");
+    console.log(data);
 }
 
 window.addEventListener('load', getMonster)

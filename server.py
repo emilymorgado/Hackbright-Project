@@ -220,7 +220,10 @@ def search_by_lang():
 def search_reults_ajax():
     """Does all the things!"""
 
-    print "Woot"
+    render_info = request.args.get("class-info")
+
+    print render_info
+    return "hi!"
 
 
 @app.route('/class-info/<url_id>')
