@@ -1,87 +1,61 @@
-   var map;
-    function initMap() {
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 37.7576793, lng: -122.4365721},
+    zoom: 12
+  });
+  var input = /** @type {!HTMLInputElement} */(
+      document.getElementById('pac-input'));
 
-        var myLatLng = {lat: 37.777937, lng: -122.4409755};
+  var types = document.getElementById('type-selector');
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-        center: myLatLng,
-        zoom: 12
-      });
+  var autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete.bindTo('bounds', map);
 
-        var marker = new google.maps.Marker({
-            position: myLatLng,
-            map: map,
-            title: 'Classroom Location'
-        });
+  var infowindow = new google.maps.InfoWindow();
+  var marker = new google.maps.Marker({
+    map: map,
+    anchorPoint: new google.maps.Point(0, -29)
+  });
+
+  autocomplete.addListener('place_changed', function() {
+    infowindow.close();
+    marker.setVisible(false);
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      window.alert("Uh oh, we couldn't find that. Try selecting something from ");
+      return;
     }
 
-    var geocoder;
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);  // Why 17? Because it looks good.
+    }
+    marker.setIcon(/** @type {google.maps.Icon} */({
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(35, 35)
+    }));
+    marker.setPosition(place.geometry.location);
+    marker.setVisible(true);
 
-     function initialize() {
-       geocoder = new google.maps.Geocoder();
-       // var latlng = new google.maps.LatLng(37.777937, -122.4409755);
-       var myLatLng = {lat: 37.777937, lng: -122.4409755};
-       
+    var address = '';
+    if (place.address_components) {
+      address = [
+        (place.address_components[0] && place.address_components[0].short_name || ''),
+        (place.address_components[1] && place.address_components[1].short_name || ''),
+        (place.address_components[2] && place.address_components[2].short_name || '')
+      ].join(' ');
+    }
 
-       console.log("Did it work?");
-       console.log(myLatLng.lat);
-       console.log(myLatLng.lng);
-     
+    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+    infowindow.open(map, marker);
+  });
 
-       var mapOptions = {
-         zoom: 14,
-         center: myLatLng
-       }
-       map = new google.maps.Map(document.getElementById("map"), mapOptions);
-     }
-
-
-
-     function codeAddress() {
-      console.log("Monsters Rule!");
-
-       var address = document.getElementById("address").value;
-       
-       console.log(address);
-       
-       geocoder.geocode( { 'address': address}, function(results, status) {
-         if (status == google.maps.GeocoderStatus.OK) {
-           map.setCenter(results[0].geometry.location);
-          
-           console.log(results[0].geometry.location);
-           console.log("Yep, still rule");
-       
-           var marker = new google.maps.Marker({
-               map: map,
-               position: results[0].geometry.location
-           });
-       
-                console.log(address);
-       
-         } else {
-           alert("Geocode was not successful for the following reason: " + status);
-         }
-       });
-     }
-
-
-
-
-
-     // function geocodeAddress(geocoder, resultsMap) {
-     //   var address = document.getElementById('address').value;
-     //   console.log("Monsters Rule!")
-     //   geocoder.geocode({'address': address}, function(results, status) {
-     //     if (status === google.maps.GeocoderStatus.OK) {
-     //       resultsMap.setCenter(results[0].geometry.location);
-     //       var marker = new google.maps.Marker({
-     //         map: resultsMap,
-     //         position: results[0].geometry.location
-     //       });
-     //     } else {
-     //       alert('Geocode was not successful for the following reason: ' + status);
-     //     }
-     //   });
-     // }
-
-
+}

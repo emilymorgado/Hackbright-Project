@@ -17,16 +17,19 @@ class Classroom(db.Model):
     class_name = db.Column(db.String(35), nullable=False)
     language = db.Column(db.String(40), nullable=False)
     level = db.Column(db.String, nullable=False)
-    cost = db.Column(db.Float, nullable=True)
+    cost = db.Column(db.Integer, nullable=True)
+    per_time = db.Column(db.String, nullable=False)
     min_students = db.Column(db.Integer, nullable=False)
     max_students = db.Column(db.Integer, nullable=False)
     address = db.Column(db.String, nullable=True)
+    lat = db.Column(db.Float, nullable=True)
+    lng = db.Column(db.Float, nullable=True)
     class_days = db.Column(db.String, nullable=False)
     start_date = db.Column(db.String, nullable=False)
     end_date = db.Column(db.String, nullable=True)
     start_time = db.Column(db.String, nullable=False)
     end_time = db.Column(db.String, nullable=False)
-    per_time = db.Column(db.String, nullable=False)
+
 
 
     def __repr__(self):

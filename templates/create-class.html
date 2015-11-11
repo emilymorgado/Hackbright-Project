@@ -11,14 +11,11 @@
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
  
-  <!-- Map! -->
-  <script src="static/map.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=true&callback=initMap"
-       async defer></script>
 
    <!-- meta and style relate to the map -->
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="static/map.css">
 
 
 {% endblock %}
@@ -124,15 +121,15 @@
 
 
         <!-- Map -->
-         <div onload="initialize()" id="map" style="width: 320px; height: 480px;"></div>
-          <div>
-            <input id="address" type="textbox" name="address">
-            <input type="button" value="Encode" onclick="codeAddress()">
-          </div>
+        <input id="pac-input" class="controls" type="text"
+            placeholder="Enter a location">
+        </div>
+        <div id="map"></div>
 
-      <div>
-        <input type="hidden" name="teacher" id="teacher">
-      </div>
+        <script src="static/map.js"></script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=true&libraries=places&callback=initMap"
+            async defer></script>
       
           <!-- Submission Button -->
     <div>

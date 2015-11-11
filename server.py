@@ -104,9 +104,12 @@ def new_profile_confirmation():
 
         session["user_id"] = user.user_id
 
+        user_account = User.query.filter_by(email=email, password=password).first()
+        user_username = user_account.username
+
         print "New user added"
         print session["user_id"]
-        return redirect('/profile')
+        return redirect('/profile/' + user_username)
 
         # JS asks if exising account
         # returns T/F
@@ -177,11 +180,11 @@ def search_by_lang():
     leveltype = request.args.get("leveltype")
     # print languagetype
 
-    lang_result = db.session.query(Classroom.class_id, Classroom.language).all()
+    # lang_result = db.session.query(Classroom.class_id, Classroom.language).all()
 
 
     # gives me a list of objects
-    spec_results = db.session.query(Classroom).filter(Classroom.language==languagetype, Classroom.level==leveltype).all()
+    parameter_results = db.session.query(Classroom).filter(Classroom.language==languagetype, Classroom.level==leveltype).all()
     # print spec_results
 
     # url_id = spec_results.class_id
@@ -193,17 +196,15 @@ def search_by_lang():
     results = {}
 
     # add matching classes to results dictionary
-    for res in spec_results:
-        url_id = res.class_id
-        results[res.class_name] = [res.cost, res.per_time]
+    for res in parameter_results:
+        results[res.class_name] = [res.cost, res.per_time, res.class_id]
 
     if results.items():
         for name, cost_time in results.items():
-            render_results = '{}: {}0/{}'.format(name, cost_time[0], cost_time[1])
+            # render_results = '{}: {}/{}, {}'.format(name, cost_time[0], cost_time[1], cost_time[2])
 
-        return render_template('search-results.html', render_results=render_results, name=name, cost_time=cost_time, 
-                                                    results=results, spec_results=spec_results, res=res, url_id=url_id,
-                                                    leveltype=leveltype, languagetype=languagetype)
+            return render_template('search-results.html', name=name, cost_time=cost_time, results=results, parameter_results=parameter_results, 
+                                                        res=res, leveltype=leveltype, languagetype=languagetype, url_id=res.class_id)
     else:
         return "Sorry, we don't have that class right now"
 
@@ -268,6 +269,26 @@ def join_class():
             return render_template("join-class.html", class_info=class_info, user_username=user_username)
         else:
             return "You're already in that class!"
+
+
+
+
+@app.route('/enrolled-in/<url_id>')
+def enrolled_in(url_id):
+    """Renders information about a class that the student is in."""
+
+    # Queries db for clicked on class
+    returned_classes = db.session.query(Classroom).filter(Classroom.class_id==url_id).first()
+    print "returned class info:"
+    print returned_classes
+    print returned_classes.class_name
+
+    all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id==url_id).all()
+    # for user in all_class:
+    # print all_class.user_id
+
+
+    return render_template("enrolled-in.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class)
 
 
 
@@ -343,6 +364,11 @@ def class_submission():
 # Future Future Routes!
     # Student class creation page!
 
+@app.route('/test')
+def test_map():
+    """This is a testing route"""
+
+    return render_template('test.html')
 
 
 

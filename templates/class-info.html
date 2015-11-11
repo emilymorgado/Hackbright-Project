@@ -5,18 +5,6 @@
   <title>Class Info</title>
   <meta charset=utf-8/>
 
-  <!-- Map -->
-  <link rel="stylesheet" type="text/css" href="static/map.css">
-
-   <!-- meta and style relate to the map -->
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <meta charset="utf-8">
-
-    <!-- Map! -->
-    <script src="static/classmap.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=true&callback=initMap"
-         async defer></script>
-
 
 
 {% endblock %}
@@ -46,7 +34,7 @@
   </div>
 
   <div>
-    <h5>Costs: ${{ returned_classes.cost }}0/{{ returned_classes.per_time }}</h5>
+    <h5>Costs: ${{ returned_classes.cost }}/{{ returned_classes.per_time }}</h5>
   </div>
 
   <div>
@@ -59,12 +47,18 @@
         {% for stu in all_class %}
         {% if stu.is_teacher == 0 %}
         <li>{{ stu.username }}</li>
+      {% endif %}
+      {% endfor %}
       </ul>
-        {% else %}
-        <h5>The teacher:</h5>
-        <p>{{ stu.username }}</p>
+
+    <h5>The teacher:</h5>
+      <ul>
+        {% for stu in all_class %}
+        {% if stu.is_teacher == 1 %}
+        <li>{{ stu.username }}</li>
         {% endif %}
         {% endfor %}
+        </ul>
 
       </ul>
   </div>

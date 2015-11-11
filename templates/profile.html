@@ -27,7 +27,7 @@
 
 <ul id="users-classes">
 {% for item in user_classes %}
-    <a href="/class-info/{{ item.class_id }}"><li>{{ item.class_name }}: {{ item.level }} {{ item.language }}</li></a>
+    <a href="/enrolled-in/{{ item.class_id }}"><li>{{ item.class_name }}: {{ item.level }} {{ item.language }}</li></a>
 {% endfor %}
 </ul>
 
