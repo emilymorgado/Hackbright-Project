@@ -210,9 +210,9 @@ def search_by_lang():
     # return "WE are good"
     # return jsonify({"emotion" : "sad"})
 
-@app.route('/testing.json', methods=["GET"])
+@app.route('/map.json', methods=["GET"])
 def search_reults_ajax():
-    """Does all the things!"""
+    """renders map on class-info page"""
 
     class_id = request.args.get("class_id")
 
@@ -236,13 +236,27 @@ def class_info(url_id):
     print returned_classes.address
 
     all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id==url_id).all()
-    # for user in all_class:
-    # print all_class.user_id
     address=returned_classes.address
-
-    return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class)
-    return address
     print address
+
+    logged_in = User.query.filter(User.user_id==session["user_id"]).first()
+    print "look", logged_in.is_teacher
+
+    if logged_in.is_teacher == 0:
+
+        return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, 
+                                                all_class=all_class, logged_in=logged_in)
+        return address
+        print address
+    else:
+        return render_template("class-info-teacher.html", returned_classes=returned_classes, url_id=url_id, 
+                                                        all_class=all_class, logged_in=logged_in)
+        return address
+        print address
+
+
+
+    
 
 @app.route('/join-class', methods=["POST"])
 def join_class():
@@ -360,10 +374,6 @@ def class_submission():
 
 
 
-    # form_inputs = request.form.get("form")
-    # form inputs will be gargbae
-    # have to do regex
-    # return "WE are good"
     # return jsonify({"emotion" : "sad"})
 
     #return jsonify "str" jsonify { apple: 1, berry:2}
@@ -371,12 +381,8 @@ def class_submission():
 
 
 # FUTURE ROUTES!!!
-    # Search Results
-    # Profile page for student vs teacher
     # Payment
 
-# Future Future Routes!
-    # Student class creation page!
 
 @app.route('/test')
 def test_map():
@@ -387,16 +393,31 @@ def test_map():
     # print returned_classes
     # print returned_classes.class_name
 
-    all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id=="10").all()
+    # all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id=="10").all()
     # for user in all_class:
     # print all_class.user_id
 
 
 
-    return render_template('test.html', all_class=all_class)
+    # return render_template('test.html', all_class=all_class)
+    return render_template('class-info-teacher.html')
 
 
+@app.route('/ajax-love.json')
+def ajax_practice():
+    """I'm going to learn this!"""
 
+    say = "Rar!"
+
+    print "Yes!"
+    return say
+
+
+@app.route('/ajax-ajax')
+def more_ajax_html():
+    """for reals"""
+
+    return render_template("loving-the-ajax.html")
 
 
 

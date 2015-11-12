@@ -16,18 +16,23 @@
     <li>Last name: {{ user_email.lname }}</li>
     <li>Username: {{ user_email.username }}</li>
     <li>Email: {{ user_email.email }}</li>
-    <li>{{ user_email.is_teacher }}</li>  !!!!
+    {% if user_email.is_teacher == True %}
+    <li>You're a teacher</li>
+    {% else %}
+    <li>You're a student</li>
+    {% endif %}
     <li>Your Bio: {{ user_email.bio }}</li>
 
 {% if user_email.is_teacher == 1 %}
 <h5>Here are the classes you're teaching:</h5>
 {% else %}
+
 <h5>Here are the classes you're taking:</h5>
 {% endif %}
 
 <ul id="users-classes">
 {% for item in user_classes %}
-    <a href="/enrolled-in/{{ item.class_id }}"><li>{{ item.class_name }}: {{ item.level }} {{ item.language }}</li></a>
+<a href="/enrolled-in/{{ item.class_id }}"><li>{{ item.class_name }}: {{ item.level }} {{ item.language }}</li></a>
 {% endfor %}
 </ul>
 

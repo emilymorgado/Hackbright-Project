@@ -64,11 +64,11 @@ function initMap() {
 
   });
 
-  function resultsLatLng(data){
-    console.log("Seriously!")
-  }
+  // function resultsLatLng(data){
+  //   console.log("Seriously!")
+  // }
 
-  $.get('/created-results', data, resultsLatLng)
+  // $.get('/created-results', data, resultsLatLng)
 
 // function geocodeAddress(geocoder, resultsMap) {
 //   var address = document.getElementById('address').value;
