@@ -4,7 +4,7 @@
   
   <!-- CSS -->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" type="text/css" href="static/map.css">
+  <link rel="stylesheet" type="text/css" src="static/map.css">
 
   <!--jquery-->
   <script src="https://code.jquery.com/jquery.js"></script>
@@ -124,11 +124,10 @@
         <input id="pac-input" class="controls" name="address" type="text"
             placeholder="Enter a location">
         </div>
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="lng" id="lng">
         <div id="map"></div>
 
-        <script src="static/map.js"></script>
-
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=false&libraries=places&callback=initMap"></script>
       
           <!-- Submission Button -->
     <div>
@@ -139,59 +138,64 @@
 
 
 
-   <script>
-
-//     $(function() {
-//      $( "#datepicker" ).datepicker();
-//    }); 
-
-//     $("input:checkbox[name=days]:checked").each(function(){
-//         yourArray.push($(this).val());
-//     });
 
 
-//      function showValues() {
-//        var str = $( "form" ).serialize();
-//        $( "#results" ).text( str );
-//      }
-//      $( "input[type='checkbox'], input[type='radio']" ).on( "click", showValues );
-//      $( "select" ).on( "change", showValues );
-//      showValues();
+   <script src="static/map.js"></script>
 
-//     Form Submission
-//    Nothing will run until the DOM is ready
-
-//    function woohoo(data) {
-//             console.log(data.berry)
-//             $(#modalID).modal()
-//             return "Woohoo!"
-
-//     };
-  
-
-// //make inputs and object with only checkboxes serialized and pass that
-//     var inputs = {"days": $('#create-class').serialize(),
-//                   "end-date": $("enddate").val()};
-
-// // $('#b-form input:checkbox:checked').serialize()
-
-//     // When the button is clicked, the form is serialized and posted
-
-//     // var inputs = $("input:checkbox[name=days]:checked").serialize();
-
-//     // annonymous function, can't be called outside
-
-//     $(document).ready(function(evt) {
-//       $('#createit').click(function(evt){ 
-//         evt.preventDefault();  
-//         $.post("/created.json", inputs, woohoo);
-//       });
-//    });
+   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=false&libraries=places&callback=initMap"></script>
 
 
  
 
-   </script> 
+   <script>
+
+   //     $(function() {
+   //      $( "#datepicker" ).datepicker();
+   //    }); 
+
+   //     $("input:checkbox[name=days]:checked").each(function(){
+   //         yourArray.push($(this).val());
+   //     });
+
+
+   //      function showValues() {
+   //        var str = $( "form" ).serialize();
+   //        $( "#results" ).text( str );
+   //      }
+   //      $( "input[type='checkbox'], input[type='radio']" ).on( "click", showValues );
+   //      $( "select" ).on( "change", showValues );
+   //      showValues();
+
+   //     Form Submission
+   //    Nothing will run until the DOM is ready
+
+   //    function woohoo(data) {
+   //             console.log(data.berry)
+   //             $(#modalID).modal()
+   //             return "Woohoo!"
+
+   //     };
+     
+
+   // //make inputs and object with only checkboxes serialized and pass that
+   //     var inputs = {"days": $('#create-class').serialize(),
+   //                   "end-date": $("enddate").val()};
+
+   // // $('#b-form input:checkbox:checked').serialize()
+
+   //     // When the button is clicked, the form is serialized and posted
+
+   //     // var inputs = $("input:checkbox[name=days]:checked").serialize();
+
+   //     // annonymous function, can't be called outside
+
+   //     $(document).ready(function(evt) {
+   //       $('#createit').click(function(evt){ 
+   //         evt.preventDefault();  
+   //         $.post("/created.json", inputs, woohoo);
+   //       });
+   //    });
+</script> 
 
 
        <!-- <script>

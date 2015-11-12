@@ -185,13 +185,6 @@ def search_by_lang():
 
     # gives me a list of objects
     parameter_results = db.session.query(Classroom).filter(Classroom.language==languagetype, Classroom.level==leveltype).all()
-    # print spec_results
-
-    # url_id = spec_results.class_id
-    # results = []
-
-    # for res in spec_results:
-    #     results.append(res.class_id)
 
     results = {}
 
@@ -203,8 +196,9 @@ def search_by_lang():
         for name, cost_time in results.items():
             # render_results = '{}: {}/{}, {}'.format(name, cost_time[0], cost_time[1], cost_time[2])
 
-                return render_template('search-results.html', name=name, cost_time=cost_time, results=results, parameter_results=parameter_results, 
-                                                            res=res, leveltype=leveltype, languagetype=languagetype, url_id=res.class_id)
+                return render_template('search-results.html', name=name, cost_time=cost_time, results=results, 
+                                                            parameter_results=parameter_results, res=res, leveltype=leveltype, 
+                                                            languagetype=languagetype, url_id=res.class_id)
     else:
         return "Sorry, we don't have that class right now"
 
@@ -220,10 +214,14 @@ def search_by_lang():
 def search_reults_ajax():
     """Does all the things!"""
 
-    render_info = request.args.get("class-info")
+    class_id = request.args.get("class_id")
 
-    print render_info
-    return "hi!"
+    returned_classes = db.session.query(Classroom).filter(Classroom.class_id==class_id).first()
+    address=returned_classes.address
+
+    print address
+    return address
+
 
 
 @app.route('/class-info/<url_id>')
@@ -235,14 +233,16 @@ def class_info(url_id):
     print "returned class info:"
     print returned_classes
     print returned_classes.class_name
+    print returned_classes.address
 
     all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id==url_id).all()
     # for user in all_class:
     # print all_class.user_id
-
+    address=returned_classes.address
 
     return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class)
-
+    return address
+    print address
 
 @app.route('/join-class', methods=["POST"])
 def join_class():
@@ -328,11 +328,16 @@ def class_submission():
     per_time = request.form.get('pertime')
     address = request.form.get('address')
 
+
+    order_number = request.args.get("order")
+
     newclass = Classroom(language=language, level=level, min_students=min_students, 
                         max_students=max_students, class_days=days, 
                         start_date=start_date, end_date=end_date, cost=price, 
                         start_time=start_time, end_time=end_time, per_time=per_time, 
                         address=address, class_name=title) 
+
+    print newclass
 
 
     db.session.add(newclass)

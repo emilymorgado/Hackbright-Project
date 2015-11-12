@@ -33,6 +33,9 @@ function initMap() {
       map.fitBounds(place.geometry.viewport);
     } else {
       map.setCenter(place.geometry.location);
+      console.log(place.geometry.location.lat());
+      
+      console.log(place.geometry.location.lng());
       map.setZoom(17);  // Why 17? Because it looks good.
     }
     marker.setIcon(/** @type {google.maps.Icon} */({
@@ -61,19 +64,29 @@ function initMap() {
 
   });
 
-function geocodeAddress(geocoder, resultsMap) {
-  var address = document.getElementById('address').value;
-  geocoder.geocode({'address': address}, function(results, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
-      resultsMap.setCenter(results[0].geometry.location);
-      var marker = new google.maps.Marker({
-        map: resultsMap,
-        position: results[0].geometry.location
-      });
-    } else {
-      alert('Geocode was not successful for the following reason: ' + status);
-    }
-  });
-}
+  function resultsLatLng(data){
+    console.log("Seriously!")
+  }
+
+  $.get('/created-results', data, resultsLatLng)
+
+// function geocodeAddress(geocoder, resultsMap) {
+//   var address = document.getElementById('address').value;
+//   geocoder.geocode({'address': address}, function(results, status) {
+//     if (status === google.maps.GeocoderStatus.OK) {
+//       alert("WHAT");
+//       resultsMap.setCenter(results[0].geometry.location);
+//       console.log("IM HERE1");
+//       console.log(results[0].geometry.location);
+//       var marker = new google.maps.Marker({
+//         map: resultsMap,
+//         position: results[0].geometry.location
+//       });
+//     } else {
+//       alert('Geocode was not successful for the following reason: ' + status);
+//     }
+//   });
+// }
+
 
 }
