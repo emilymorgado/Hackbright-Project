@@ -34,7 +34,13 @@
   </div>
 
   <div>
+    {% if returned_classes.cost == 0 %}
+
+    <h5>Costs: Free!</h5>
+
+    {% else %}
     <h5>Costs: ${{ returned_classes.cost }}/{{ returned_classes.per_time }}</h5>
+    {% endif %}
   </div>
 
   <div>

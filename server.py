@@ -256,7 +256,7 @@ def class_info(url_id):
 
 
 
-    
+
 
 @app.route('/join-class', methods=["POST"])
 def join_class():
@@ -342,8 +342,6 @@ def class_submission():
     per_time = request.form.get('pertime')
     address = request.form.get('address')
 
-
-    order_number = request.args.get("order")
 
     newclass = Classroom(language=language, level=level, min_students=min_students, 
                         max_students=max_students, class_days=days, 

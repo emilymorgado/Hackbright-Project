@@ -34,7 +34,14 @@
   </div>
 
   <div>
-    <h5>Costs: ${{ returned_classes.cost }}/{{ returned_classes.per_time }}</h5>
+      {% if returned_classes.cost == 0 %}
+
+      <h5>Costs: Free!</h5>
+
+      {% else %}
+      <h5>Costs: ${{ returned_classes.cost }}/{{ returned_classes.per_time }}</h5>
+      {% endif %}
+
   </div>
 
   <div>
@@ -55,7 +62,7 @@
       <ul>
         {% for stu in all_class %}
         {% if stu.is_teacher == 1 %}
-        <li>{{ stu.username }}</li>
+        <li>{{ stu.username }}: {{ stu.bio }}</li>
         {% endif %}
         {% endfor %}
         </ul>
@@ -70,6 +77,53 @@
     </form>
 
   </div>  
+
+
+    <div id="map" style="width: 400px; height: 400px"></div>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=false&libraries=places&callback=initMap"></script>
+
+  <script src="https://code.jquery.com/jquery.js"></script>
+
+  <script>
+  function initMap() {
+    var classId = $('#id-class').val()
+    $.get('/map.json', {"class_id": classId}, makeMap);
+    function makeMap(data){
+      console.log(data);
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 37.7576793, lng: -122.4365721},
+        zoom: 14
+      });
+      geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ 'address': data }, function(results, status) {
+        console.log(results[0].geometry.location);
+        if (status == google.maps.GeocoderStatus.OK) {
+          if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+            map.setCenter(results[0].geometry.location);
+            var infowindow = new google.maps.InfoWindow({
+              content: '<b>' + data + '</b>',
+              size: new google.maps.Size(150, 50)
+            });
+            var marker = new google.maps.Marker({
+              position: results[0].geometry.location,
+              map: map,
+              title: data
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+              infowindow.open(map, marker);
+            });
+          } else {
+            alert("No results found");
+          }
+        } else {
+          alert("Geocode was not successful for the following reason: " + status);
+        }
+      });  
+    }
+  }
+  </script>
+  <!-- <script src="/static/testing.js"></script> -->
 
 
   {% endblock %}
