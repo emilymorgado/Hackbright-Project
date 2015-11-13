@@ -58,7 +58,7 @@ def check_login():
     if user_account:
         print user_account
         session["user_id"] = user_account.user_id
-        print session["user_id"]
+    #     print session["user_id"]
         return render_template("login-success.html", user_account=user_account, user_username=user_username, id_class=None)
     # else:
     #     flash("Wrong email or password, try again")
@@ -170,7 +170,7 @@ def profile(user_username):
     #     print in_class
 
 
-    return render_template("profile.html", user_email=user_email, user_classes=user_classes)
+    return render_template("profile.html", user_email=user_email, user_classes=user_classes, user_username=user_username)
 
 
 @app.route('/logout')
@@ -287,10 +287,6 @@ def class_info(url_id):
 
 
 
-
-
-
-
 @app.route('/join-class', methods=["POST"])
 def join_class():
     """Adds a user_id to a class and shows update on profile.html"""
@@ -328,10 +324,45 @@ def join_class():
 
 
 
+@app.route('/dropped', methods=["POST"])
+def drop_class():
+    """Removes student from that class in the db"""
+
+    # Drop button
+    # dropped = request.form.get('drop')
+    # print "dropped", dropped
+
+    # Class ID being dropped
+    id_class = request.form.get("id-class")
+    print "id_class", id_class
+
+    # db query for class-user association
+    the_class = ClassUser.query.filter(ClassUser.class_id==id_class, ClassUser.user_id==session['user_id']).one()
+    the_real_class = the_class.class_user_id
+    print "the_real_class", the_real_class
+
+    user_username = db.session.query(User.username).filter(user_id=session["user_id"]).first()
+
+    # drop_student = ClassUser(class_user_id=the_real_class)
+    # print "drop_student", drop_student
+
+    db.session.delete(the_class)
+    db.session.commit()
+
+    url = '/profile/' + str(user_username)
+
+    return redirect(url)
+
+
 
 @app.route('/enrolled-in/<url_id>')
 def enrolled_in(url_id):
     """Renders information about a class that the student is in."""
+
+    user_info = User.query.filter_by(user_id=session["user_id"]).first()
+    print "user id: "
+    print user_info.user_id
+
 
     # Queries db for clicked on class
     returned_classes = db.session.query(Classroom).filter(Classroom.class_id==url_id).first()
@@ -340,11 +371,11 @@ def enrolled_in(url_id):
     print returned_classes.class_name
 
     all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id==url_id).all()
-    # for user in all_class:
-    # print all_class.user_id
+    print all_class
 
 
-    return render_template("enrolled-in.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class)
+    return render_template("enrolled-in.html", returned_classes=returned_classes, url_id=url_id, 
+                                                all_class=all_class, user_info=user_info)
 
 
 

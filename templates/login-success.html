@@ -11,12 +11,14 @@
 
 <h5>Would you like to:</h5>
 
-   <a href="/search"><button id="search" class="btn btn-default">Search for classes</button></a>
-   <a href="/profile/{{ user_username }}"><button id="profile" class="btn btn-default">See your profile</button></a>
+    <a href="/class-info/{{ id_class }}"><button id="search" class="btn btn-default">Return to class</button></a>
 
 
 {% else %}
-<a href="/class-info/{{ id_class }}"><button id="search" class="btn btn-default">Return to class</button></a>
+
+
+    <a href="/search"><button id="search" class="btn btn-default">Search for classes</button></a>
+    <a href="/profile/{{ user_username }}"><button id="profile" class="btn btn-default">See your profile</button></a>
 
 
 {% endif %}
