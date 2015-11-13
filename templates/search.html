@@ -65,7 +65,9 @@
 </form>
 
   <div>
-    <a href="/profile/{{ user_username }}"<button id="return-profile" class="btn btn-primary">Return to profile</button>
+    {% if user_username %}
+      <a href="/profile/{{ user_username }}"<button id="return-profile" class="btn btn-primary">Return to profile</button>
+    {% endif %}
   </div>
 
 

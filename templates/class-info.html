@@ -18,7 +18,7 @@
   </div>
 
   <div>
-    <h5 id="monster">{{ returned_classes.language }} Class, {{ returned_classes.level }} Level</h5>
+    <h5 id="class-info">{{ returned_classes.language }} Class, {{ returned_classes.level }} Level</h5>
   </div>
 
   <div>
@@ -70,10 +70,18 @@
   </div>
 
   <div>
+    {% if logged_in %}
     <form action="/join-class" method="POST" id="join">
       <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
       <button type="submit" class="btn btn-primary" name="join-it" id="join-it">Join</button>
     </form>
+    {% else %}
+
+    <form action="/login-visitor" method="GET" id="login">
+      <button type="submit" class="btn btn-primary" name="login-visitor">Log in to join this class</button>
+      <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
+    </form>
+    {% endif %}
 
       <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
       <a href="/search"><button class="btn btn-primary" name="return-search" id="return-search">Not what I wanted</button></a>

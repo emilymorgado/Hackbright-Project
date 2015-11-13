@@ -30,33 +30,36 @@ def search():
 def loginpage():
     """Page where users can log in"""
 
-    return render_template("login.html")
+    return render_template("login.html", id_class=None)
 
+
+@app.route('/login-visitor')
+def login_from_classinfo():
+    """Login for visitors"""
+
+    id_class = request.args.get("id-class")
+    print id_class
+
+    return render_template("login.html", id_class=id_class)
 
 
 @app.route('/login-success', methods=["POST"])
 def check_login():
     """Checks info and logs user in to session"""
 
-    # Flask Post
     email = request.form.get("email")
     password = request.form.get("password")
-
-    # all_users = User.query.all()
-    # print all_users
 
     user_account = User.query.filter_by(email=email, password=password).first()
     print user_account
     user_username = user_account.username
     print user_username
 
-    # print "user_account.email:" + user_account.email
-
     if user_account:
         print user_account
         session["user_id"] = user_account.user_id
         print session["user_id"]
-        return render_template("login-success.html", user_account=user_account, user_username=user_username)
+        return render_template("login-success.html", user_account=user_account, user_username=user_username, id_class=None)
     # else:
     #     flash("Wrong email or password, try again")
     #     return redirect ("/login")
@@ -68,6 +71,27 @@ def check_login():
     #     flash("That password is invalid.")
     #     return redirect('/login')
 
+@app.route('/login-success-visitor', methods=["POST"])
+def check_visitor_login():
+    """Checks user info and sends them to the class they were looking at"""
+
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    id_class = request.form.get("id-class")
+
+    user_account = User.query.filter_by(email=email, password=password).first()
+    print user_account
+    user_username = user_account.username
+    print user_username
+
+    print id_class
+
+    if user_account:
+        print user_account
+        session["user_id"] = user_account.user_id
+        print session["user_id"]
+        return redirect('/class-info/'+id_class)
 
 
 @app.route('/create-profile')
@@ -81,7 +105,6 @@ def create_user_profile():
 def new_profile_confirmation():
     """Messages that profile has been created"""
 
-    # Flask Post
 
     email = request.form.get("email")
     username = request.form.get("username")
@@ -156,19 +179,20 @@ def logout():
 
     session.clear()
 
-    return render_template("goodbye.html")
-
+    return redirect('/')
 
 
 @app.route('/search')
 def search_classes():
     """Search Box and browsing/parameters"""
 
-    user_email = db.session.query(User).filter(User.user_id == session["user_id"]).first()
+    if session:
+        user_email = db.session.query(User).filter(User.user_id == session["user_id"]).first()
+        user_username = user_email.username
 
-    user_username = user_email.username
+        return render_template('search.html', user_username=user_username)
 
-    return render_template('search.html', user_username=user_username)
+    return render_template('search.html', user_username=None)
 
 
 @app.route('/search-results', methods=["GET"])
@@ -224,7 +248,7 @@ def search_reults_ajax():
 
 
 
-@app.route('/class-info/<url_id>')
+@app.route('/class-info/<int:url_id>')
 def class_info(url_id):
     """Renders information about a class that has been selected."""
 
@@ -234,25 +258,34 @@ def class_info(url_id):
     print returned_classes
     print returned_classes.class_name
     print returned_classes.address
+    print returned_classes.class_id
 
     all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id==url_id).all()
     address=returned_classes.address
-    print address
 
-    logged_in = User.query.filter(User.user_id==session["user_id"]).first()
-    print "look", logged_in.is_teacher
+    if session.get("user_id"):
 
-    if logged_in.is_teacher == 0:
+        logged_in = User.query.filter(User.user_id==session["user_id"]).first()
+        print "look here: ", logged_in.is_teacher
 
-        return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, 
-                                                all_class=all_class, logged_in=logged_in)
-        return address
-        print address
-    else:
-        return render_template("class-info-teacher.html", returned_classes=returned_classes, url_id=url_id, 
-                                                        all_class=all_class, logged_in=logged_in)
-        return address
-        print address
+        if logged_in.is_teacher == 0:
+            print "if student, class: "
+            print returned_classes.class_id
+
+            return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, 
+                                                    all_class=all_class, logged_in=logged_in)
+
+        else:
+            print "if teacher, class: ", returned_classes.class_id
+            return render_template("class-info-teacher.html", returned_classes=returned_classes, url_id=url_id, 
+                                                            all_class=all_class, logged_in=logged_in)
+
+
+    return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, 
+                                                            all_class=all_class, logged_in=None)
+
+
+
 
 
 

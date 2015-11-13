@@ -25,16 +25,25 @@
 
 {% if user_email.is_teacher == 1 %}
 <h5>Here are the classes you're teaching:</h5>
-{% else %}
-
-<h5>Here are the classes you're taking:</h5>
-{% endif %}
 
 <ul id="users-classes">
 {% for item in user_classes %}
 <a href="/enrolled-in/{{ item.class_id }}"><li>{{ item.class_name }}: {{ item.level }} {{ item.language }}</li></a>
 {% endfor %}
 </ul>
+{% endif %}
+
+
+{% if user_email.is_teacher == 0 %}
+
+<h5>Here are the classes you're taking:</h5>
+
+<ul id="users-classes">
+{% for item in user_classes %}
+<a href="/enrolled-in/{{ item.class_id }}"><li>{{ item.class_name }}: {{ item.level }} {{ item.language }}</li></a>
+{% endfor %}
+</ul>
+{% endif %}
 
 
 <p>You can search for classes <a href="/search">here</a></p>
