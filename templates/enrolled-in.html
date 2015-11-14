@@ -81,6 +81,21 @@
 
     <div id="map" style="width: 400px; height: 400px"></div>
 
+    <div id="stripe-div">
+    <button type="stripe" class="btn btn-primary" name="stripe" id="stripe">Pay for your class</button>
+
+  <script>
+
+  function getStuffs(){
+      $.get('/ajax-love.json', monsterAttack);
+      console.log("Are you working?");
+  }
+
+  $('#square').click(function() {
+    alert( "Pay the monster!" );
+  });
+  </script>
+
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=false&libraries=places&callback=initMap"></script>
 
   <script src="https://code.jquery.com/jquery.js"></script>

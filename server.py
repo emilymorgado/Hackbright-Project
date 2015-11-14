@@ -9,6 +9,11 @@ from model import connect_to_db, db, Classroom, User, ClassUser
 
 from datetime import datetime
 
+import json
+
+# import stripe
+# stripe.api_key = STRIPE_PERSONAL_KEY
+
 
 # This is how Flask knows what module to scan for things like routes
 app = Flask(__name__)
@@ -17,6 +22,7 @@ app = Flask(__name__)
 app.secret_key = "tamandua"
 
 app.jinja_env.undefined = StrictUndefined
+
 
 
 @app.route('/')
@@ -206,8 +212,10 @@ def search_by_lang():
 
     # lang_result = db.session.query(Classroom.class_id, Classroom.language).all()
 
+    # returns list of User objects and their class_ids
 
-    # gives me a list of objects
+
+    # returns list of Classroom objects
     parameter_results = db.session.query(Classroom).filter(Classroom.language==languagetype, Classroom.level==leveltype).all()
 
     results = {}
@@ -216,15 +224,25 @@ def search_by_lang():
     for res in parameter_results:
         results[res.class_name] = [res.cost, res.per_time, res.class_id]
 
+        results_users = db.session.query(User).join(ClassUser).filter(ClassUser.class_id==res.class_id).all()
+        print results_users
+
     if results.items():
         for name, cost_time in results.items():
             # render_results = '{}: {}/{}, {}'.format(name, cost_time[0], cost_time[1], cost_time[2])
 
                 return render_template('search-results.html', name=name, cost_time=cost_time, results=results, 
                                                             parameter_results=parameter_results, res=res, leveltype=leveltype, 
-                                                            languagetype=languagetype, url_id=res.class_id)
+                                                            languagetype=languagetype, url_id=res.class_id, results_users=results_users)
     else:
         return "Sorry, we don't have that class right now"
+
+        # dinosaur = {}
+
+        # for us in dinosaur:
+            # for key, value in dinosaur.items():
+                
+                # render_results = '{}: {}/{}, {}'.format(name, cost_time[0], cost_time[1], cost_time[2])
 
 
     # NOTES FROM DOBS!!!!!
@@ -442,8 +460,7 @@ def class_submission():
 
 
 
-# FUTURE ROUTES!!!
-    # Payment
+# @app.route('/teacher')
 
 
 @app.route('/test')
@@ -479,7 +496,10 @@ def ajax_practice():
 def more_ajax_html():
     """for reals"""
 
+
     return render_template("loving-the-ajax.html")
+
+
 
 
 
