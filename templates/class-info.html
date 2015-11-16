@@ -26,7 +26,15 @@
   </div>
 
   <div>
-    <h5>First Day: {{ returned_classes.start_date }} Last Day: {{ returned_classes.end_date }}</h5>
+    <h5>First Day: {{ returned_classes.start_date }}</h5>
+
+      {% if returned_classes.end_date == "" %}
+      <h5>This class is ongoing</h5>
+
+      {% else %}
+      <h5>Last Day: {{ returned_classes.end_date }}</h5>
+
+      {% endif %}
   </div>
 
   <div>
@@ -71,11 +79,16 @@
 
   <div>
     {% if logged_in %}
+    {% if returned_classes.c_count - returned_classes.max_students == 0  %}
+    <h5>Sorry, this class is full</h5>
+    {% else %}
     <form action="/join-class" method="POST" id="join">
       <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
       <button type="submit" class="btn btn-primary" name="join-it" id="join-it">Join</button>
     </form>
+    {% endif %}
     {% else %}
+
 
     <form action="/login-visitor" method="GET" id="login">
       <button type="submit" class="btn btn-primary" name="login-visitor">Log in to join this class</button>

@@ -201,6 +201,7 @@ def search_classes():
     return render_template('search.html', user_username=None)
 
 
+
 @app.route('/search-results', methods=["GET"])
 def search_by_lang():
     """Search Results for Language and Level"""
@@ -212,10 +213,8 @@ def search_by_lang():
 
     # lang_result = db.session.query(Classroom.class_id, Classroom.language).all()
 
-    # returns list of User objects and their class_ids
 
-
-    # returns list of Classroom objects
+    # gives me a list of objects
     parameter_results = db.session.query(Classroom).filter(Classroom.language==languagetype, Classroom.level==leveltype).all()
 
     results = {}
@@ -224,33 +223,25 @@ def search_by_lang():
     for res in parameter_results:
         results[res.class_name] = [res.cost, res.per_time, res.class_id]
 
-        results_users = db.session.query(User).join(ClassUser).filter(ClassUser.class_id==res.class_id).all()
-        print results_users
-
     if results.items():
         for name, cost_time in results.items():
             # render_results = '{}: {}/{}, {}'.format(name, cost_time[0], cost_time[1], cost_time[2])
 
                 return render_template('search-results.html', name=name, cost_time=cost_time, results=results, 
                                                             parameter_results=parameter_results, res=res, leveltype=leveltype, 
-                                                            languagetype=languagetype, url_id=res.class_id, results_users=results_users)
+                                                            languagetype=languagetype, url_id=res.class_id)
     else:
         return "Sorry, we don't have that class right now"
 
-        # dinosaur = {}
 
-        # for us in dinosaur:
-            # for key, value in dinosaur.items():
-                
-                # render_results = '{}: {}/{}, {}'.format(name, cost_time[0], cost_time[1], cost_time[2])
+        # NOTES FROM DOBS!!!!!
+        #     form_inputs = request.form.get("form")
+        # form inputs will be gargbae
+        # have to do regex
+        # return "WE are good"
+        # return jsonify({"emotion" : "sad"})
 
 
-    # NOTES FROM DOBS!!!!!
-    #     form_inputs = request.form.get("form")
-    # form inputs will be gargbae
-    # have to do regex
-    # return "WE are good"
-    # return jsonify({"emotion" : "sad"})
 
 @app.route('/map.json', methods=["GET"])
 def search_reults_ajax():
@@ -329,13 +320,19 @@ def join_class():
     else:
         the_class = ClassUser.query.filter(ClassUser.class_id==id_class).first()
         add_stud = ClassUser(user_id=user_account.user_id, class_id=id_class)
-        print "Yeah!"
 
+        # adds user to class in db
         if add_stud.user_id != the_class.user_id:
             db.session.add(add_stud)
             db.session.commit()
 
-            print "dinosaur"
+            # updates c_count in db
+            update_count = class_info.c_count + 1
+
+            db.session.query(Classroom).filter(Classroom.class_id == id_class).update({Classroom.c_count: update_count})
+            db.session.commit()
+
+
             return render_template("join-class.html", class_info=class_info, user_username=user_username)
         else:
             return "You're already in that class!"
@@ -346,27 +343,23 @@ def join_class():
 def drop_class():
     """Removes student from that class in the db"""
 
-    # Drop button
-    # dropped = request.form.get('drop')
-    # print "dropped", dropped
 
     # Class ID being dropped
     id_class = request.form.get("id-class")
     print "id_class", id_class
 
     # db query for class-user association
-    the_class = ClassUser.query.filter(ClassUser.class_id==id_class, ClassUser.user_id==session['user_id']).one()
-    the_real_class = the_class.class_user_id
-    print "the_real_class", the_real_class
+    the_class = ClassUser.query.filter(ClassUser.class_id==id_class, ClassUser.user_id==session['user_id']).first()
 
-    user_username = db.session.query(User.username).filter(user_id=session["user_id"]).first()
 
-    # drop_student = ClassUser(class_user_id=the_real_class)
-    # print "drop_student", drop_student
-
+    # deletes association and removes class info from user profile page
     db.session.delete(the_class)
     db.session.commit()
 
+
+    # to pass username in the url
+    name = User.query.filter_by(user_id=session["user_id"]).first()
+    user_username = name.username
     url = '/profile/' + str(user_username)
 
     return redirect(url)
@@ -423,13 +416,14 @@ def class_submission():
     end_time = request.form.get('endtime').encode('utf8')
     per_time = request.form.get('pertime')
     address = request.form.get('address')
+    c_count = request.form.get("c-count")
 
 
     newclass = Classroom(language=language, level=level, min_students=min_students, 
                         max_students=max_students, class_days=days, 
                         start_date=start_date, end_date=end_date, cost=price, 
                         start_time=start_time, end_time=end_time, per_time=per_time, 
-                        address=address, class_name=title) 
+                        address=address, class_name=title, c_count=c_count) 
 
     print newclass
 

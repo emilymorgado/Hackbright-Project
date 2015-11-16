@@ -26,7 +26,13 @@
   </div>
 
   <div>
-    <h5>First Day: {{ returned_classes.start_date }} Last Day: {{ returned_classes.end_date }}</h5>
+    <h5>First Day: {{ returned_classes.start_date }}</h5>
+
+    {% if returned_classes.end_date == "" %}
+      <h5>This class is ongoing</h5>
+    {% else %}
+      <h5>Last Day: {{ returned_classes.end_date }}</h5>
+    {% endif %}
   </div>
 
   <div>

@@ -21,7 +21,16 @@
     <h5><b>{{ class_name }}</b></h5>
     <h5> {{ level }} {{ language }}</h5>
     <h5>For {{ min_students }} to {{ max_students }} students</h5>
-    <h5>From {{ start_date }} until {{ end_date }}</h5>
+    <h5>Starts: {{ start_date }}</h5>
+
+        {% if end_date == "" %}
+            <h5>This class is ongoing</h5>
+
+        {% else %}
+            <h5>Ends: {{ end_date }}</h5>
+
+        {% endif %}
+
     <h5>On {{ class_days }} at {{ start_time }} <h5>
     <h5>Costs: ${{ cost }}/{{ per_time }}</h5>
     <h5>Location: {{ address }} <h5>
