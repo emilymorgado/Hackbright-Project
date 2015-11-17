@@ -28,6 +28,7 @@ class Classroom(db.Model):
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
     rating = db.Column(db.Integer, nullable=True)
+    rating_count = db.Column(db.Integer)
     create_date = db.Column(db.DateTime)
     c_count = db.Column(db.Integer)
 

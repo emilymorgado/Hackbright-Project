@@ -389,6 +389,34 @@ def enrolled_in(url_id):
                                                 all_class=all_class, user_info=user_info)
 
 
+@app.route('/enrolled.json', methods=["POST"])
+def process_rating():
+
+    ratings = float(request.form.get("rating"))
+    class_rate = float(request.form.get("classid"))
+    print "class_rate: ", type(class_rate), class_rate
+    print "ratings: ", type(ratings), ratings
+
+    class_to_rate = Classroom.query.filter(Classroom.class_id==class_rate).first()
+    class_to_rate.rating_count = float(class_to_rate.rating_count)
+    print class_to_rate.rating_count
+
+    rating_update = (class_to_rate.rating*class_to_rate.rating_count+ratings)/(class_to_rate.rating_count+1)
+    up_count = Classroom.rating_count + 1
+
+    db.session.query(Classroom).filter(Classroom.class_id==class_rate).update({Classroom.rating_count: Classroom.rating_count+1})
+    db.session.commit()
+    print "class_to_rate, rating_count", class_to_rate.rating_count
+    db.session.query(Classroom).filter(Classroom.class_id==class_rate).update({Classroom.rating: rating_update})
+    db.session.commit()
+
+    print "class_to_rate, rating: ", class_to_rate.rating
+
+
+    print "OMG, it worked!!!"
+    return "Thanks for rating this class!"
+
+
 
 @app.route('/create-class')
 def create_class_form():
@@ -417,30 +445,24 @@ def class_submission():
     per_time = request.form.get('pertime')
     address = request.form.get('address')
     c_count = request.form.get("c-count")
+    first_rate = request.form.get("first-rate")
+    r_count = request.form.get("r-count")
 
     # convert start_date and end_date to datetime objects with strptime()
-    print "START DATE >>> ", start_date, type(start_date)
-    print "END DATE >>> ", end_date, type(end_date)
-    print "START TIME >>> ", start_time, type(end_date)
-    print "END TIME >>> ", end_time, type(end_date)
-
     start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
-    print "BEAR2", start
-
     end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
-    print "MON2", end
-
     time_start = datetime.datetime.strptime(start_time, '%H:%M')
-    print "START TIME ", time_start
-
     time_end = datetime.datetime.strptime(end_time, '%H:%M')
-    print "END TIME ", time_end
+
+    now = datetime.datetime.now()
+    print now
 
     newclass = Classroom(language=language, level=level, min_students=min_students, 
                         max_students=max_students, class_days=days, 
                         start_date=start, end_date=end, cost=price, 
                         start_time=time_start, end_time=time_end, per_time=per_time, 
-                        address=address, class_name=title, c_count=c_count) 
+                        address=address, class_name=title, c_count=c_count, create_date=now,
+                        rating_count=r_count, rating=first_rate) 
 
     print newclass
 
@@ -492,14 +514,16 @@ def test_map():
     return render_template('class-info-teacher.html')
 
 
-@app.route('/ajax-love.json')
+@app.route('/ajax-love.json', methods=["POST"])
 def ajax_practice():
     """I'm going to learn this!"""
 
-    say = "Rar!"
+    ratings = request.form.get("rating")
 
-    print "Yes!"
-    return say
+
+
+    print "OMG, it worked!!!"
+    return "Thanks for rating this class?"
 
 
 @app.route('/ajax-ajax')

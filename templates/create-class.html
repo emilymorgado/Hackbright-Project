@@ -68,6 +68,12 @@
       <!-- Counts num of Students -->
       <input type="hidden" name="c-count" id="c-count" value=0>
 
+      <!-- Counts num of Ratings -->
+      <input type="hidden" name="r-count" id="r-count" value=0>
+
+      <!-- Gives start rating -->
+      <input type="hidden" name="first-rate" id="first-rate" value=5>
+
 
       <!-- Max num of Students -->
       <div class="form-group">
@@ -79,13 +85,13 @@
       <!-- Days -->
       <div class="form-group" id="days">
           Days:
-        <input type="checkbox" id="days" name="days" checked="checked" value="Monday">Monday
-        <input type="checkbox" id="days" name="days" checked="checked" value="Tuesday">Tuesday
-        <input type="checkbox" id="days" name="days" checked="checked" value="Wednesday">Wednesday
-        <input type="checkbox" id="days" name="days" checked="checked" value="Thursday">Thursday
-        <input type="checkbox" id="days" name="days" checked="checked" value="Friday">Friday
-        <input type="checkbox" id="days" name="days" checked="checked" value="Saturday">Saturday
-        <input type="checkbox" id="days" name="days" checked="checked" alue="Sunday">Sunday
+        <input type="checkbox" id="days" name="days" value="Monday">Monday
+        <input type="checkbox" id="days" name="days" value="Tuesday">Tuesday
+        <input type="checkbox" id="days" name="days" value="Wednesday">Wednesday
+        <input type="checkbox" id="days" name="days" value="Thursday">Thursday
+        <input type="checkbox" id="days" name="days" value="Friday">Friday
+        <input type="checkbox" id="days" name="days" value="Saturday">Saturday
+        <input type="checkbox" id="days" name="days" value="Sunday">Sunday
       </div>
 
       <!-- Start Date -->
@@ -103,9 +109,6 @@
       <!-- End Time  -->
       <p>Class ends at: <input type="time" class="timepicker" name="endtime" id=
       "endtime"></p>
-
-      <!-- <input type="hidden" value="datetime.now" id="create-date" name="create-date"> -->
-
 
       <!-- Price Picker -->
       <div class="form-group">
