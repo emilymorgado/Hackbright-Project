@@ -7,7 +7,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, Classroom, User, ClassUser
 
-from datetime import datetime
+import datetime
 
 import json
 
@@ -412,17 +412,34 @@ def class_submission():
     days = request.form.get('days').encode('utf8')
     start_date = request.form.get('start').encode('utf8')
     end_date = request.form.get('end').encode('utf8')
-    start_time = request.form.get('starttime').encode('utf8')
-    end_time = request.form.get('endtime').encode('utf8')
+    start_time = request.form.get('starttime')
+    end_time = request.form.get('endtime')
     per_time = request.form.get('pertime')
     address = request.form.get('address')
     c_count = request.form.get("c-count")
 
+    # convert start_date and end_date to datetime objects with strptime()
+    print "START DATE >>> ", start_date, type(start_date)
+    print "END DATE >>> ", end_date, type(end_date)
+    print "START TIME >>> ", start_time, type(end_date)
+    print "END TIME >>> ", end_time, type(end_date)
+
+    start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+    print "BEAR2", start
+
+    end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+    print "MON2", end
+
+    time_start = datetime.datetime.strptime(start_time, '%H:%M')
+    print "START TIME ", time_start
+
+    time_end = datetime.datetime.strptime(end_time, '%H:%M')
+    print "END TIME ", time_end
 
     newclass = Classroom(language=language, level=level, min_students=min_students, 
                         max_students=max_students, class_days=days, 
-                        start_date=start_date, end_date=end_date, cost=price, 
-                        start_time=start_time, end_time=end_time, per_time=per_time, 
+                        start_date=start, end_date=end, cost=price, 
+                        start_time=time_start, end_time=time_end, per_time=per_time, 
                         address=address, class_name=title, c_count=c_count) 
 
     print newclass
@@ -435,7 +452,6 @@ def class_submission():
     user_username = user_account.username
 
     add_teach = ClassUser(user_id=user_account.user_id, class_id=newclass.class_id)
-    print "Yeah!"
 
     db.session.add(add_teach)
     db.session.commit()
