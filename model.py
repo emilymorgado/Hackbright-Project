@@ -19,17 +19,19 @@ class Classroom(db.Model):
     level = db.Column(db.String, nullable=False)
     cost = db.Column(db.Integer, nullable=True)
     per_time = db.Column(db.String, nullable=False)
+    base_price = db.Column(db.Float)
     min_students = db.Column(db.Integer, nullable=False)
     max_students = db.Column(db.Integer, nullable=False)
     address = db.Column(db.String, nullable=True)
     class_days = db.Column(db.String, nullable=False)
     start_date = db.Column(db.String, nullable=False)
-    end_date = db.Column(db.DateTime, nullable=True)
+    end_date = db.Column(db.String, nullable=True)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
     rating = db.Column(db.Integer, nullable=True)
     rating_count = db.Column(db.Integer)
     create_date = db.Column(db.DateTime)
+    # c_count is the number of students in the class
     c_count = db.Column(db.Integer)
 
 

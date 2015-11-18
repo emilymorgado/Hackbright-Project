@@ -11,6 +11,8 @@ import datetime
 
 import json
 
+import re
+
 # import stripe
 # stripe.api_key = STRIPE_PERSONAL_KEY
 
@@ -411,8 +413,6 @@ def process_rating():
     db.session.commit()
 
     print "class_to_rate, rating: ", class_to_rate.rating
-
-
     print "OMG, it worked!!!"
     return "Thanks for rating this class!"
 
@@ -448,21 +448,79 @@ def class_submission():
     first_rate = request.form.get("first-rate")
     r_count = request.form.get("r-count")
 
+
     # convert start_date and end_date to datetime objects with strptime()
     start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+    print start
     end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+    print end
     time_start = datetime.datetime.strptime(start_time, '%H:%M')
+    print time_start
     time_end = datetime.datetime.strptime(end_time, '%H:%M')
+    print time_end
 
     now = datetime.datetime.now()
     print now
+
+    # REGEX FOR CHECKBOXES!!!
+    # test = Classroom.query.filter_by(class_id=4).first()
+
+    # time = str(test.per_time)
+    # print time
+
+    # REGEX for class days, calls it days_class
+    day_join = str(days)
+    day_join = re.sub('&',', ', day_join)
+    days_split = re.sub('days=', '', day_join)
+    print "DAYS_SPLIT: ", days_split
+
+    # dino = str(test.class_days)
+    # dino = re.sub('&',', ', dino)
+    # dino_thing = re.sub('days=', '', dino)
+
+    # Counts number of days/week of class, calls it: counter
+    counter = 0
+    for day in days_split.split(' '):
+        counter = counter + 1
+    print "COUNTER: ", counter
+
+    # Finds duration of each class, calls it
+    a = datetime.datetime.strptime(start_time, '%H:%M') 
+    print "A: ", a, type(a)
+    b = datetime.datetime.strptime(end_time, '%H:%M')
+    print "B: ", b, type(b)
+
+    difference = b - a
+
+    hours = difference.seconds//3600
+    minutes = difference.seconds//60 % 60
+    duration = ((hours*60.0) + minutes)/60.0
+    print "DURATION: ", duration
+
+    # Base price based on per hour, calls it b_price
+    time = str(per_time)
+    print "PER_TIME: ", type(time)
+    print "PRICE: ", type(price)
+    price = float(price)
+
+    if time == 'hour':
+        base_price = price
+    elif time == 'week':
+        base_price = price/(counter*duration)
+    elif time == 'month':
+        base_price = price/(counter*duration*4.3)
+    elif time == 'year':
+        base_price = price/(counter*duration*52)
+
+    print "BASE_PRICE: ", base_price
+
 
     newclass = Classroom(language=language, level=level, min_students=min_students, 
                         max_students=max_students, class_days=days, 
                         start_date=start, end_date=end, cost=price, 
                         start_time=time_start, end_time=time_end, per_time=per_time, 
                         address=address, class_name=title, c_count=c_count, create_date=now,
-                        rating_count=r_count, rating=first_rate) 
+                        rating_count=r_count, rating=first_rate, base_price=base_price) 
 
     print newclass
 
@@ -478,11 +536,13 @@ def class_submission():
     db.session.add(add_teach)
     db.session.commit()
 
-    return render_template("newclass.html", language=language, level=level, 
-                        min_students=min_students, max_students=max_students, class_days=days, 
-                        start_date=start_date, end_date=end_date, cost=price, 
-                        start_time=start_time, end_time=end_time, per_time=per_time, 
-                        address=address, class_name=title, user_username=user_username)
+    return "You have successfully created this class!"
+
+    # return render_template("newclass.html", language=language, level=level, 
+    #                     min_students=min_students, max_students=max_students, class_days=days, 
+    #                     start_date=start_date, end_date=end_date, cost=price, 
+    #                     start_time=start_time, end_time=end_time, per_time=per_time, 
+    #                     address=address, class_name=title, user_username=user_username)
 
 
 
@@ -510,8 +570,42 @@ def test_map():
 
 
 
+    # print "START TIME: ", test.start_time
+    # print type(test.start_time)
+    # print "END TIME: ", test.end_time
+    # print type(test.end_time)
+
+
+    # a = datetime.datetime.now()
+    # >>> b = datetime.datetime.now()
+    # >>> c = b - a
+    # datetime.timedelta(0, 8, 562000)
+    # >>> divmod(c.days * 86400 + c.seconds, 60)
+    # (0, 8)
+
+
+    return "womp womp"
+
+
+    # FOR DAYS???
+
+    #     test = Classroom.query.filter_by(class_id=2).first()
+    # days = str(test)
+    # days = re.sub('&',', ', days)
+    # days_class = re.sub('days=', '', days)
+    # print "DAYS_CLASS: ", days_class
+
+    # counter = 0
+    # for day in days_class.split(' '):
+    #     counter = counter + 1
+    #     print "COUNTER: ", counter
+
+    #     return "Hello"
+
+    # User.query.filter_by(user_id=session["user_id"]).first()
+
     # return render_template('test.html', all_class=all_class)
-    return render_template('class-info-teacher.html')
+    # return render_template('class-info-teacher.html')
 
 
 @app.route('/ajax-love.json', methods=["POST"])

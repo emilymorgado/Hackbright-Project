@@ -30,6 +30,8 @@
     </form>
   </div>  
 
+  <div id="green-box" class="alert alert-success" role="alert" hidden></div>
+
     <!-- Basic Class info: Language, Level, Days, Times, Start, End -->
   <div>
     <h3>{{ returned_classes.class_name }}</h3>
@@ -172,6 +174,8 @@
 
   // AJAX call to rate teacher/class
   function showResults(data){
+    $("#green-box").html(data).removeAttr("hidden");
+    // alert(data);
   }
 
   function submitRating(evt) {

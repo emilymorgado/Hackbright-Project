@@ -30,7 +30,7 @@
     <!-- Name -->
     <div class="form-group">
       <label for="class-name">Give your class a title: </label>
-      <input type="text" class="form-control" name="class-name" placeholder="Something catchy">
+      <input type="text" class="form-control" name="class-name" id="class-name" placeholder="Something catchy">
     </div>
     
     <!-- Language -->
@@ -48,7 +48,7 @@
       <!-- Level -->
       <div class="form-group">
         Level: 
-        <select name="leveltype" class="form-control">
+        <select name="leveltype" id="leveltype" class="form-control">
             <option value="Beginning">Beginner</option>
             <option value="Pre-Intermediate">Pre-Intermediate</option>
             <option value="Intermediate">Intermediate</option>
@@ -85,14 +85,15 @@
       <!-- Days -->
       <div class="form-group" id="days">
           Days:
-        <input type="checkbox" id="days" name="days" value="Monday">Monday
-        <input type="checkbox" id="days" name="days" value="Tuesday">Tuesday
-        <input type="checkbox" id="days" name="days" value="Wednesday">Wednesday
-        <input type="checkbox" id="days" name="days" value="Thursday">Thursday
-        <input type="checkbox" id="days" name="days" value="Friday">Friday
-        <input type="checkbox" id="days" name="days" value="Saturday">Saturday
-        <input type="checkbox" id="days" name="days" value="Sunday">Sunday
+        <input type="checkbox" id="Monday" name="days" value="Monday">Monday
+        <input type="checkbox" id="Tuesday" name="days" value="Tuesday">Tuesday
+        <input type="checkbox" id="Wednesday" name="days" value="Wednesday">Wednesday
+        <input type="checkbox" id="Thursday" name="days" value="Thursday">Thursday
+        <input type="checkbox" id="Friday" name="days" value="Friday">Friday
+        <input type="checkbox" id="Saturday" name="days" value="Saturday">Saturday
+        <input type="checkbox" id="Sunday" name="days" value="Sunday">Sunday
       </div>
+
 
       <!-- Start Date -->
       <p>Start Date: <input type="date" id="start" name="start"></p>
@@ -118,7 +119,7 @@
             <input type="text" class="form-control" name="pricetype" id="pricetype" placeholder="Amount">
             <div class="input-group-addon">.00</div>
             <div name="per-time">
-              <select name="pertime" class="form-control">
+              <select name="pertime" id="pertime" class="form-control">
                   <option value="hour">/hour</option>
                   <option value="week">/week</option>
                   <option value="month">/month</option>
@@ -143,6 +144,8 @@
     </div>
    </form>
 
+   <div id="response" class="alert alert-success" role="alert" hidden></div>
+
 
 
 
@@ -155,8 +158,43 @@
 
  
 
-   <script>
+      <script>
 
+
+        function followup(data){
+          $("#response").html(data).removeAttr("hidden");
+          // $("#create-class").unbind("submit");
+          // $("#create-class").submit();
+        }
+        function sendAjax(evt){
+        evt.preventDefault();
+        var inputs = {
+                   "days": ($('input[name="days"]:checked').serialize()),
+                   "class-name": $("#class-name").val(),
+                   "languagetype": $("#languagetype").val(),
+                   "leveltype": $("#leveltype").val(),
+                   "pricetype": $("#pricetype").val(),
+                   "min": $("#min").val(),
+                   "max": $("#max").val(),
+                   "start": $("#start").val(),
+                   "end": $("#end").val(),
+                   "starttime": $("#starttime").val(),
+                   "endtime": $("#endtime").val(),
+                   "pertime": $("#pertime").val(),
+                   "address": $("#pac-input").val(),
+                   "c-count": $("#c-count").val(),
+                   "first-rate": $("#first-rate").val(),
+                   "r-count": $("#r-count").val()
+                 };
+                 console.log(inputs.days);
+              $.post("/created-results", inputs, followup);
+            }
+
+        $("#create-class").on("submit", sendAjax);
+      </script>
+
+
+<script>
    //     $(function() {
    //      $( "#datepicker" ).datepicker();
    //    }); 
