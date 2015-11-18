@@ -69,7 +69,7 @@
       <ul>
         {% for stu in all_class %}
         {% if stu.is_teacher == 1 %}
-        <li>{{ stu.username }}</li>
+        <li>{{ stu.username }} Some info on your teacher: {{ stu.bio }}</li>
         {% endif %}
         {% endfor %}
         </ul>

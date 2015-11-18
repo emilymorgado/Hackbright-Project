@@ -11,6 +11,15 @@
 
 {% block body %}
 
+  <!-- Basic Class info: Language, Level, Days, Times, Start, End -->
+<div>
+  <h3>{{ returned_classes.class_name }}</h3>
+</div>
+
+<div>
+  <h3>This class is currently rated at: {{ rate_format }}</h3>
+</div>
+
 {% if user_info.is_teacher == 0 %}
   <div>
     <h3>Rate this class!</h3>
@@ -31,10 +40,6 @@
 
   {% endif %}
 
-    <!-- Basic Class info: Language, Level, Days, Times, Start, End -->
-  <div>
-    <h3>{{ returned_classes.class_name }}</h3>
-  </div>
 
   <div>
     <h5>{{ returned_classes.language }} Class, {{ returned_classes.level }} Level</h5>

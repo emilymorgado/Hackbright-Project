@@ -216,8 +216,6 @@ def search_by_lang():
     leveltype = request.args.get("leveltype")
     # print languagetype
 
-    # lang_result = db.session.query(Classroom.class_id, Classroom.language).all()
-
 
     # gives me a list of objects
     parameter_results = db.session.query(Classroom).filter(Classroom.language==languagetype, Classroom.level==leveltype).all()
@@ -232,9 +230,31 @@ def search_by_lang():
         for name, cost_time in results.items():
             # render_results = '{}: {}/{}, {}'.format(name, cost_time[0], cost_time[1], cost_time[2])
 
-                return render_template('search-results.html', name=name, cost_time=cost_time, results=results, 
-                                                            parameter_results=parameter_results, res=res, leveltype=leveltype, 
-                                                            languagetype=languagetype, url_id=res.class_id)
+
+            # MAKE THIS A FUNCTION!
+            score = 0
+
+            if parameter_results.rating < 1:
+                score = 0
+            elif parameter_results.rating < 2:
+                score = 10
+            elif parameter_results.rating < 3:
+                score = 20
+            elif parameter_results.rating < 4:
+                score = 25
+            elif parameter_results.rating == 5:
+                score = 30
+
+            print "SCORE: ", score
+
+
+
+
+
+
+            return render_template('search-results.html', name=name, cost_time=cost_time, results=results, 
+                                                        parameter_results=parameter_results, res=res, leveltype=leveltype, 
+                                                        languagetype=languagetype, url_id=res.class_id)
     else:
         return "Sorry, we don't have that class right now"
 
@@ -284,7 +304,6 @@ def class_info(url_id):
 
     rate_format = returned_classes.rating
     rate_format = "%.1f" % rate_format
-    print "BEAVERS RULE!!!!", rate_format
 
 
     if session.get("user_id"):
@@ -408,14 +427,21 @@ def enrolled_in(url_id):
     print "DAYS_SPLIT: ", days_split
 
     starttime = returned_classes.start_time.strftime("%I:%M %p")
+    print "S: ", starttime
     endtime = returned_classes.end_time.strftime("%I:%M %p")
+    print "E: ", endtime
     startdate = returned_classes.start_date.strftime("%b %d, %Y")
     enddate = returned_classes.end_date.strftime("%b %d, %Y")
+
+    # enddate = returned_classes.end_date.strftime("%b %d, %Y")
+
+    rate_format = returned_classes.rating
+    rate_format = "%.1f" % rate_format
 
 
     return render_template("enrolled-in.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class, 
                                                 user_info=user_info, days_split=days_split, starttime=starttime, 
-                                                endtime=endtime, startdate=startdate, enddate=enddate)
+                                                endtime=endtime, startdate=startdate, enddate=enddate, rate_format=rate_format)
 
 
 
@@ -458,7 +484,7 @@ def create_class_form():
 def class_submission():
     """Message that class has been created"""
 
-    # This is where the create-class info is held as a post
+
     title = request.form.get("class-name")
     language = request.form.get("languagetype")
     level = request.form.get('leveltype')
@@ -477,75 +503,49 @@ def class_submission():
     r_count = request.form.get("r-count")
 
 
+    # TODO THIS IS BROKEN!!!!
     # convert start_date and end_date to datetime objects with strptime()
     start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
-    print start
-    end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
-    print end
+    if end_date:
+        end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+        print "END: ", end_date, type(end_date)
+    else:
+        end_date = None
+
     time_start = datetime.datetime.strptime(start_time, '%H:%M')
-    print time_start
     time_end = datetime.datetime.strptime(end_time, '%H:%M')
-    print time_end
 
     now = datetime.datetime.now()
-    print now
+    # print now
 
-    # REGEX FOR CHECKBOXES!!!
-    # test = Classroom.query.filter_by(class_id=4).first()
 
-    # time = str(test.per_time)
-    # print time
+    # CALLS REGEX DAY-SPLITTING FUNCTION FROM HELPER FUNCTIONS
+    days_split = clean_days(days)
+    print "DAYS_SPLIT FROM FUNCTION!!!: ", days_split
 
-    # REGEX for class days, calls it days_class
-    day_join = str(days)
-    day_join = re.sub('&',', ', day_join)
-    days_split = re.sub('days=', '', day_join)
-    print "DAYS_SPLIT: ", days_split
 
-    # dino = str(test.class_days)
-    # dino = re.sub('&',', ', dino)
-    # dino_thing = re.sub('days=', '', dino)
-
-    # Counts number of days/week of class, calls it: counter
+    # Counts number of days/week of class as: counter
     counter = 0
     for day in days_split.split(' '):
         counter = counter + 1
     print "COUNTER: ", counter
 
-    # Finds duration of each class, calls it
-    a = datetime.datetime.strptime(start_time, '%H:%M') 
-    print "A: ", a, type(a)
-    b = datetime.datetime.strptime(end_time, '%H:%M')
-    print "B: ", b, type(b)
 
-    difference = b - a
-
-    hours = difference.seconds//3600
-    minutes = difference.seconds//60 % 60
-    duration = ((hours*60.0) + minutes)/60.0
+    # CALLS FIND_CLASS_DURATION FUNCTION FROM HELPER FUNCTIONS
+    duration = find_class_duration(start_time, end_time)
     print "DURATION: ", duration
 
-    # Base price based on per hour, calls it b_price
-    time = str(per_time)
-    print "PER_TIME: ", type(time)
-    print "PRICE: ", type(price)
-    price = float(price)
 
-    if time == 'hour':
-        base_price = price
-    elif time == 'week':
-        base_price = price/(counter*duration)
-    elif time == 'month':
-        base_price = price/(counter*duration*4.3)
-    elif time == 'year':
-        base_price = price/(counter*duration*52)
-
+    # CALLS BASE_PRICE FUNCTION FROM HELPER FUNCTIONS
+    base_price = calculate_base_price(per_time, counter, duration, price)
     print "BASE_PRICE: ", base_price
+
+
 
 
     newclass = Classroom(language=language, level=level, min_students=min_students, 
                         max_students=max_students, class_days=days, 
-                        start_date=start, end_date=end, cost=price, 
+                        start_date=start, end_date=end_date, cost=price, 
                         start_time=time_start, end_time=time_end, per_time=per_time, 
                         address=address, class_name=title, c_count=c_count, create_date=now,
                         rating_count=r_count, rating=first_rate, base_price=base_price) 
@@ -566,37 +566,40 @@ def class_submission():
 
     return "You have successfully created this class!"
 
-    # return render_template("newclass.html", language=language, level=level, 
-    #                     min_students=min_students, max_students=max_students, class_days=days, 
-    #                     start_date=start_date, end_date=end_date, cost=price, 
-    #                     start_time=start_time, end_time=end_time, per_time=per_time, 
-    #                     address=address, class_name=title, user_username=user_username)
-
-
-
-    # return jsonify({"emotion" : "sad"})
-
-    #return jsonify "str" jsonify { apple: 1, berry:2}
-
-
-
-# @app.route('/teacher')
 
 
 @app.route('/test')
 def test_map():
     """This is a testing route"""
 
-    # returned_classes = db.session.query(Classroom).filter(Classroom.class_id==url_id).first()
+    returned_classes = db.session.query(Classroom).filter(Classroom.class_id=='7').first()
     # print "returned class info:"
-    # print returned_classes
+    print returned_classes.start_date
     # print returned_classes.class_name
 
-    # all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id=="10").all()
+    # all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id=="7").all()
     # for user in all_class:
     # print all_class.user_id
 
+    # Finds duration of each class, calls it
+    startdate = returned_classes.start_date
+    print type(startdate)
+    now = datetime.datetime.now()
+    print type(now)
+    days_until = startdate - now
+    print days_until
+    print "HUH? ", days_until.days
+    # a = datetime.datetime.strptime(startdate, '%Y-%m-%d') 
+    # print "A: ", a, type(a)
+    # b = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+    # print "B: ", b, type(b)
 
+    # difference = b - a
+
+    # hours = difference.seconds//3600
+    # minutes = difference.seconds//60 % 60
+    # duration = ((hours*60.0) + minutes)/60.0
+    # print "DURATION: ", duration
 
     # print "START TIME: ", test.start_time
     # print type(test.start_time)
@@ -657,6 +660,53 @@ def more_ajax_html():
 
 
 
+################## Helper Functions #########################
+
+
+def clean_days(days):
+    """Takes days from form (checkboxes). Removes excess characters and splits days on commas."""
+
+    day_join = str(days)
+    day_join = re.sub('&',', ', day_join)
+    days_split = re.sub('days=', '', day_join)
+    print "DAYS_SPLIT: ", days_split
+    return days_split
+
+
+def find_class_duration(start_time, end_time):
+    """Takes start and end times for a class and calculates duration in minutes"""
+
+    a = datetime.datetime.strptime(start_time, '%H:%M') 
+    print "A: ", a, type(a)
+    b = datetime.datetime.strptime(end_time, '%H:%M')
+    print "B: ", b, type(b)
+
+    difference = b - a
+
+    hours = difference.seconds//3600
+    minutes = difference.seconds//60 % 60
+    duration = ((hours*60.0) + minutes)/60.0
+    print "DURATION: ", duration
+    return duration
+
+
+def calculate_base_price(per_time, counter, duration, price):
+    """Uses per_time, duration, price to calculate one base price for price comparison"""
+
+    time = str(per_time)
+    price = float(price)
+
+    if time == 'hour':
+        base_price = price
+    elif time == 'week':
+        base_price = price/(counter*duration)
+    elif time == 'month':
+        base_price = price/(counter*duration*4.3)
+    elif time == 'year':
+        base_price = price/(counter*duration*52)
+
+    print "BASE_PRICE: ", base_price
+    return base_price
 
 
 
