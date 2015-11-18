@@ -265,14 +265,20 @@ def class_info(url_id):
 
     # Queries db for clicked on class
     returned_classes = db.session.query(Classroom).filter(Classroom.class_id==url_id).first()
-    print "returned class info:"
-    print returned_classes
-    print returned_classes.class_name
-    print returned_classes.address
-    print returned_classes.class_id
 
     all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id==url_id).all()
     address=returned_classes.address
+
+    day_join = str(returned_classes.class_days)
+    day_join = re.sub('&',', ', day_join)
+    days_split = re.sub('days=', '', day_join)
+    print "DAYS_SPLIT: ", days_split
+
+    starttime = returned_classes.start_time.strftime("%I:%M %p")
+    endtime = returned_classes.end_time.strftime("%I:%M %p")
+    startdate = returned_classes.start_date.strftime("%b %d, %Y")
+    enddate = returned_classes.end_date.strftime("%b %d, %Y")
+
 
     if session.get("user_id"):
 
@@ -284,16 +290,19 @@ def class_info(url_id):
             print returned_classes.class_id
 
             return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, 
-                                                    all_class=all_class, logged_in=logged_in)
+                                                    all_class=all_class, logged_in=logged_in, starttime=starttime, 
+                                                    endtime=endtime, startdate=startdate, enddate=enddate, days_split=days_split)
 
         else:
             print "if teacher, class: ", returned_classes.class_id
             return render_template("class-info-teacher.html", returned_classes=returned_classes, url_id=url_id, 
-                                                            all_class=all_class, logged_in=logged_in)
+                                                            all_class=all_class, logged_in=logged_in, starttime=starttime, 
+                                                            endtime=endtime, startdate=startdate, enddate=enddate, days_split=days_split)
 
 
     return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, 
-                                                            all_class=all_class, logged_in=None)
+                                                            all_class=all_class, logged_in=None, starttime=starttime, 
+                                                            endtime=endtime, startdate=startdate, enddate=enddate, days_split=days_split)
 
 
 
@@ -386,9 +395,21 @@ def enrolled_in(url_id):
     all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id==url_id).all()
     print all_class
 
+    day_join = str(returned_classes.class_days)
+    day_join = re.sub('&',', ', day_join)
+    days_split = re.sub('days=', '', day_join)
+    print "DAYS_SPLIT: ", days_split
 
-    return render_template("enrolled-in.html", returned_classes=returned_classes, url_id=url_id, 
-                                                all_class=all_class, user_info=user_info)
+    starttime = returned_classes.start_time.strftime("%I:%M %p")
+    endtime = returned_classes.end_time.strftime("%I:%M %p")
+    startdate = returned_classes.start_date.strftime("%b %d, %Y")
+    enddate = returned_classes.end_date.strftime("%b %d, %Y")
+
+
+    return render_template("enrolled-in.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class, 
+                                                user_info=user_info, days_split=days_split, starttime=starttime, 
+                                                endtime=endtime, startdate=startdate, enddate=enddate)
+
 
 
 @app.route('/enrolled.json', methods=["POST"])

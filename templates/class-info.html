@@ -26,17 +26,17 @@
   </div>
 
   <div>
-    <h5>Schedule: {{ returned_classes.class_days }} from {{ returned_classes.start_time }} to {{ returned_classes.end_time }}</h5>
+    <h5>Schedule: {{ days_split }} from {{ starttime }} to {{ endtime }}</h5>
   </div>
 
   <div>
-    <h5>First Day: {{ returned_classes.start_date }}</h5>
+    <h5>First Day: {{ startdate }}</h5>
 
       {% if returned_classes.end_date == "" %}
       <h5>This class is ongoing</h5>
 
       {% else %}
-      <h5>Last Day: {{ returned_classes.end_date }}</h5>
+      <h5>Last Day: {{ enddate }}</h5>
 
       {% endif %}
   </div>
