@@ -28,8 +28,9 @@ app.jinja_env.undefined = StrictUndefined
 
 
 @app.route('/')
-def search():
-    """Homepage is the Search page"""
+def welcome():
+    """Homepage welcomes and links to Login, Search, New Account pages"""
+
 
     return render_template("home.html")
 
@@ -194,13 +195,15 @@ def logout():
 def search_classes():
     """Search Box and browsing/parameters"""
 
+    new = Classroom.query.order_by(Classroom.create_date.desc()).limit(10).all()
+
     if session:
         user_email = db.session.query(User).filter(User.user_id == session["user_id"]).first()
         user_username = user_email.username
 
-        return render_template('search.html', user_username=user_username)
+        return render_template('search.html', user_username=user_username, new=new)
 
-    return render_template('search.html', user_username=None)
+    return render_template('search.html', user_username=None, new=new)
 
 
 
@@ -279,6 +282,10 @@ def class_info(url_id):
     startdate = returned_classes.start_date.strftime("%b %d, %Y")
     enddate = returned_classes.end_date.strftime("%b %d, %Y")
 
+    rate_format = returned_classes.rating
+    rate_format = "%.1f" % rate_format
+    print "BEAVERS RULE!!!!", rate_format
+
 
     if session.get("user_id"):
 
@@ -289,20 +296,20 @@ def class_info(url_id):
             print "if student, class: "
             print returned_classes.class_id
 
-            return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, 
-                                                    all_class=all_class, logged_in=logged_in, starttime=starttime, 
-                                                    endtime=endtime, startdate=startdate, enddate=enddate, days_split=days_split)
+            return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class, 
+                                                    logged_in=logged_in, starttime=starttime, endtime=endtime, rate_format=rate_format, 
+                                                    startdate=startdate, enddate=enddate, days_split=days_split)
 
         else:
             print "if teacher, class: ", returned_classes.class_id
-            return render_template("class-info-teacher.html", returned_classes=returned_classes, url_id=url_id, 
-                                                            all_class=all_class, logged_in=logged_in, starttime=starttime, 
-                                                            endtime=endtime, startdate=startdate, enddate=enddate, days_split=days_split)
+            return render_template("class-info-teacher.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class, 
+                                                            logged_in=logged_in, starttime=starttime, endtime=endtime, startdate=startdate, 
+                                                            enddate=enddate, days_split=days_split, rate_format=rate_format)
 
 
-    return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, 
-                                                            all_class=all_class, logged_in=None, starttime=starttime, 
-                                                            endtime=endtime, startdate=startdate, enddate=enddate, days_split=days_split)
+    return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class, 
+                                                logged_in=None, starttime=starttime, endtime=endtime, startdate=startdate, 
+                                                enddate=enddate, days_split=days_split, rate_format=rate_format)
 
 
 

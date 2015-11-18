@@ -18,7 +18,7 @@
   </div>
 
   <div>
-    <h3>Rating: {{ returned_classes.rating }}</h3>
+    <h3>Rating: {{ rate_format }}</h3>
   </div>
 
   <div>
@@ -56,10 +56,6 @@
   </div>
 
   <div>
-    <h5>Location: {{ returned_classes.address }} </h5>
-  </div>
-
-  <div>
     <h5>The students:</h5>
       <ul>
         {% for stu in all_class %}
@@ -80,6 +76,7 @@
 
       </ul>
   </div>
+
 
   <div>
     {% if logged_in %}
@@ -103,6 +100,10 @@
       <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
       <a href="/search"><button class="btn btn-primary" name="return-search" id="return-search">Not what I wanted</button></a>
   </div>  
+
+  <div>
+    <h5>Location: {{ returned_classes.address }} </h5>
+  </div>
 
   <div id="map" style="width: 400px; height: 400px"></div>
 

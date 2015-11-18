@@ -64,13 +64,25 @@
   </div>
 </form>
 
+<form>
   <div>
     {% if user_username %}
-      <a href="/profile/{{ user_username }}"<button id="return-profile" class="btn btn-primary">Return to profile</button>
+      <a href="/profile/{{ user_username }}"<button id="return-profile" class="btn btn-primary">Return to profile</button></a>
     {% endif %}
   </div>
+</form>
 
 
+<div>
+  <h3>New Classes:</h3>
+
+  {% for n in new %}
+  <ul>
+    <a href="/class-info/{{ n.class_id }}"><li>{{ n.level }} {{ n.language }}: {{ n.class_name }} ({{ n.cost }})</li></a>
+  </ul>
+  {% endfor %}
+
+</div>  
 
 
  <!--  <div>

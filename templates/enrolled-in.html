@@ -11,14 +11,11 @@
 
 {% block body %}
 
+{% if user_info.is_teacher == 0 %}
   <div>
     <h3>Rate this class!</h3>
     <form id="class-rate" method="post">
-    <!-- <div class="dropdown" for="rateme"> -->
-    <!--   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-        Rate your Class
-        <span class="caret"></span>
-      </button> -->
+
       <select type="dropdown" id="rateme" aria-labelledby="dropdownMenu1">
         <option name="rating" id="rating-1" value="1"><a href="#">1: Not Good</a></option>    
         <option name="rating" id="rating-2" value="2"><a href="#">2: Acceptable</a></option>
@@ -31,6 +28,8 @@
   </div>  
 
   <div id="green-box" class="alert alert-success" role="alert" hidden></div>
+
+  {% endif %}
 
     <!-- Basic Class info: Language, Level, Days, Times, Start, End -->
   <div>
@@ -88,7 +87,7 @@
       <ul>
         {% for stu in all_class %}
         {% if stu.is_teacher == 1 %}
-        <li>{{ stu.username }}: {{ stu.bio }}</li>
+        <li>{{ stu.username }} Some info on your teacher: {{ stu.bio }}</li>
         {% endif %}
         {% endfor %}
         </ul>
@@ -106,9 +105,10 @@
 
     <div id="map" style="width: 400px; height: 400px"></div>
 
+    {% if user_info.is_teacher == 0 %}
     <div id="stripe-div">
     <button type="stripe" class="btn btn-primary" name="stripe" id="stripe">Pay for your class</button>
-
+    {% endif %}
 
 
 <!-- JAVASCRIPT -->
