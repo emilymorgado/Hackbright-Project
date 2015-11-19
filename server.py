@@ -234,6 +234,22 @@ def search_by_lang():
         # print "RATING SCORES: ", result.class_id, rate, rate_score
 
 
+        ##### CALLS GET_TIME_TO_START FUNCTION FROM HELPER FUNCTIONS ####
+        now = datetime.datetime.now()
+        starts = result.start_date
+        time_to_start = starts - now 
+        print "TIME_TO_START: ", time_to_start, type(time_to_start)
+
+        start_soon = get_time_to_start(time_to_start)
+
+
+        #### CALLS GET_TIME_SINCE_CREATED FUNCTION FROM HELPER FUNCTIONS ####
+        now = datetime.datetime.now()
+        created = result.create_date
+
+        recently_created = get_time_since_created(now, created)
+
+
         #### CALLS GET_PRICE FUNCTION FROM HELPER FUNCTIONS ####
         base_p = result.base_price
 
@@ -250,20 +266,12 @@ def search_by_lang():
 
         #### CALLS GET_FULL_STATUS FUNCTION FROM HELPER FUNCTIONS ####
         num_enrolled = result.c_count
-
+        
         full_score = get_full_status(num_enrolled, size)
         # print "FULL OR NOT: ", result.class_id, full_score
 
 
-        #### CALLS GET_FULL_STATUS FUNCTION FROM HELPER FUNCTIONS ####
-        now = datetime.datetime.now()
-        created = result.create_date
-
-        starting_soon = find_time_until_start(now, created)
-
-
-
-        total_score = rate_score + price_score + size_score + full_score
+        total_score = rate_score + start_soon + recently_created + price_score + size_score + full_score
         print "TOTAL_SCORE: ", result.class_id, total_score
         # print "ORDERED SCORES", 
 
@@ -771,12 +779,7 @@ def get_rating_score(rate):
     print "SCORES: ", result.class_id, rate, score
 
 
-
-def find_time_until_start(now, created):
-    """Assigns search results score based on how soon the start date is based on now"""
-    time_to_start = created - now
-    print "TIME TO START: ", time_to_start.days
-
+def get_time_to_start(time_to_start):
     if time_to_start.days < 15:
         score = 30
     elif time_to_start.days < 30:
@@ -791,7 +794,6 @@ def find_time_until_start(now, created):
         score = 0
 
     return score
-
 
 
 def get_price(base_p):
@@ -810,6 +812,22 @@ def get_price(base_p):
 
     return score
     print "PRICE SCORES: ", result.class_id, base_p, score
+
+
+def get_time_since_created(now, created):
+    """Assigns search results score based on how soon the start date is based on now"""
+    
+    time_created = created - now
+    print "TIME_CREATED: ", time_created.days
+
+    if time_created.days < 30:
+        score = 10
+    elif time_created.days < 60:
+        score = 5
+    elif time_created.days >= 60:
+        score = 0
+
+    return score
 
 
 def get_size(size):
