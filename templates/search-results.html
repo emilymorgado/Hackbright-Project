@@ -10,8 +10,8 @@
 
 
 <ul id="classes-results">
-    {% for name, cost_time in results.items() %}
-    <a href="/class-info/{{ cost_time.class_id }}"><li>{{ name }}: ${{ cost_time.price }}/{{ cost_time.per_time }}</li></a>
+    {% for search_res in final_sort %}
+    <a href="/class-info/{{ search_res[0].class_id }}"><li>{{ search_res[0].class_name }}: ${{ search_res[0].cost }}/{{ search_res[0].per_time }}</li></a>
     {% endfor %}
 </ul>
 

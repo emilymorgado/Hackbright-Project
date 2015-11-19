@@ -266,7 +266,7 @@ def search_by_lang():
 
         #### CALLS GET_FULL_STATUS FUNCTION FROM HELPER FUNCTIONS ####
         num_enrolled = result.c_count
-        
+
         full_score = get_full_status(num_enrolled, size)
         # print "FULL OR NOT: ", result.class_id, full_score
 
@@ -275,35 +275,25 @@ def search_by_lang():
         print "TOTAL_SCORE: ", result.class_id, total_score
         # print "ORDERED SCORES", 
 
-        sorted_list.append((result.class_id, total_score))
+        sorted_list.append((result, total_score))
 
     # final_sort = sorted_list.sort
 
     def get_key(item):
         return item[1]
     final_sort = sorted(sorted_list, key=get_key)
-    print final_sort.reverse()
+    print final_sort
 
-    return str(final_sort)
+    # return str(final_sort)
 
-
-
-
-    #     if results.items():
-    #         for name, cost_time in results.items():
-    #             return "RESULTS!!!!!!!!! ", results
-                # render_results = '{}: {}/{}, {}'.format(name, cost_time[0], cost_time[1], cost_time[2])
+        # if results.items():
+    for search_res in final_sort:
+        # return "RESULTS!!!!!!!!! ", results
+        # render_results = '{}: {}/{}, {}'.format(name, cost_time[0], cost_time[1], cost_time[2])
 
 
-
-
-
-
-        #         return render_template('search-results.html', name=name, cost_time=cost_time, results=results, 
-        #                                                     parameter_results=parameter_results, res=res, leveltype=leveltype, 
-        #                                                     languagetype=languagetype, url_id=res.class_id)
-        # else:
-        #     return "Sorry, we don't have that class right now"
+        return render_template('search-results.html', search_results=search_results, leveltype=leveltype, final_sort=final_sort,  
+                                                    languagetype=languagetype, url_id=search_res[0].class_id)
 
 
         # NOTES FROM DOBS!!!!!
@@ -765,15 +755,15 @@ def get_rating_score(rate):
     """Assigns search results score based on avg rating for class"""
 
     if rate <= 1:
-        score = 0
+        score = 30
     elif rate <= 2:
-        score = 10
+        score = 25
     elif rate <= 3:
         score = 20
     elif rate <= 4:
-        score = 25
+        score = 10
     elif rate <= 5:
-        score = 30
+        score = 0
 
     return score
     print "SCORES: ", result.class_id, rate, score
@@ -781,17 +771,17 @@ def get_rating_score(rate):
 
 def get_time_to_start(time_to_start):
     if time_to_start.days < 15:
-        score = 30
-    elif time_to_start.days < 30:
-        score = 20
-    elif time_to_start.days < 60:
-        score = 15
-    elif time_to_start.days < 90:
-        score = 10
-    elif time_to_start.days < 180:
-        score = 5
-    elif time_to_start.days >= 180:
         score = 0
+    elif time_to_start.days < 30:
+        score = 5
+    elif time_to_start.days < 60:
+        score = 10
+    elif time_to_start.days < 90:
+        score = 15
+    elif time_to_start.days < 180:
+        score = 20
+    elif time_to_start.days >= 180:
+        score = 30
 
     return score
 
@@ -800,15 +790,15 @@ def get_price(base_p):
     """Assigns search results score based on base price for class"""
 
     if base_p < 20:
-        score = 20
+        score = 0
     elif base_p < 40:
-        score = 15
+        score = 5
     elif base_p < 60:
         score = 10
     elif base_p < 80:
-        score = 5
+        score = 15
     elif base_p > 80:
-        score = 0
+        score = 20
 
     return score
     print "PRICE SCORES: ", result.class_id, base_p, score
@@ -821,11 +811,11 @@ def get_time_since_created(now, created):
     print "TIME_CREATED: ", time_created.days
 
     if time_created.days < 30:
-        score = 10
+        score = 0
     elif time_created.days < 60:
         score = 5
     elif time_created.days >= 60:
-        score = 0
+        score = 10
 
     return score
 
@@ -834,13 +824,13 @@ def get_size(size):
     """Assigns search results score based on max_students for class"""
 
     if size < 20:
-        size_score = 10
+        size_score = 0
     elif size < 40:
         size_score = 5
     elif size > 40:
         size_score = 0
     elif size == None:
-        size_score = 0
+        size_score = 10
 
     return size_score
     print "SIZE SCORES: ", result.class_id, size, size_score
@@ -848,9 +838,9 @@ def get_size(size):
 
 def get_full_status(num_enrolled, size):
     if num_enrolled == size:
-        score = 0
-    else:
         score = 20
+    else:
+        score = 0
     return score
 
 
