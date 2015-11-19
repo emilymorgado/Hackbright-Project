@@ -11,7 +11,7 @@
 
 <ul id="classes-results">
     {% for name, cost_time in results.items() %}
-    <a href="/class-info/{{ cost_time[2] }}"><li>{{ name }}: ${{ cost_time[0] }}/{{ cost_time[1] }}</li></a>
+    <a href="/class-info/{{ cost_time.class_id }}"><li>{{ name }}: ${{ cost_time.price }}/{{ cost_time.per_time }}</li></a>
     {% endfor %}
 </ul>
 

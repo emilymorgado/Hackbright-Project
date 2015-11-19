@@ -218,45 +218,69 @@ def search_by_lang():
 
 
     # gives me a list of objects
-    parameter_results = db.session.query(Classroom).filter(Classroom.language==languagetype, Classroom.level==leveltype).all()
+    search_results = db.session.query(Classroom).filter(Classroom.language==languagetype, Classroom.level==leveltype).all()
+    print search_results
 
-    results = {}
+    # results = {}
 
-    # add matching classes to results dictionary
-    for res in parameter_results:
-        results[res.class_name] = [res.cost, res.per_time, res.class_id]
-
-    if results.items():
-        for name, cost_time in results.items():
-            # render_results = '{}: {}/{}, {}'.format(name, cost_time[0], cost_time[1], cost_time[2])
-
-
-            # MAKE THIS A FUNCTION!
-            score = 0
-
-            if parameter_results.rating < 1:
-                score = 0
-            elif parameter_results.rating < 2:
-                score = 10
-            elif parameter_results.rating < 3:
-                score = 20
-            elif parameter_results.rating < 4:
-                score = 25
-            elif parameter_results.rating == 5:
-                score = 30
-
-            print "SCORE: ", score
+    # # add matching classes to results dictionary
+    # for res in parameter_results:
+    #     results[res.class_name] = [res.class_name, res.rating, res.cost]
 
 
 
+    for result in search_results:
+        # print "RATING: ", result.class_id, result.rating
+
+
+        ##### CALLS GET_RATING_SCORE FUNCTION FROM HELPER FUNCTIONS ####
+        rate = result.rating
+
+        rate_score = get_rating_score(rate)
+        print "RATING SCORES: ", result.class_id, rate, rate_score
+
+
+        #### CALLS GET_PRICE FUNCTION FROM HELPER FUNCTIONS ####
+        base_p = result.base_price
+
+        price_score = get_price(base_p)
+        print "PRICE SCORES: ", result.class_id, base_p, price_score
+
+
+        #### CALLS GET_SIZE FUNCTION FROM HELPER FUNCTIONS ####
+        size = result.max_students
+
+        size_score = get_size(size)
+        print "SIZE SCORES: ", result.class_id, size, size_score
+
+        # MAKE THIS A FUNCTION!
+        num_enrolled = result.c_count
+
+        full_score = get_full_status(num_enrolled, size)
+        print "FULL OR NOT: ", result.class_id, full_score
 
 
 
-            return render_template('search-results.html', name=name, cost_time=cost_time, results=results, 
-                                                        parameter_results=parameter_results, res=res, leveltype=leveltype, 
-                                                        languagetype=languagetype, url_id=res.class_id)
-    else:
-        return "Sorry, we don't have that class right now"
+    return "DINOSAURS EAT TREES!!!!!!!!!"
+
+
+
+
+    #     if results.items():
+    #         for name, cost_time in results.items():
+    #             return "RESULTS!!!!!!!!! ", results
+                # render_results = '{}: {}/{}, {}'.format(name, cost_time[0], cost_time[1], cost_time[2])
+
+
+
+
+
+
+        #         return render_template('search-results.html', name=name, cost_time=cost_time, results=results, 
+        #                                                     parameter_results=parameter_results, res=res, leveltype=leveltype, 
+        #                                                     languagetype=languagetype, url_id=res.class_id)
+        # else:
+        #     return "Sorry, we don't have that class right now"
 
 
         # NOTES FROM DOBS!!!!!
@@ -707,6 +731,70 @@ def calculate_base_price(per_time, counter, duration, price):
 
     print "BASE_PRICE: ", base_price
     return base_price
+
+
+
+########## FOR SEARCH RESULTS ###################
+
+def get_rating_score(rate):
+    """Assigns search results score based on avg rating for class"""
+
+    if rate <= 1:
+        score = 0
+    elif rate <= 2:
+        score = 10
+    elif rate <= 3:
+        score = 20
+    elif rate <= 4:
+        score = 25
+    elif rate <= 5:
+        score = 30
+
+    return score
+    print "SCORES: ", result.class_id, rate, score
+
+
+
+def get_price(base_p):
+    """Assigns search results score based on base price for class"""
+
+    if base_p < 20:
+        score = 20
+    elif base_p < 40:
+        score = 15
+    elif base_p < 60:
+        score = 10
+    elif base_p < 80:
+        score = 5
+    elif base_p > 80:
+        score = 0
+
+    return score
+    print "PRICE SCORES: ", result.class_id, base_p, score
+
+
+def get_size(size):
+    """Assigns search results score based on max_students for class"""
+
+    if size < 20:
+        size_score = 10
+    elif size < 40:
+        size_score = 5
+    elif size > 40:
+        size_score = 0
+    elif size == None:
+        size_score = 0
+
+    return size_score
+    print "SIZE SCORES: ", result.class_id, size, size_score
+
+
+def get_full_status(num_enrolled, size):
+    if num_enrolled == size:
+        score = 0
+    else:
+        score = 20
+    return score
 
 
 
