@@ -221,13 +221,7 @@ def search_by_lang():
     search_results = db.session.query(Classroom).filter(Classroom.language==languagetype, Classroom.level==leveltype).all()
     print search_results
 
-    # results = {}
-
-    # # add matching classes to results dictionary
-    # for res in parameter_results:
-    #     results[res.class_name] = [res.class_name, res.rating, res.cost]
-
-
+    sorted_list = []
 
     for result in search_results:
         # print "RATING: ", result.class_id, result.rating
@@ -237,31 +231,52 @@ def search_by_lang():
         rate = result.rating
 
         rate_score = get_rating_score(rate)
-        print "RATING SCORES: ", result.class_id, rate, rate_score
+        # print "RATING SCORES: ", result.class_id, rate, rate_score
 
 
         #### CALLS GET_PRICE FUNCTION FROM HELPER FUNCTIONS ####
         base_p = result.base_price
 
         price_score = get_price(base_p)
-        print "PRICE SCORES: ", result.class_id, base_p, price_score
+        # print "PRICE SCORES: ", result.class_id, base_p, price_score
 
 
         #### CALLS GET_SIZE FUNCTION FROM HELPER FUNCTIONS ####
         size = result.max_students
 
         size_score = get_size(size)
-        print "SIZE SCORES: ", result.class_id, size, size_score
+        # print "SIZE SCORES: ", result.class_id, size, size_score
 
-        # MAKE THIS A FUNCTION!
+
+        #### CALLS GET_FULL_STATUS FUNCTION FROM HELPER FUNCTIONS ####
         num_enrolled = result.c_count
 
         full_score = get_full_status(num_enrolled, size)
-        print "FULL OR NOT: ", result.class_id, full_score
+        # print "FULL OR NOT: ", result.class_id, full_score
+
+
+        #### CALLS GET_FULL_STATUS FUNCTION FROM HELPER FUNCTIONS ####
+        now = datetime.datetime.now()
+        created = result.create_date
+
+        starting_soon = find_time_until_start(now, created)
 
 
 
-    return "DINOSAURS EAT TREES!!!!!!!!!"
+        total_score = rate_score + price_score + size_score + full_score
+        print "TOTAL_SCORE: ", result.class_id, total_score
+        # print "ORDERED SCORES", 
+
+        sorted_list.append((result.class_id, total_score))
+
+    # final_sort = sorted_list.sort
+
+    def get_key(item):
+        return item[1]
+    final_sort = sorted(sorted_list, key=get_key)
+    print final_sort.reverse()
+
+    return str(final_sort)
 
 
 
@@ -537,7 +552,9 @@ def class_submission():
         end_date = None
 
     time_start = datetime.datetime.strptime(start_time, '%H:%M')
+    print time_start
     time_end = datetime.datetime.strptime(end_time, '%H:%M')
+    print time_end
 
     now = datetime.datetime.now()
     # print now
@@ -596,24 +613,24 @@ def class_submission():
 def test_map():
     """This is a testing route"""
 
-    returned_classes = db.session.query(Classroom).filter(Classroom.class_id=='7').first()
-    # print "returned class info:"
-    print returned_classes.start_date
-    # print returned_classes.class_name
+    # returned_classes = db.session.query(Classroom).filter(Classroom.class_id=='7').first()
+    # # print "returned class info:"
+    # print returned_classes.start_date
+    # # print returned_classes.class_name
 
-    # all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id=="7").all()
-    # for user in all_class:
-    # print all_class.user_id
+    # # all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id=="7").all()
+    # # for user in all_class:
+    # # print all_class.user_id
 
-    # Finds duration of each class, calls it
-    startdate = returned_classes.start_date
-    print type(startdate)
-    now = datetime.datetime.now()
-    print type(now)
-    days_until = startdate - now
-    print days_until
-    print "HUH? ", days_until.days
-    # a = datetime.datetime.strptime(startdate, '%Y-%m-%d') 
+    # # Finds duration of each class, calls it
+    # startdate = returned_classes.start_date
+    # print type(startdate)
+    # now = datetime.datetime.now()
+    # print type(now)
+    # days_until = startdate - now
+    # print days_until
+    # print "HUH? ", days_until.days
+    # # a = datetime.datetime.strptime(startdate, '%Y-%m-%d') 
     # print "A: ", a, type(a)
     # b = datetime.datetime.strptime(end_date, '%Y-%m-%d')
     # print "B: ", b, type(b)
@@ -639,7 +656,7 @@ def test_map():
     # (0, 8)
 
 
-    return "womp womp"
+    # return "womp womp"
 
 
     # FOR DAYS???
@@ -752,6 +769,28 @@ def get_rating_score(rate):
 
     return score
     print "SCORES: ", result.class_id, rate, score
+
+
+
+def find_time_until_start(now, created):
+    """Assigns search results score based on how soon the start date is based on now"""
+    time_to_start = created - now
+    print "TIME TO START: ", time_to_start.days
+
+    if time_to_start.days < 15:
+        score = 30
+    elif time_to_start.days < 30:
+        score = 20
+    elif time_to_start.days < 60:
+        score = 15
+    elif time_to_start.days < 90:
+        score = 10
+    elif time_to_start.days < 180:
+        score = 5
+    elif time_to_start.days >= 180:
+        score = 0
+
+    return score
 
 
 
