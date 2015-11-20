@@ -5,13 +5,15 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import connect_to_db, db, Classroom, User, ClassUser
+from model import connect_to_db, db, Classroom, User, ClassUser, Review
 
 import datetime
 
 import json
 
 import re
+
+from search_results import *
 
 # import stripe
 # stripe.api_key = STRIPE_PERSONAL_KEY
@@ -227,14 +229,14 @@ def search_by_lang():
         # print "RATING: ", result.class_id, result.rating
 
 
-        ##### CALLS GET_RATING_SCORE FUNCTION FROM HELPER FUNCTIONS ####
+        ##### CALLS GET_RATING_SCORE FUNCTION FROM SEARCH_RESULTS ####
         rate = result.rating
 
         rate_score = get_rating_score(rate)
         # print "RATING SCORES: ", result.class_id, rate, rate_score
 
 
-        ##### CALLS GET_TIME_TO_START FUNCTION FROM HELPER FUNCTIONS ####
+        ##### CALLS GET_TIME_TO_START FUNCTION FROM SEARCH_RESULTS ####
         now = datetime.datetime.now()
         starts = result.start_date
         time_to_start = starts - now 
@@ -243,28 +245,28 @@ def search_by_lang():
         start_soon = get_time_to_start(time_to_start)
 
 
-        #### CALLS GET_TIME_SINCE_CREATED FUNCTION FROM HELPER FUNCTIONS ####
+        #### CALLS GET_TIME_SINCE_CREATED FUNCTION FROM SEARCH_RESULTS ####
         now = datetime.datetime.now()
         created = result.create_date
 
         recently_created = get_time_since_created(now, created)
 
 
-        #### CALLS GET_PRICE FUNCTION FROM HELPER FUNCTIONS ####
+        #### CALLS GET_PRICE FUNCTION FROM SEARCH_RESULTS ####
         base_p = result.base_price
 
         price_score = get_price(base_p)
         # print "PRICE SCORES: ", result.class_id, base_p, price_score
 
 
-        #### CALLS GET_SIZE FUNCTION FROM HELPER FUNCTIONS ####
+        #### CALLS GET_SIZE FUNCTION FROM SEARCH_RESULTS ####
         size = result.max_students
 
         size_score = get_size(size)
         # print "SIZE SCORES: ", result.class_id, size, size_score
 
 
-        #### CALLS GET_FULL_STATUS FUNCTION FROM HELPER FUNCTIONS ####
+        #### CALLS GET_FULL_STATUS FUNCTION FROM SEARCH_RESULTS ####
         num_enrolled = result.c_count
 
         full_score = get_full_status(num_enrolled, size)
@@ -286,22 +288,11 @@ def search_by_lang():
 
     # return str(final_sort)
 
-        # if results.items():
     for search_res in final_sort:
-        # return "RESULTS!!!!!!!!! ", results
-        # render_results = '{}: {}/{}, {}'.format(name, cost_time[0], cost_time[1], cost_time[2])
 
 
         return render_template('search-results.html', search_results=search_results, leveltype=leveltype, final_sort=final_sort,  
                                                     languagetype=languagetype, url_id=search_res[0].class_id)
-
-
-        # NOTES FROM DOBS!!!!!
-        #     form_inputs = request.form.get("form")
-        # form inputs will be gargbae
-        # have to do regex
-        # return "WE are good"
-        # return jsonify({"emotion" : "sad"})
 
 
 
@@ -485,8 +476,15 @@ def enrolled_in(url_id):
 @app.route('/enrolled.json', methods=["POST"])
 def process_rating():
 
+    # add to Review table:
+    user_info = User.query.filter_by(user_id=session["user_id"]).first()
+    review = str(request.form.get("review"))
+
+
+    # add to teacher's overall rating
     ratings = float(request.form.get("rating"))
     class_rate = float(request.form.get("classid"))
+
     print "class_rate: ", type(class_rate), class_rate
     print "ratings: ", type(ratings), ratings
 
@@ -502,6 +500,19 @@ def process_rating():
     print "class_to_rate, rating_count", class_to_rate.rating_count
     db.session.query(Classroom).filter(Classroom.class_id==class_rate).update({Classroom.rating: rating_update})
     db.session.commit()
+
+
+    ####################
+
+    add_review = Review(review=review, class_id=class_rate) 
+
+    print "ADDED: ", add_review
+
+    db.session.add(add_review)
+    db.session.commit()
+
+
+    ####################
 
     print "class_to_rate, rating: ", class_to_rate.rating
     print "OMG, it worked!!!"
@@ -610,6 +621,8 @@ def class_submission():
 @app.route('/test')
 def test_map():
     """This is a testing route"""
+
+    return render_template("firebase.html")
 
     # returned_classes = db.session.query(Classroom).filter(Classroom.class_id=='7').first()
     # # print "returned class info:"
@@ -747,101 +760,6 @@ def calculate_base_price(per_time, counter, duration, price):
     print "BASE_PRICE: ", base_price
     return base_price
 
-
-
-########## FOR SEARCH RESULTS ###################
-
-def get_rating_score(rate):
-    """Assigns search results score based on avg rating for class"""
-
-    if rate <= 1:
-        score = 30
-    elif rate <= 2:
-        score = 25
-    elif rate <= 3:
-        score = 20
-    elif rate <= 4:
-        score = 10
-    elif rate <= 5:
-        score = 0
-
-    return score
-    print "SCORES: ", result.class_id, rate, score
-
-
-def get_time_to_start(time_to_start):
-    if time_to_start.days < 15:
-        score = 0
-    elif time_to_start.days < 30:
-        score = 5
-    elif time_to_start.days < 60:
-        score = 10
-    elif time_to_start.days < 90:
-        score = 15
-    elif time_to_start.days < 180:
-        score = 20
-    elif time_to_start.days >= 180:
-        score = 30
-
-    return score
-
-
-def get_price(base_p):
-    """Assigns search results score based on base price for class"""
-
-    if base_p < 20:
-        score = 0
-    elif base_p < 40:
-        score = 5
-    elif base_p < 60:
-        score = 10
-    elif base_p < 80:
-        score = 15
-    elif base_p > 80:
-        score = 20
-
-    return score
-    print "PRICE SCORES: ", result.class_id, base_p, score
-
-
-def get_time_since_created(now, created):
-    """Assigns search results score based on how soon the start date is based on now"""
-    
-    time_created = created - now
-    print "TIME_CREATED: ", time_created.days
-
-    if time_created.days < 30:
-        score = 0
-    elif time_created.days < 60:
-        score = 5
-    elif time_created.days >= 60:
-        score = 10
-
-    return score
-
-
-def get_size(size):
-    """Assigns search results score based on max_students for class"""
-
-    if size < 20:
-        size_score = 0
-    elif size < 40:
-        size_score = 5
-    elif size > 40:
-        size_score = 0
-    elif size == None:
-        size_score = 10
-
-    return size_score
-    print "SIZE SCORES: ", result.class_id, size, size_score
-
-
-def get_full_status(num_enrolled, size):
-    if num_enrolled == size:
-        score = 20
-    else:
-        score = 0
-    return score
 
 
 

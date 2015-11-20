@@ -32,6 +32,7 @@
         <option name="rating" id="rating-4" value="4"><a href="#">4: Very Good</a></option>
         <option name="rating" id="rating-5" value="5"><a href="#">5: Excellent</option>
       </select>
+      Add a review: <input type="text" name="review" id="review">
       <input type="submit" value="Rate Your Class">
     </form>
   </div>  
@@ -188,7 +189,8 @@
 
     var formInputs = {
       "rating": $("#rateme").val(),
-      "classid": $("#id-class").val()
+      "classid": $("#id-class").val(),
+      "review": $("#review").val(),
   };
 
       $.post('/enrolled.json', formInputs, showResults);

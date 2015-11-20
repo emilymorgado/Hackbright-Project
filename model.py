@@ -64,6 +64,24 @@ class User(db.Model):
         return "<User user_id={} email={}>".format(self.user_id, self.email)
 
 
+class Review(db.Model):
+    """Stores reviews written by students"""
+
+    __tablename__ = "reviews"
+
+    review_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
+    class_id = db.Column(db.Integer, db.ForeignKey('classes.class_id'), nullable=True)
+    review = db.Column(db.String, nullable=True)
+
+    user_connect = db.relationship('User', backref=db.backref('reviews'))
+    class_connect = db.relationship('Classroom', backref=db.backref('reviews'))
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<Relationship review={} class_id={}>".format(self.review, self.class_id)
+
 
 class ClassUser(db.Model):
     """Relationship table for User to the Class"""
