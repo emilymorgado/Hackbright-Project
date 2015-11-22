@@ -77,15 +77,17 @@
       </ul>
   </div>
 
-
-  <div id="class-reviews">
-      <h5>Reviews:</h5>
-        <ul>
-          {% for review in reviews %}
-          <li>{{ review.review }}</li>
-          {% endfor %}
-        </ul>
+  <div id="reviews">  
+    {% if returned_classes.hide_reviews == 0 %}
+    <h5>Reviews:</h5>
+    <ul>
+      {% for review in reviews %}
+      <li>{{ review.review }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
   </div>
+
 
 
   <div>

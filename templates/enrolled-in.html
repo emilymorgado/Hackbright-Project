@@ -101,12 +101,16 @@
   </div>
 
   <div id="class-reviews">
-      <h5>Reviews:</h5>
+    {% if user_info.is_teacher == 0 %}
+        {% if returned_classes.hide_reviews == 0 %}
+        <h5>Reviews:</h5>
         <ul>
           {% for review in reviews %}
           <li>{{ review.review }}</li>
           {% endfor %}
         </ul>
+        {% endif %}
+    {% endif %}    
   </div>
 
   {% if user_info.is_teacher == 1 %}
