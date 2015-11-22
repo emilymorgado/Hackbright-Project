@@ -100,6 +100,87 @@
 
   </div>
 
+
+
+
+
+
+
+<div id="class-reviews">
+    <h5>Reviews:</h5>
+      <ul>
+        {% for review in reviews %}
+        <li>{{ review.review }}</li>
+        {% endfor %}
+      </ul>
+</div>
+
+    {% if user_info.is_teacher == 1 %}
+    <div id="viewable">
+    <button type="hide-reviews" value="False" class="btn btn-primary" name="viewable" id="viewable">Hide</button>
+    {% endif %}
+
+<script>
+
+  // $("#hide-reviews").click(function () {
+  //   $("#class-reviews").toggle();
+  // });
+
+  // if (user_info.is_teacher == 0 & "#hide-reviews"==) {
+
+  // }
+
+  // [PubSub] Received message:  p11068267/fields {"fields":{"isViewable":false,"isPublished":false,"reasonNotViewable":1},"event":"changed"}
+
+  // [PubSub] Received message:  p11068267/fields {"fields":{"isViewable":true,"isPublished":true,"reasonNotViewable":0},"event":"changed"}
+
+
+</script>    
+
+
+// <script>
+//     // AJAX call to rate teacher/class
+//     function showResults(data){
+//       $("#green-box").html(data).removeAttr("hidden");
+//       // alert(data);
+//     }
+
+//     function submitRating(evt) {
+//       evt.preventDefault();
+
+//       var formInputs = {
+//         "rating": $("#rateme").val(),
+//         "classid": $("#id-class").val(),
+//         "review": $("#review").val(),
+//     };
+
+//         $.post('/enrolled.json', formInputs, showResults);
+//         console.log(".post ran");
+//     }
+
+//       $("#class-rate").on("submit", submitRating);
+//       console.log("step one");
+
+//     </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <div>
     <form method="POST" action="/dropped" id="drop">
       <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>

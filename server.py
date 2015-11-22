@@ -466,10 +466,17 @@ def enrolled_in(url_id):
     rate_format = returned_classes.rating
     rate_format = "%.1f" % rate_format
 
+    reviews = db.session.query(Review).filter(ClassUser.class_id==url_id).all()
+    for review in reviews:
+        if len(review.review) > 10:
+            print review
+    # print reviews
+
 
     return render_template("enrolled-in.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class, 
                                                 user_info=user_info, days_split=days_split, starttime=starttime, 
-                                                endtime=endtime, startdate=startdate, enddate=enddate, rate_format=rate_format)
+                                                endtime=endtime, startdate=startdate, enddate=enddate, rate_format=rate_format,
+                                                reviews=reviews)
 
 
 
@@ -478,7 +485,7 @@ def process_rating():
 
     # add to Review table:
     user_info = User.query.filter_by(user_id=session["user_id"]).first()
-    review = str(request.form.get("review"))
+    add_review = str(request.form.get("review"))
 
 
     # add to teacher's overall rating
@@ -495,27 +502,30 @@ def process_rating():
     rating_update = (class_to_rate.rating*class_to_rate.rating_count+ratings)/(class_to_rate.rating_count+1)
     up_count = Classroom.rating_count + 1
 
-    db.session.query(Classroom).filter(Classroom.class_id==class_rate).update({Classroom.rating_count: Classroom.rating_count+1})
-    db.session.commit()
-    print "class_to_rate, rating_count", class_to_rate.rating_count
-    db.session.query(Classroom).filter(Classroom.class_id==class_rate).update({Classroom.rating: rating_update})
-    db.session.commit()
-
 
     ####################
+    if len(add_review) > 10:
+        add_review = Review(review=add_review, class_id=class_rate)
+        db.session.add(add_review)
+        db.session.commit()
+        db.session.query(Classroom).filter(Classroom.class_id==class_rate).update({Classroom.rating_count: Classroom.rating_count+1})
+        db.session.commit()
+        print "class_to_rate, rating_count", class_to_rate.rating_count
+        db.session.query(Classroom).filter(Classroom.class_id==class_rate).update({Classroom.rating: rating_update})
+        db.session.commit()
 
-    add_review = Review(review=review, class_id=class_rate) 
+    else:
+        db.session.query(Classroom).filter(Classroom.class_id==class_rate).update({Classroom.rating_count: Classroom.rating_count+1})
+        db.session.commit()
+        print "class_to_rate, rating_count", class_to_rate.rating_count
+        db.session.query(Classroom).filter(Classroom.class_id==class_rate).update({Classroom.rating: rating_update})
+        db.session.commit()
 
-    print "ADDED: ", add_review
-
-    db.session.add(add_review)
-    db.session.commit()
-
+    print "ADDED: ", add_review, type(add_review)
 
     ####################
 
     print "class_to_rate, rating: ", class_to_rate.rating
-    print "OMG, it worked!!!"
     return "Thanks for rating this class!"
 
 
