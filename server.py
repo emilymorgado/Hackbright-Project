@@ -333,6 +333,11 @@ def class_info(url_id):
     rate_format = returned_classes.rating
     rate_format = "%.1f" % rate_format
 
+    reviews = db.session.query(Review).filter(Review.class_id==url_id).all()
+    for review in reviews:
+        if len(review.review) > 10:
+            print review
+
 
     if session.get("user_id"):
 
@@ -344,19 +349,22 @@ def class_info(url_id):
             print returned_classes.class_id
 
             return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class, 
-                                                    logged_in=logged_in, starttime=starttime, endtime=endtime, rate_format=rate_format, 
-                                                    startdate=startdate, enddate=enddate, days_split=days_split)
+                                                    logged_in=logged_in, starttime=starttime, endtime=endtime, 
+                                                    startdate=startdate, enddate=enddate, days_split=days_split, 
+                                                    reviews=reviews, rate_format=rate_format)
 
         else:
             print "if teacher, class: ", returned_classes.class_id
-            return render_template("class-info-teacher.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class, 
-                                                            logged_in=logged_in, starttime=starttime, endtime=endtime, startdate=startdate, 
-                                                            enddate=enddate, days_split=days_split, rate_format=rate_format)
+            return render_template("class-info-teacher.html", returned_classes=returned_classes, url_id=url_id, 
+                                                            logged_in=logged_in, starttime=starttime, endtime=endtime,  
+                                                            enddate=enddate, days_split=days_split, rate_format=rate_format, 
+                                                            reviews=reviews, startdate=startdate, all_class=all_class)
 
 
     return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class, 
                                                 logged_in=None, starttime=starttime, endtime=endtime, startdate=startdate, 
-                                                enddate=enddate, days_split=days_split, rate_format=rate_format)
+                                                enddate=enddate, days_split=days_split, rate_format=rate_format, 
+                                                reviews=reviews)
 
 
 
@@ -430,6 +438,42 @@ def drop_class():
     return redirect(url)
 
 
+@app.route('/hide-reviews', methods=["POST"])
+def hide_and_show_reviews():
+    """Hides written reviews from other users"""
+
+    this_class = request.form.get("class_rev")
+
+    the_class = Classroom.query.filter(Classroom.class_id==this_class).first()
+    print "CLASS INFO: ", class_info
+
+    if the_class.hide_reviews == 0:
+        hide_it = int(request.form.get("hide"))
+
+        db.session.query(Classroom).filter(Classroom.class_id==this_class).update({Classroom.hide_reviews: 1})
+        db.session.commit()
+
+        # to pass username in the url
+        name = User.query.filter_by(user_id=session["user_id"]).first()
+        user_username = name.username
+        url = '/profile/' + str(user_username)
+
+        return redirect(url)
+
+    elif the_class.hide_reviews == 1:
+        show_it = int(request.form.get("show"))
+
+        db.session.query(Classroom).filter(Classroom.class_id==this_class).update({Classroom.hide_reviews: 0})
+        db.session.commit()
+
+        # to pass username in the url
+        name = User.query.filter_by(user_id=session["user_id"]).first()
+        user_username = name.username
+        url = '/profile/' + str(user_username)
+
+        return redirect(url)
+
+
 
 @app.route('/enrolled-in/<url_id>')
 def enrolled_in(url_id):
@@ -466,7 +510,7 @@ def enrolled_in(url_id):
     rate_format = returned_classes.rating
     rate_format = "%.1f" % rate_format
 
-    reviews = db.session.query(Review).filter(ClassUser.class_id==url_id).all()
+    reviews = db.session.query(Review).filter(Review.class_id==url_id).all()
     for review in reviews:
         if len(review.review) > 10:
             print review
@@ -632,7 +676,7 @@ def class_submission():
 def test_map():
     """This is a testing route"""
 
-    return render_template("firebase.html")
+    # return render_template("firebase.html")
 
     # returned_classes = db.session.query(Classroom).filter(Classroom.class_id=='7').first()
     # # print "returned class info:"

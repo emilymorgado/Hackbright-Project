@@ -33,6 +33,7 @@ class Classroom(db.Model):
     create_date = db.Column(db.DateTime)
     # c_count is the number of students in the class
     c_count = db.Column(db.Integer)
+    hide_reviews = db.Column(db.Boolean, default=0)
 
 
 

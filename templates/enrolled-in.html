@@ -100,29 +100,45 @@
 
   </div>
 
+  <div id="class-reviews">
+      <h5>Reviews:</h5>
+        <ul>
+          {% for review in reviews %}
+          <li>{{ review.review }}</li>
+          {% endfor %}
+        </ul>
+  </div>
+
+  {% if user_info.is_teacher == 1 %}
+      {% if returned_classes.hide_reviews == 0 %}
+      <form action="/hide-reviews", method='post'>
+      <label for="hide">Check box to make reviews private</label>
+      <button class="btn btn-default" type="submit">Hide</button>
+      <input type="hidden" name="class_rev" value={{ returned_classes.class_id }}>
+      <input type="hidden" id="hide" name="hide" value="1">
+      </form>
+      {% endif %}
+
+
+      {% if returned_classes.hide_reviews == 1 %}
+      <form action="/hide-reviews", method='post'>
+      <label for="show">Check box to make reviews private</label>
+      <button class="btn btn-default" type="submit">Show</button>
+      <input type="hidden" name="class_rev" value={{ returned_classes.class_id }}>
+      <input type="hidden" id="show" name="show" value="0">
+      </form>
+      {% endif %}
+  {% endif %}
 
 
 
 
 
-
-<div id="class-reviews">
-    <h5>Reviews:</h5>
-      <ul>
-        {% for review in reviews %}
-        <li>{{ review.review }}</li>
-        {% endfor %}
-      </ul>
-</div>
-
-    {% if user_info.is_teacher == 1 %}
-    <div id="viewable">
-    <button type="hide-reviews" value="False" class="btn btn-primary" name="viewable" id="viewable">Hide</button>
-    {% endif %}
 
 <script>
+$('#input-1').prop('checked', false);
 
-  // $("#hide-reviews").click(function () {
+  // $("#viewable").click(function () {
   //   $("#class-reviews").toggle();
   // });
 
@@ -138,7 +154,7 @@
 </script>    
 
 
-// <script>
+ <script>
 //     // AJAX call to rate teacher/class
 //     function showResults(data){
 //       $("#green-box").html(data).removeAttr("hidden");
@@ -162,15 +178,6 @@
 //       console.log("step one");
 
 //     </script>
-
-
-
-
-
-
-
-
-
 
 
 

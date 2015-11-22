@@ -78,6 +78,16 @@
   </div>
 
 
+  <div id="class-reviews">
+      <h5>Reviews:</h5>
+        <ul>
+          {% for review in reviews %}
+          <li>{{ review.review }}</li>
+          {% endfor %}
+        </ul>
+  </div>
+
+
   <div>
     {% if logged_in %}
     {% if returned_classes.c_count - returned_classes.max_students == 0  %}
