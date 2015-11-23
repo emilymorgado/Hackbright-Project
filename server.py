@@ -70,17 +70,13 @@ def check_login():
         print user_account
         session["user_id"] = user_account.user_id
     #     print session["user_id"]
-        return render_template("login-success.html", user_account=user_account, user_username=user_username, id_class=None)
-    # else:
-    #     flash("Wrong email or password, try again")
-    #     return redirect ("/login")
 
-    # elif email == user_account:
-    #         flash("That email is invalid.")
-    #         return redirect('/login')
-    # elif password != user_account:
-    #     flash("That password is invalid.")
-    #     return redirect('/login')
+        name = User.query.filter_by(user_id=session["user_id"]).first()
+        user_username = name.username
+        url = '/profile/' + str(user_username)
+
+        return redirect(url)
+
 
 @app.route('/login-success-visitor', methods=["POST"])
 def check_visitor_login():

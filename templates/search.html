@@ -15,24 +15,7 @@
 
 <h3>Search for a class!</h3>
 
-
-<!-- Search Box -->
-<div>
-<form class="navbar-form navbar-left" role="search" id="form-submission">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
-      </div>
-    <button type="submit" class="btn btn-default">Search</button>
-</form>
-</div>
-<br><br>
-
-
-
 <!-- Parameters -->
-<section>
-<h3>Or browse open classes:<h3>
-</section>
 
 <div>
     <form id="searchparams" method="GET" action="/search-results" data-target=".bs-example-modal-lg" >
@@ -70,7 +53,7 @@
 
   {% for n in new %}
   <ul>
-    <a href="/class-info/{{ n.class_id }}"><li>{{ n.level }} {{ n.language }}: {{ n.class_name }} ({{ n.cost }})</li></a>
+    <a href="/class-info/{{ n.class_id }}"><li>{{ n.level }} {{ n.language }}: {{ n.class_name }} (${{ n.cost }}/{{ n.per_time }})</li></a>
   </ul>
   {% endfor %}
 

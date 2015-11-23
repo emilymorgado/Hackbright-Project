@@ -1,3 +1,22 @@
+h1{
+  font-family: 'Courgette', cursive;
+  font-size: 44px
+}
+
+h3{
+  font-family: 'Courgette', cursive;
+  font-size: 30px
+}
+
+h5{
+  font-family: 'Courgette', cursive;
+  font-size: 30px
+}
+
+body {
+  background-image: url(/static/linedpaper_@2x.png);
+}
+
 #map { 
   height: 50%; 
   width: 50%;
