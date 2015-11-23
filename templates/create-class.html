@@ -163,8 +163,7 @@
 
         function followup(data){
           $("#response").html(data).removeAttr("hidden");
-          // $("#create-class").unbind("submit");
-          // $("#create-class").submit();
+
         }
         function sendAjax(evt){
         evt.preventDefault();
@@ -191,83 +190,8 @@
             }
 
         $("#create-class").on("submit", sendAjax);
+        
       </script>
-
-
-<script>
-   //     $(function() {
-   //      $( "#datepicker" ).datepicker();
-   //    }); 
-
-   //     $("input:checkbox[name=days]:checked").each(function(){
-   //         yourArray.push($(this).val());
-   //     });
-
-
-   //      function showValues() {
-   //        var str = $( "form" ).serialize();
-   //        $( "#results" ).text( str );
-   //      }
-   //      $( "input[type='checkbox'], input[type='radio']" ).on( "click", showValues );
-   //      $( "select" ).on( "change", showValues );
-   //      showValues();
-
-   //     Form Submission
-   //    Nothing will run until the DOM is ready
-
-   //    function woohoo(data) {
-   //             console.log(data.berry)
-   //             $(#modalID).modal()
-   //             return "Woohoo!"
-
-   //     };
-     
-
-   // //make inputs and object with only checkboxes serialized and pass that
-   //     var inputs = {"days": $('#create-class').serialize(),
-   //                   "end-date": $("enddate").val()};
-
-   // // $('#b-form input:checkbox:checked').serialize()
-
-   //     // When the button is clicked, the form is serialized and posted
-
-   //     // var inputs = $("input:checkbox[name=days]:checked").serialize();
-
-   //     // annonymous function, can't be called outside
-
-   //     $(document).ready(function(evt) {
-   //       $('#createit').click(function(evt){ 
-   //         evt.preventDefault();  
-   //         $.post("/created.json", inputs, woohoo);
-   //       });
-   //    });
-</script> 
-
-
-       <!-- <script>
-    // Form Submission
-   // Nothing will run until the DOM is ready
-   // $(document).ready(function() {
-
-
-    // When the button is clicked, the form is serialized and posted
-    // $('#log').click(function(event)){   
-    //   $.post("/login-success", $("#login"))
-    //    });
-
-    //   });
-   </script> -->
-
 
  
   {% endblock %}
-
-  function update(data){
-  console.log(data.sad)
-
-}
-var inputs ={ "form": $("input:[checkbox]").seralize()}
-.post("/created.json", inputs, update)
-
-AJAX needs: url (same in server), what are you passing (each item in form - should serialize)
-,

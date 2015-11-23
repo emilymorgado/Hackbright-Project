@@ -385,7 +385,8 @@ def join_class():
 
 
     # gets class_id from viewed class
-    id_class = request.form.get("id-class")
+    id_class = request.form.get("class-join")
+    print "ID_CLASS: ", id_class
 
     # checks if user is logged in
     user_account = User.query.filter_by(user_id=session["user_id"]).first()
@@ -416,7 +417,7 @@ def join_class():
             db.session.commit()
 
 
-            return render_template("join-class.html", class_info=class_info, user_username=user_username)
+            return "You've been added to this class!"
         else:
             return "You're already in that class!"
 
@@ -687,139 +688,6 @@ def class_submission():
     return "You have successfully created this class!"
 
 
-
-@app.route('/test')
-def make_request():
-    """This is a testing route"""
-
-    # import requests
-    # from urllib2 import urlopen
-
-    # get_sentiment = urlopen("http://www.sentiment140.com/api/bulkClassifyJson?appid=bob@apple.com")
-    # response = get_sentiment.read()
-
-
-    # # Uses a different library to do the same thing as urlopen
-    # import requests
-    # # Make a GET request here and assign the result to kittens:
-    # kittens = requests.get("http://placekitten.com")
-    # # This gets the text our of the page using 'text' attribute of the object kittens
-    # # this then uses subscripting to display a portion of the text string
-    # print kittens.text[559:1000]
-
-
-
-
-
-    # ###### requests ######
-    # # request line tells server request type being sent and resource it's looking for
-    # # header sends server more info (which client is requesting etc)
-    # # body can be empty (GET) or not (POST PUT) can pass as data
-
-    # ############ Request line #############
-    # # POST /learn-http HTTP/1.1
-
-    # ############## Header ################
-    # # Host: www.codecademy.com
-    # # Content-Type: text/html; charset=UTF-8
-
-    # ############### Body #################
-    # # Name=Eric&Age=26
-
-
-    # # You aren't just GETting data with a POST - 
-    # # you can pass your own data into the request as well, 
-
-    # requests.post("http://placekitten.com/", data="myDataToPost")
-
-
-    # EXAMPLE:
-    # import requests
-
-    # body = {'Name': 'Eric', 'Age': '26'}
-
-    # # Make the POST request here, passing body as the data:
-    # response = requests.post("http://codecademy.com/learn-http/", data=body)
-
-    ##### ENDPOINTS ########
-    # Endpoints are API-defined locations where particular data are stored.
-
-
-    # if session:
-    #     user_email = db.session.query(User).filter(User.user_id == session["user_id"]).first()
-    #     user_username = user_email.username
-
-    # return ("base.html", user_username=user_username)
-
-    # return render_template("firebase.html")
-
-    # returned_classes = db.session.query(Classroom).filter(Classroom.class_id=='7').first()
-    # # print "returned class info:"
-    # print returned_classes.start_date
-    # # print returned_classes.class_name
-
-    # # all_class = db.session.query(User).join(ClassUser).filter(ClassUser.class_id=="7").all()
-    # # for user in all_class:
-    # # print all_class.user_id
-
-    # # Finds duration of each class, calls it
-    # startdate = returned_classes.start_date
-    # print type(startdate)
-    # now = datetime.datetime.now()
-    # print type(now)
-    # days_until = startdate - now
-    # print days_until
-    # print "HUH? ", days_until.days
-    # # a = datetime.datetime.strptime(startdate, '%Y-%m-%d') 
-    # print "A: ", a, type(a)
-    # b = datetime.datetime.strptime(end_date, '%Y-%m-%d')
-    # print "B: ", b, type(b)
-
-    # difference = b - a
-
-    # hours = difference.seconds//3600
-    # minutes = difference.seconds//60 % 60
-    # duration = ((hours*60.0) + minutes)/60.0
-    # print "DURATION: ", duration
-
-    # print "START TIME: ", test.start_time
-    # print type(test.start_time)
-    # print "END TIME: ", test.end_time
-    # print type(test.end_time)
-
-
-    # a = datetime.datetime.now()
-    # >>> b = datetime.datetime.now()
-    # >>> c = b - a
-    # datetime.timedelta(0, 8, 562000)
-    # >>> divmod(c.days * 86400 + c.seconds, 60)
-    # (0, 8)
-
-
-    # return "womp womp"
-
-
-    # FOR DAYS???
-
-    #     test = Classroom.query.filter_by(class_id=2).first()
-    # days = str(test)
-    # days = re.sub('&',', ', days)
-    # days_class = re.sub('days=', '', days)
-    # print "DAYS_CLASS: ", days_class
-
-    # counter = 0
-    # for day in days_class.split(' '):
-    #     counter = counter + 1
-    #     print "COUNTER: ", counter
-
-    #     return "Hello"
-
-    # User.query.filter_by(user_id=session["user_id"]).first()
-
-    # return render_template('test.html', all_class=all_class)
-    # return render_template('class-info-teacher.html')
-
-
 @app.route('/ajax-love.json', methods=["POST"])
 def ajax_practice():
     """I'm going to learn this!"""
@@ -827,9 +695,8 @@ def ajax_practice():
     ratings = request.form.get("rating")
 
 
-
     print "OMG, it worked!!!"
-    return "Thanks for rating this class?"
+    return "Thanks for rating this class!"
 
 
 @app.route('/ajax-ajax')

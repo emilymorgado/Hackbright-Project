@@ -8,8 +8,6 @@
 
 <h3>Hello {{ user_email.fname }}</h3>
 
-<h5>Here's where your image might go!</h5>
-
 <h5>Account information: </h5>
 <ul>
     <li>First name: {{ user_email.fname }}</li>
@@ -44,14 +42,9 @@
 <a href="/enrolled-in/{{ item.class_id }}"><li>{{ item.class_name }}: {{ item.level }} {{ item.language }}</li></a>
 {% endfor %}
 </ul>
+
 {% endif %}
 
-
-<p>You can search for classes <a href="/search">here</a></p>
-
-<form action='/logout'>
-    <button id="logout" type="submit" class="btn btn-default">Log Out</button>
-</form>
 
 {% if user_email.is_teacher == 1 %}
 <a href="/create-class"><button id="create-class" class="btn btn-default">Create a class!</button></a>

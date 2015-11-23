@@ -64,14 +64,6 @@
   </div>
 </form>
 
-<form>
-  <div>
-    {% if user_username %}
-      <a href="/profile/{{ user_username }}"<button id="return-profile" class="btn btn-primary">Return to profile</button></a>
-    {% endif %}
-  </div>
-</form>
-
 
 <div>
   <h3>New Classes:</h3>
@@ -83,66 +75,6 @@
   {% endfor %}
 
 </div>  
-
-
- <!--  <div>
-      Days:
-    <input type="checkbox" name="days" value="Monday">Monday
-    <input type="checkbox" name="days" value="Tuesday">Tuesday
-    <input type="checkbox" name="days" value="Wednesday">Wednesday
-    <input type="checkbox" name="days" value="Thursday">Thursday
-    <input type="checkbox" name="days" value="Friday">Friday
-    <input type="checkbox" name="days" value="Saturday">Saturday
-    <input type="checkbox" name="days" value="Sunday">Sunday
-  </div>
-   
-  <div>
-    Start Date:
-    <input type="date" name="start" class="form-control">
-  </div>
-
-  <div>
-    Last Day:
-    <input type="date" name="end" class="form-control">
-  </form>
-  </div>
-
-  <div>
-    Class Time:
-    <input type="time" name-"timetype" class="form-control">
-  </div> -->
- 
-
-
-<!--<script>
-
-
-// function populateModal(data){
-//  console.log(data) 
-//   // take search result and render it
-// };
-
-//   var results = {
-//     'languagetype' : languagetype, 
-//     'leveltype' : leveltype
-//   }
-
-//   $(document).ready(function() {
-//    $('#submission').click(function(evt){   
-//     event.preventDefault();
-
-//      $.get("/search.json", results, populateModal)
-//      //  console.log("It sent!")
-//      // $('#myModal').modal('show');
-//   });
-
-//   });
-
-
-//   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-
-</script> -->
-
 
 
 {% endblock %}

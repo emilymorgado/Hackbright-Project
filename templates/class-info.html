@@ -11,7 +11,7 @@
 
 {% block body %}
 
-    
+  <div id="results-show" class="alert alert-success" role="alert" hidden></div>  
     <!-- Basic Class info: Language, Level, Days, Times, Start, End -->
   <div>
     <h3>{{ returned_classes.class_name }}</h3>
@@ -95,15 +95,17 @@
     {% if returned_classes.c_count - returned_classes.max_students == 0  %}
     <h5>Sorry, this class is full</h5>
     {% else %}
-    <form action="/join-class" method="POST" id="join">
-      <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
+
+    <form action="/join-class" method="POST" id="join-this-class">
+      <input type="hidden" name="class-join" id="join-me" value={{ returned_classes.class_id }}>
       <button type="submit" class="btn btn-primary" name="join-it" id="join-it">Join</button>
     </form>
     {% endif %}
+
     {% else %}
 
 
-    <form action="/login-visitor" method="GET" id="login">
+   <form action="/login-visitor" method="GET" id="login">
       <button type="submit" class="btn btn-primary" name="login-visitor">Log in to join this class</button>
       <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
     </form>
@@ -161,7 +163,30 @@ function initMap() {
   }
 }
 </script>
-<!-- <script src="/static/testing.js"></script> -->
+
+
+<script>
+
+  function showResults(data){
+    // alert(data);
+    $("#results-show").html(data).removeAttr("hidden");
+    console.log("showResults ran");
+  }
+
+  function joinClass(evt){
+    evt.preventDefault();
+    console.log("joinClass ran");
+    var inputs = {
+        "class-join": $("#join-me").val()
+        };
+        console.log(inputs);
+
+      $.post("/join-class", inputs, showResults);
+      console.log(".get ran");
+  }
+    $("#join-this-class").on("submit", joinClass);
+
+</script>
 
 {% endblock %}
 
