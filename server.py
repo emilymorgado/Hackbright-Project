@@ -218,6 +218,11 @@ def search_by_lang():
     leveltype = request.args.get("leveltype")
     # print languagetype
 
+    if session:
+        name = User.query.filter_by(user_id=session["user_id"]).first()
+        user_username = name.username
+    else:
+        user_username = None
 
     # gives me a list of objects
     search_results = db.session.query(Classroom).filter(Classroom.language==languagetype, Classroom.level==leveltype).all()
@@ -279,6 +284,7 @@ def search_by_lang():
 
         sorted_list.append((result, total_score))
 
+
     # final_sort = sorted_list.sort
 
     def get_key(item):
@@ -292,7 +298,7 @@ def search_by_lang():
 
 
         return render_template('search-results.html', search_results=search_results, leveltype=leveltype, final_sort=final_sort,  
-                                                    languagetype=languagetype, url_id=search_res[0].class_id)
+                                                    languagetype=languagetype, url_id=search_res[0].class_id, user_username=user_username)
 
 
 
@@ -344,6 +350,9 @@ def class_info(url_id):
         logged_in = User.query.filter(User.user_id==session["user_id"]).first()
         print "look here: ", logged_in.is_teacher
 
+        user_email = db.session.query(User).filter(User.user_id == session["user_id"]).first()
+        user_username = user_email.username
+
         if logged_in.is_teacher == 0:
             print "if student, class: "
             print returned_classes.class_id
@@ -351,14 +360,15 @@ def class_info(url_id):
             return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class, 
                                                     logged_in=logged_in, starttime=starttime, endtime=endtime, 
                                                     startdate=startdate, enddate=enddate, days_split=days_split, 
-                                                    reviews=reviews, rate_format=rate_format)
+                                                    reviews=reviews, rate_format=rate_format, user_username=user_username)
 
         else:
             print "if teacher, class: ", returned_classes.class_id
             return render_template("class-info-teacher.html", returned_classes=returned_classes, url_id=url_id, 
                                                             logged_in=logged_in, starttime=starttime, endtime=endtime,  
                                                             enddate=enddate, days_split=days_split, rate_format=rate_format, 
-                                                            reviews=reviews, startdate=startdate, all_class=all_class)
+                                                            reviews=reviews, startdate=startdate, all_class=all_class, 
+                                                            user_username=user_username)
 
 
     return render_template("class-info.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class, 
@@ -483,6 +493,8 @@ def enrolled_in(url_id):
     print "user id: "
     print user_info.user_id
 
+    user_username = user_info.username
+
 
     # Queries db for clicked on class
     returned_classes = db.session.query(Classroom).filter(Classroom.class_id==url_id).first()
@@ -520,7 +532,7 @@ def enrolled_in(url_id):
     return render_template("enrolled-in.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class, 
                                                 user_info=user_info, days_split=days_split, starttime=starttime, 
                                                 endtime=endtime, startdate=startdate, enddate=enddate, rate_format=rate_format,
-                                                reviews=reviews)
+                                                reviews=reviews, user_username=user_username)
 
 
 
@@ -577,8 +589,12 @@ def process_rating():
 @app.route('/create-class')
 def create_class_form():
     """Take teacher input from class creation form"""
+
+    if session:
+        user_email = db.session.query(User).filter(User.user_id == session["user_id"]).first()
+        user_username = user_email.username
     
-    return render_template('create-class.html')
+    return render_template('create-class.html', user_username=user_username)
 
 
 
@@ -673,8 +689,67 @@ def class_submission():
 
 
 @app.route('/test')
-def test_map():
+def make_request():
     """This is a testing route"""
+
+    # import requests
+    # from urllib2 import urlopen
+
+    # get_sentiment = urlopen("http://www.sentiment140.com/api/bulkClassifyJson?appid=bob@apple.com")
+    # response = get_sentiment.read()
+
+
+    # # Uses a different library to do the same thing as urlopen
+    # import requests
+    # # Make a GET request here and assign the result to kittens:
+    # kittens = requests.get("http://placekitten.com")
+    # # This gets the text our of the page using 'text' attribute of the object kittens
+    # # this then uses subscripting to display a portion of the text string
+    # print kittens.text[559:1000]
+
+
+
+
+
+    # ###### requests ######
+    # # request line tells server request type being sent and resource it's looking for
+    # # header sends server more info (which client is requesting etc)
+    # # body can be empty (GET) or not (POST PUT) can pass as data
+
+    # ############ Request line #############
+    # # POST /learn-http HTTP/1.1
+
+    # ############## Header ################
+    # # Host: www.codecademy.com
+    # # Content-Type: text/html; charset=UTF-8
+
+    # ############### Body #################
+    # # Name=Eric&Age=26
+
+
+    # # You aren't just GETting data with a POST - 
+    # # you can pass your own data into the request as well, 
+
+    # requests.post("http://placekitten.com/", data="myDataToPost")
+
+
+    # EXAMPLE:
+    # import requests
+
+    # body = {'Name': 'Eric', 'Age': '26'}
+
+    # # Make the POST request here, passing body as the data:
+    # response = requests.post("http://codecademy.com/learn-http/", data=body)
+
+    ##### ENDPOINTS ########
+    # Endpoints are API-defined locations where particular data are stored.
+
+
+    # if session:
+    #     user_email = db.session.query(User).filter(User.user_id == session["user_id"]).first()
+    #     user_username = user_email.username
+
+    # return ("base.html", user_username=user_username)
 
     # return render_template("firebase.html")
 
@@ -813,6 +888,7 @@ def calculate_base_price(per_time, counter, duration, price):
 
     print "BASE_PRICE: ", base_price
     return base_price
+
 
 
 
