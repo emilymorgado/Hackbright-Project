@@ -1,4 +1,4 @@
-<!doctype html>
+{% extends 'base.html' %} 
 
 {% block head %}
 
@@ -10,6 +10,8 @@
 {% block body %}
 <body>
 
+<div id="login-image">
+
 {% if id_class %}
 <form method="POST" action="/login-success-visitor" class="form-inline">
 
@@ -17,11 +19,11 @@
 <form method="POST" action="/login-success" class="form-inline">
 {% endif %}
 
-  <h3>Have an account? Log in here:</h3>
+  <h3>Welcome back!</h3>
   <div class="form-group">
     <label class="sr-only" type="email">Email address:</label>
     <input type="email" class="form-control" name="email" placeholder="Email">
-  </div>
+  </div> </br></br>
   <div class="form-group">
     <label class="sr-only" type="text">Password:</label>
     <input type="password" class="form-control" name="password" placeholder="Password">
@@ -32,6 +34,6 @@
 </form>
 
 <h5>Don't have an account? Create one <a href="/create-profile">here</a><h5>
-
+</div>
 
 {% endblock %}

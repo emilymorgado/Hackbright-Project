@@ -17,9 +17,9 @@
   {% endwith %}
 
 
+<div id="create-image">
 
-
-<h3>Create a Profile<h3>
+<h3 class="title">Create a Profile<h3>
 
 <form method="POST" action="/new-profile">
 
@@ -62,15 +62,10 @@
   <textarea class="form-control" name="bio" rows="3"></textarea>
 </div>
 
-  <!-- Image -->
-  <div class="form-control" name="image">
-    <button>Add a picture!</button>
-  </div>
-
 
   <!-- Is teacher/student -->
-  <div class="checkbox">
-    <label>Check this if you are a teacher</label>
+  <div>
+    <label class="dinosaur">Check this if you are a teacher</label>
       <label>
         <input type="checkbox" name="optionsRadios" id="teacher" value="1">
       </label>
@@ -80,5 +75,7 @@
   <input class="btn btn-default" name="submitbutton" type="submit" value="Submit">
 
 </form>
+
+</div>
 
 {% endblock %}

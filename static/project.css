@@ -1,20 +1,61 @@
 h1{
   font-family: 'Courgette', cursive;
-  font-size: 44px
+  font-size: 44px;
+  color: #595959;
 }
 
 h3{
   font-family: 'Courgette', cursive;
-  font-size: 30px
+  font-size: 30px;
+  color: #595959;
+}
+
+body div h3 {
+  font-family: 'Courgette', cursive;
+  font-size: 30px;
+  color: #595959;
+}
+
+body h3 {
+  font-family: 'Courgette', cursive;
+  font-size: 30px;
+  color: #595959;
 }
 
 h5{
   font-family: 'Courgette', cursive;
-  font-size: 30px
+  font-size: 30px;
+  color: #595959;
 }
+
+p{
+  color: #595959;
+}
+
 
 body {
   background-image: url(/static/linedpaper_@2x.png);
+}
+
+a {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 30; 
+}
+
+ {
+  background-image: url(/static/typewriter.png);
+}
+
+.dinosaur{
+  font-size: .75em;
+}
+
+.title{
+  font-size: 2em;
+}
+
+.form-group{
+  
 }
 
 #map { 
