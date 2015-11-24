@@ -2,15 +2,14 @@
 
 {% block head %}
 
-  <title>Class Info</title>
-  <meta charset=utf-8/>
-
 
 
 {% endblock %}
 
 {% block body %}
   
+  <div id="picture">
+
   <!-- Alert box for AJAX call when user clicks on Join button -->
   <div id="results-show" class="alert alert-success" role="alert" hidden></div>  
   
@@ -76,9 +75,8 @@
           <li>{{ stu.username }} Some info on your teacher: {{ stu.bio }}</li>
           {% endif %}
           {% endfor %}
-          </ul>
-
         </ul>
+
     </div>
 
     <div id="reviews">  
@@ -102,7 +100,7 @@
 
       <form action="/join-class" method="POST" id="join-this-class">
         <input type="hidden" name="class-join" id="join-me" value={{ returned_classes.class_id }}>
-        <button type="submit" class="btn btn-primary" name="join-it" id="join-it">Join</button>
+        <button type="submit" class="btn btn-default" name="join-it" id="join-it">Join</button>
       </form>
       {% endif %}
 
@@ -110,13 +108,13 @@
 
 
      <form action="/login-visitor" method="GET" id="login">
-        <button type="submit" class="btn btn-primary" name="login-visitor">Log in to join this class</button>
+        <button type="submit" class="btn btn-default" name="login-visitor">Log in to join this class</button>
         <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
       </form>
       {% endif %}
 
         <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
-        <a href="/search"><button class="btn btn-primary" name="return-search" id="return-search">Not what I wanted</button></a>
+        <a href="/search"><button class="btn btn-default" name="return-search" id="return-search">Not what I wanted</button></a>
     </div> 
   </div> 
 
@@ -134,7 +132,7 @@
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=false&libraries=places&callback=initMap"></script>
 
-<script src="https://code.jquery.com/jquery.js"></script>
+<!-- <script src="https://code.jquery.com/jquery.js"></script> -->
 
 <script>
 function initMap() {
@@ -204,6 +202,6 @@ function initMap() {
 
 </script>
 
+</div>
+
 {% endblock %}
-
-

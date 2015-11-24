@@ -1,5 +1,5 @@
-body {
-  background-image: url(/static/linedpaper_@2x.png);
+html body {
+  background-image: url(/static/linedpaper_@2x.png) !important;
 }
 
 h1 {
@@ -109,13 +109,17 @@ a:hover{
   color: #e6e6e6;
 }
 
+#picture {
+  background-image: url(/static/linedpaper_@2x.png) !important;
+}
+
 
 
 /* MAP CSS */
 
 #map { 
-  height: 50%; 
-  width: 50%;
+  height: 100%; 
+  width: 100%;
 }
 
 .controls {

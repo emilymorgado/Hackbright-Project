@@ -12,7 +12,6 @@ import datetime, json, re
 from search_results import *
 
 
-
 # This is how Flask knows what module to scan for things like routes
 app = Flask(__name__)
 
