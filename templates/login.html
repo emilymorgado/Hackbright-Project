@@ -8,9 +8,7 @@
 
 
 {% block body %}
-<body>
 
-<div id="login-image">
 
 {% if id_class %}
 <form method="POST" action="/login-success-visitor" class="form-inline">
@@ -19,7 +17,7 @@
 <form method="POST" action="/login-success" class="form-inline">
 {% endif %}
 
-  <h3>Welcome back!</h3>
+  <h3 class="search-titles">Welcome back!</h3>
   <div class="form-group">
     <label class="sr-only" type="email">Email address:</label>
     <input type="email" class="form-control" name="email" placeholder="Email">

@@ -1,16 +1,26 @@
-h1{
+body {
+  background-image: url(/static/linedpaper_@2x.png);
+}
+
+h1 {
   font-family: 'Courgette', cursive;
   font-size: 44px;
   color: #595959;
 }
 
-h3{
+h3 {
+  font-family: 'Courgette', cursive;
+  font-size: 35px;
+  color: #404040;
+}
+
+body div h3 {
   font-family: 'Courgette', cursive;
   font-size: 30px;
   color: #595959;
 }
 
-body div h3 {
+div div h3 {
   font-family: 'Courgette', cursive;
   font-size: 30px;
   color: #595959;
@@ -22,41 +32,86 @@ body h3 {
   color: #595959;
 }
 
-h5{
-  font-family: 'Courgette', cursive;
-  font-size: 30px;
-  color: #595959;
-}
-
-p{
-  color: #595959;
-}
-
-
-body {
-  background-image: url(/static/linedpaper_@2x.png);
-}
-
-a {
+h5 {
   font-family: 'PT Sans', sans-serif;
-  font-size: 30; 
+  font-size: 1.5em;
+  color: #595959;
 }
 
- {
-  background-image: url(/static/typewriter.png);
+/*p{
+  color: #595959;
 }
 
-.dinosaur{
-  font-size: .75em;
+
+div .form-group input {
+  background-color: #d8caa8;
+  width: 400px;
+  color: black;
+  padding: 10%;
+}*/
+.div-padding {
+  padding: 10px;
 }
 
-.title{
+ul a:link {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 20px; 
+  color: rgb(73, 133, 101);
+}
+
+a:visited{
+  font-family: 'PT Sans', sans-serif;
+  font-family: 20px;
+  color: rgb(40, 73, 65);
+}
+
+a:hover{
+  color: #4d88ff;
+  text-decoration: none;
+}
+
+#search-padding {
+  padding: 10px;
+}
+/*.title{
   font-size: 2em;
+}*/
+
+.search-titles {
+  color: #333333;
 }
 
-.form-group{
-  
+/*
+.form-control {
+  width: 350px;
+  background-color: rgba(73, 133, 101, 0.5);
+  border: 20px, solid, #363942;
+}*/
+
+.container-fluid{
+  padding: 0;
+  background-color: rgba(230, 230, 230, 0.5);
+  border: 20px, solid, #363942;
 }
+
+
+#classes-results li {
+  padding-bottom: 15px;
+}
+
+#spiral {
+  background-image: url(/static/spiral.png);
+  height: 1000px;
+  padding: 0;
+}
+
+.homepage {
+  color: #e6e6e6;
+}
+
+
+
+/* MAP CSS */
 
 #map { 
   height: 50%; 

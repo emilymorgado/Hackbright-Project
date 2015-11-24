@@ -10,116 +10,127 @@
 {% endblock %}
 
 {% block body %}
-
+  
+  <!-- Alert box for AJAX call when user clicks on Join button -->
   <div id="results-show" class="alert alert-success" role="alert" hidden></div>  
-    <!-- Basic Class info: Language, Level, Days, Times, Start, End -->
-  <div>
-    <h3>{{ returned_classes.class_name }}</h3>
-  </div>
+  
+    <!-- Basic Class info -->
+  <div id="basic-class" class="col-sm-6 col-md-5 col-lg-6">
+    
+    <div>
+      <h3>{{ returned_classes.class_name }}</h3>
+    </div>
 
-  <div>
-    <h3>Rating: {{ rate_format }}</h3>
-  </div>
+    <div>
+      <h3>Rating: {{ rate_format }}</h3>
+    </div>
 
-  <div>
-    <h5 id="class-info">{{ returned_classes.language }} Class, {{ returned_classes.level }} Level</h5>
-  </div>
+    <div>
+      <h5 id="class-info">{{ returned_classes.language }} Class, {{ returned_classes.level }} Level</h5>
+    </div>
 
-  <div>
-    <h5>Schedule: {{ days_split }} from {{ starttime }} to {{ endtime }}</h5>
-  </div>
+    <div>
+      <h5>Schedule: {{ days_split }} from {{ starttime }} to {{ endtime }}</h5>
+    </div>
 
-  <div>
-    <h5>First Day: {{ startdate }}</h5>
+    <div>
+      <h5>First Day: {{ startdate }}</h5>
 
-      {% if returned_classes.end_date == "" %}
-      <h5>This class is ongoing</h5>
+        {% if returned_classes.end_date == "" %}
+        <h5>This class is ongoing</h5>
+
+        {% else %}
+        <h5>Last Day: {{ enddate }}</h5>
+
+        {% endif %}
+    </div>
+
+    <div>
+      <h5>For: {{ returned_classes.min_students }} to {{ returned_classes.max_students }} students.</h5>
+    </div>
+
+    <div>
+      {% if returned_classes.cost == 0 %}
+
+      <h5>Costs: Free!</h5>
 
       {% else %}
-      <h5>Last Day: {{ enddate }}</h5>
-
+      <h5>Costs: ${{ returned_classes.cost }}/{{ returned_classes.per_time }}</h5>
       {% endif %}
-  </div>
+    </div>
 
-  <div>
-    <h5>For: {{ returned_classes.min_students }} to {{ returned_classes.max_students }} students.</h5>
-  </div>
-
-  <div>
-    {% if returned_classes.cost == 0 %}
-
-    <h5>Costs: Free!</h5>
-
-    {% else %}
-    <h5>Costs: ${{ returned_classes.cost }}/{{ returned_classes.per_time }}</h5>
-    {% endif %}
-  </div>
-
-  <div>
-    <h5>The students:</h5>
-      <ul>
-        {% for stu in all_class %}
-        {% if stu.is_teacher == 0 %}
-        <li>{{ stu.username }}</li>
-      {% endif %}
-      {% endfor %}
-      </ul>
-
-    <h5>The teacher:</h5>
-      <ul>
-        {% for stu in all_class %}
-        {% if stu.is_teacher == 1 %}
-        <li>{{ stu.username }} Some info on your teacher: {{ stu.bio }}</li>
+    <div>
+      <h5>The students:</h5>
+        <ul>
+          {% for stu in all_class %}
+          {% if stu.is_teacher == 0 %}
+          <li>{{ stu.username }}</li>
         {% endif %}
         {% endfor %}
         </ul>
 
+      <h5>The teacher:</h5>
+        <ul>
+          {% for stu in all_class %}
+          {% if stu.is_teacher == 1 %}
+          <li>{{ stu.username }} Some info on your teacher: {{ stu.bio }}</li>
+          {% endif %}
+          {% endfor %}
+          </ul>
+
+        </ul>
+    </div>
+
+    <div id="reviews">  
+      {% if returned_classes.hide_reviews == 0 %}
+      <h5>Reviews:</h5>
+      <ul>
+        {% for review in reviews %}
+        <li>{{ review.review }}</li>
+        {% endfor %}
       </ul>
-  </div>
-
-  <div id="reviews">  
-    {% if returned_classes.hide_reviews == 0 %}
-    <h5>Reviews:</h5>
-    <ul>
-      {% for review in reviews %}
-      <li>{{ review.review }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-  </div>
+      {% endif %}
+    </div>
 
 
 
-  <div>
-    {% if logged_in %}
-    {% if returned_classes.c_count - returned_classes.max_students == 0  %}
-    <h5>Sorry, this class is full</h5>
-    {% else %}
+    <div>
+      {% if logged_in %}
+      {% if returned_classes.c_count - returned_classes.max_students == 0  %}
+      <h5>Sorry, this class is full</h5>
+      {% else %}
 
-    <form action="/join-class" method="POST" id="join-this-class">
-      <input type="hidden" name="class-join" id="join-me" value={{ returned_classes.class_id }}>
-      <button type="submit" class="btn btn-primary" name="join-it" id="join-it">Join</button>
-    </form>
-    {% endif %}
+      <form action="/join-class" method="POST" id="join-this-class">
+        <input type="hidden" name="class-join" id="join-me" value={{ returned_classes.class_id }}>
+        <button type="submit" class="btn btn-primary" name="join-it" id="join-it">Join</button>
+      </form>
+      {% endif %}
 
-    {% else %}
+      {% else %}
 
 
-   <form action="/login-visitor" method="GET" id="login">
-      <button type="submit" class="btn btn-primary" name="login-visitor">Log in to join this class</button>
-      <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
-    </form>
-    {% endif %}
+     <form action="/login-visitor" method="GET" id="login">
+        <button type="submit" class="btn btn-primary" name="login-visitor">Log in to join this class</button>
+        <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
+      </form>
+      {% endif %}
 
-      <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
-      <a href="/search"><button class="btn btn-primary" name="return-search" id="return-search">Not what I wanted</button></a>
-  </div>  
+        <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
+        <a href="/search"><button class="btn btn-primary" name="return-search" id="return-search">Not what I wanted</button></a>
+    </div> 
+  </div> 
 
+
+
+
+
+<div class="col-sm-6 col-md-5 col-md-offset-2 col-lg-6 col-lg-offset-0">
   <div>
     <h5>Location: {{ returned_classes.address }} </h5>
   </div>
 
   <div id="map" style="width: 400px; height: 400px"></div>
+</div>
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=false&libraries=places&callback=initMap"></script>
 
@@ -165,7 +176,12 @@ function initMap() {
 </script>
 
 
+
+
+
 <script>
+
+// For ajax call relating to Joining Class
 
   function showResults(data){
     // alert(data);

@@ -7,16 +7,10 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, Classroom, User, ClassUser, Review
 
-import datetime
-
-import json
-
-import re
+import datetime, json, re
 
 from search_results import *
 
-# import stripe
-# stripe.api_key = STRIPE_PERSONAL_KEY
 
 
 # This is how Flask knows what module to scan for things like routes
@@ -69,7 +63,7 @@ def check_login():
     if user_account:
         print user_account
         session["user_id"] = user_account.user_id
-    #     print session["user_id"]
+        # print session["user_id"]
 
         name = User.query.filter_by(user_id=session["user_id"]).first()
         user_username = name.username
@@ -128,7 +122,7 @@ def new_profile_confirmation():
 
         user = User(email=email, username=username, fname=fname, lname=lname, 
             password=password, is_teacher=isteacher, bio=bio)
-        #white is above vars, orange is db fieldnames
+
         db.session.add(user)
         db.session.commit()
 
@@ -169,13 +163,6 @@ def profile(user_username):
     print user_classes
     print "bonitinha"
 
-    # class_list = user_classes.language
-    # print class_list
-
-    # for in_class in user_classes:
-    #     print "in_class"
-    #     print in_class
-
 
     return render_template("profile.html", user_email=user_email, user_classes=user_classes, user_username=user_username)
 
@@ -212,7 +199,7 @@ def search_by_lang():
     # Gets language input from dropdown in search.html
     languagetype = request.args.get("languagetype")
     leveltype = request.args.get("leveltype")
-    # print languagetype
+
 
     if session:
         name = User.query.filter_by(user_id=session["user_id"]).first()
@@ -281,7 +268,6 @@ def search_by_lang():
         sorted_list.append((result, total_score))
 
 
-    # final_sort = sorted_list.sort
 
     def get_key(item):
         return item[1]
@@ -394,6 +380,7 @@ def join_class():
     print type(class_info)
     print class_info.language
 
+
     # adds logged in user-class association to db
     if not session["user_id"]:
         flash("you need to log in")
@@ -443,6 +430,7 @@ def drop_class():
     url = '/profile/' + str(user_username)
 
     return redirect(url)
+
 
 
 @app.route('/hide-reviews', methods=["POST"])
@@ -514,7 +502,6 @@ def enrolled_in(url_id):
     startdate = returned_classes.start_date.strftime("%b %d, %Y")
     enddate = returned_classes.end_date.strftime("%b %d, %Y")
 
-    # enddate = returned_classes.end_date.strftime("%b %d, %Y")
 
     rate_format = returned_classes.rating
     rate_format = "%.1f" % rate_format
@@ -523,7 +510,6 @@ def enrolled_in(url_id):
     for review in reviews:
         if len(review.review) > 10:
             print review
-    # print reviews
 
 
     return render_template("enrolled-in.html", returned_classes=returned_classes, url_id=url_id, all_class=all_class, 
@@ -575,9 +561,6 @@ def process_rating():
         db.session.commit()
 
     print "ADDED: ", add_review, type(add_review)
-
-    ####################
-
     print "class_to_rate, rating: ", class_to_rate.rating
     return "Thanks for rating this class!"
 
@@ -618,7 +601,6 @@ def class_submission():
     r_count = request.form.get("r-count")
 
 
-    # TODO THIS IS BROKEN!!!!
     # convert start_date and end_date to datetime objects with strptime()
     start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
     if end_date:
@@ -682,25 +664,6 @@ def class_submission():
     db.session.commit()
 
     return "You have successfully created this class!"
-
-
-@app.route('/ajax-love.json', methods=["POST"])
-def ajax_practice():
-    """I'm going to learn this!"""
-
-    ratings = request.form.get("rating")
-
-
-    print "OMG, it worked!!!"
-    return "Thanks for rating this class!"
-
-
-@app.route('/ajax-ajax')
-def more_ajax_html():
-    """for reals"""
-
-
-    return render_template("loving-the-ajax.html")
 
 
 

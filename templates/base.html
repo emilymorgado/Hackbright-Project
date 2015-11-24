@@ -4,9 +4,8 @@
 
   <title>{% block title %}{% endblock %}</title>
 
-
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/static/project.css" rel="stylesheet">
+<!-- 
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"> -->
 
   <script src="https://code.jquery.com/jquery.js"></script>
 
@@ -47,7 +46,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav" >
         <li><a href="/profile/{{ user_username }}">Your Profile</a></li>
         <li><a href="/search">Search for Classes</a></li>
         <ul class="nav navbar-nav navbar-right">
@@ -94,8 +93,8 @@
 
 
   {% block body %}
-  </body>
   {% endblock %}
+  </body>
 
 
 </html>

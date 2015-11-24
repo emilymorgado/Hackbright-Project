@@ -14,12 +14,15 @@
     <li>Last name: {{ user_email.lname }}</li>
     <li>Username: {{ user_email.username }}</li>
     <li>Email: {{ user_email.email }}</li>
+    
     {% if user_email.is_teacher == True %}
-    <li>You're a teacher</li>
+        <li>You're a teacher</li>
+    
     {% else %}
-    <li>You're a student</li>
+        <li>You're a student</li>
+    
     {% endif %}
-    <li>Your Bio: {{ user_email.bio }}</li>
+        <li>Your Bio: {{ user_email.bio }}</li>
 
 {% if user_email.is_teacher == 1 %}
 <h5>Here are the classes you're teaching:</h5>
