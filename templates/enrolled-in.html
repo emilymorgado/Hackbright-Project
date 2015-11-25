@@ -17,22 +17,22 @@
 </div>
 
 <div>
-  <h3>This class is currently rated at: {{ rate_format }}</h3>
+  <h5>This class is currently rated at: {{ rate_format }}</h5>
 </div>
 
 {% if user_info.is_teacher == 0 %}
   <div>
-    <h3>Rate this class!</h3>
-    <form id="class-rate" method="post">
+    <h5>Rate this class!</h5>
+    <form id="class-rate" class="form-group" method="post">
 
-      <select type="dropdown" id="rateme" aria-labelledby="dropdownMenu1">
+      <select type="dropdown" id="rateme" aria-labelledby="dropdownMenu1" class="form-control">
         <option name="rating" id="rating-1" value="1"><a href="#">1: Not Good</a></option>    
         <option name="rating" id="rating-2" value="2"><a href="#">2: Acceptable</a></option>
         <option name="rating" id="rating-3" value="3"><a href="#">3: Good</a></option>
         <option name="rating" id="rating-4" value="4"><a href="#">4: Very Good</a></option>
         <option name="rating" id="rating-5" value="5"><a href="#">5: Excellent</option>
       </select>
-      Add a review: <input type="text" name="review" id="review">
+      <h5>Add a review:</h5> <textarea rows="4" cols="50" name="review" id="review"></textarea>
       <input type="submit" value="Rate Your Class">
     </form>
   </div>  
@@ -149,7 +149,7 @@ $('#input-1').prop('checked', false);
   <div>
     <form method="POST" action="/dropped" id="drop">
       <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
-      <button type="submit" class="btn btn-primary" name="drop-it" id="drop-it">Drop Class</button>
+      <button type="submit" class="btn btn-default" name="drop-it" id="drop-it">Drop Class</button>
     </form>
 
   </div>  
@@ -157,10 +157,10 @@ $('#input-1').prop('checked', false);
 
     <div id="map" style="width: 400px; height: 400px"></div>
 
-    {% if user_info.is_teacher == 0 %}
+<!--     {% if user_info.is_teacher == 0 %}
     <div id="stripe-div">
     <button type="stripe" class="btn btn-primary" name="stripe" id="stripe">Pay for your class</button>
-    {% endif %}
+    {% endif %} -->
 
 
 <!-- JAVASCRIPT -->

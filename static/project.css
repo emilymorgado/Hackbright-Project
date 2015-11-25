@@ -1,5 +1,5 @@
-html body {
-  background-image: url(/static/linedpaper_@2x.png) !important;
+body {
+  background-image: url(/static/linedpaper_@2x.png);
 }
 
 h1 {
@@ -81,12 +81,10 @@ a:hover{
   color: #333333;
 }
 
-/*
+
 .form-control {
   width: 350px;
-  background-color: rgba(73, 133, 101, 0.5);
-  border: 20px, solid, #363942;
-}*/
+}
 
 .container-fluid{
   padding: 0;
@@ -110,7 +108,13 @@ a:hover{
 }
 
 #picture {
-  background-image: url(/static/linedpaper_@2x.png) !important;
+  background-image: url(/static/linedpaper_@2x.png);
+}
+
+#review {
+  height: 50px;
+  width: 500px;
+  background-color: yellow;
 }
 
 

@@ -9,29 +9,39 @@
 
 {% block body %}
 
+<div id="spiral">
 
-{% if id_class %}
-<form method="POST" action="/login-success-visitor" class="form-inline">
+<div class="row">
+  <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-ofset-3 col-xs-12 text-center">
 
-{% else %}
-<form method="POST" action="/login-success" class="form-inline">
-{% endif %}
+    <br><br><br><br>
 
-  <h3 class="search-titles">Welcome back!</h3>
-  <div class="form-group">
-    <label class="sr-only" type="email">Email address:</label>
-    <input type="email" class="form-control" name="email" placeholder="Email">
-  </div> </br></br>
-  <div class="form-group">
-    <label class="sr-only" type="text">Password:</label>
-    <input type="password" class="form-control" name="password" placeholder="Password">
-  </div>
-  <input type="hidden" name="id-class" value="{{ id_class }}">
-  <button id="log" type="submit" class="btn btn-default">Sign in</button>
-</form>
-</form>
+    {% if id_class %}
+    <form method="POST" action="/login-success-visitor" class="form-inline">
 
-<h5>Don't have an account? Create one <a href="/create-profile">here</a><h5>
+    {% else %}
+    <form method="POST" action="/login-success" class="form-inline">
+    {% endif %}
+
+<!-- Inspirational lines that are randomly selected here!!!!  -->
+
+      <h1 class="homepage">Reach for the stars</h1>
+      <div class="form-group">
+        <label class="sr-only" type="email">Email address:</label>
+        <input type="email" class="form-control" name="email" placeholder="Email">
+      </div> </br></br>
+      <div class="form-group">
+        <label class="sr-only" type="text">Password:</label>
+        <input type="password" class="form-control" name="password" placeholder="Password">
+      </div>
+      <input type="hidden" name="id-class" value="{{ id_class }}">
+      <button id="log" type="submit" class="btn btn-default">Sign in</button>
+    </form>
+    </form>
+
+    <h3 class="homepage">Don't have an account? Create one <a href="/create-profile">here</a><h3>
+    </div>
+
 </div>
 
 {% endblock %}
