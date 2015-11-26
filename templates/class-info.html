@@ -178,15 +178,12 @@ function initMap() {
 
 
 <script>
-
 // For ajax call relating to Joining Class
-
   function showResults(data){
     // alert(data);
     $("#results-show").html(data).removeAttr("hidden");
     console.log("showResults ran");
   }
-
   function joinClass(evt){
     evt.preventDefault();
     console.log("joinClass ran");
@@ -194,12 +191,10 @@ function initMap() {
         "class-join": $("#join-me").val()
         };
         console.log(inputs);
-
       $.post("/join-class", inputs, showResults);
       console.log(".get ran");
   }
     $("#join-this-class").on("submit", joinClass);
-
 </script>
 
 </div>

@@ -1,17 +1,24 @@
 body {
-  background-image: url(/static/linedpaper_@2x.png);
+  /*background-image: url(/static/back.jpg);*/
+  background: linear-gradient(to bottom right, red , blue);
+}
+
+html {
+  /*background: linear-gradient(to top left, red, blue);*/
 }
 
 h1 {
   font-family: 'Courgette', cursive;
   font-size: 44px;
-  color: #595959;
+  /*color: #595959;*/
+  color: black;
 }
 
 h3 {
   font-family: 'Courgette', cursive;
   font-size: 35px;
   color: #404040;
+  /*color: black;*/
 }
 
 body div h3 {
@@ -36,6 +43,14 @@ h5 {
   font-family: 'PT Sans', sans-serif;
   font-size: 1.5em;
   color: #595959;
+}
+
+#class-info {
+  background-color: green;
+}
+
+#reviews {
+  background-color: green;
 }
 
 /*p{
@@ -97,19 +112,19 @@ a:hover{
   padding-bottom: 15px;
 }
 
-#spiral {
+/*#spiral {
   background-image: url(/static/spiral.png);
   height: 1000px;
   padding: 0;
-}
+}*/
 
 .homepage {
   color: #e6e6e6;
 }
 
-#picture {
+/*#picture {
   background-image: url(/static/linedpaper_@2x.png);
-}
+}*/
 
 #review {
   height: 50px;
