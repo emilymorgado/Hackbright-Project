@@ -7,12 +7,13 @@
 {% block body %}
 
 <!-- Parameters -->
+
 <div class="row" id="search-padding">
   <div class="col-sm-6 col-md-5 col-lg-6">
-    <h3 class="search-titles">Search for a class:</h3>
+    <h1>Search for a class:</h1>
       <form id="searchparams" method="GET" action="/search-results" data-target=".bs-example-modal-lg" >
         <div>
-          <h5>Language:</h5> 
+          <h5 class="subtitle">Language:</h5> 
           <select name="languagetype" class="form-control">
               <option value="Portuguese">Portuguese</option>
               <option value="Spanish">Spanish</option>
@@ -23,7 +24,7 @@
         </div>
       <br>
         <div>
-          <h5>Level:</h5> 
+          <h5 class="subtitle">Level:</h5> 
           <select name="leveltype" class="form-control">
               <option value="Beginning">Beginner</option>
               <option value="Pre-Intermediate">Pre-Intermediate</option>
@@ -43,18 +44,17 @@
 
 
 
-
   <div class="col-sm-6 col-md-5 col-md-offset-1 col-lg-6 col-lg-offset-0">
-    <h3 class="search-titles" >Check out newly posted classes:</h3>
+    <h2 class="title">Check out newly posted classes:</h2>
 
     {% for n in new %}
     <ul id="new-classes">
       <a href="/class-info/{{ n.class_id }}"><li>{{ n.level }} {{ n.language }}: {{ n.class_name }} (${{ n.cost }}/{{ n.per_time }})</li></a>
     </ul>
     {% endfor %}
-  </div>  
-</div>
+  </div> 
 
+</div>
 
 
 {% endblock %}

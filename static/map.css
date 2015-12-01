@@ -1,12 +1,8 @@
-html, body {
-/*  height: 100%;*/
-  margin: 0;
-  padding: 0;
-}
+/* MAP CSS */
 
-#map {
-/*  height: 400px;
-  width: 400px;*/
+#map { 
+  height: 100%; 
+  width: 100%;
 }
 
 .controls {
@@ -49,4 +45,8 @@ html, body {
   font-family: Roboto;
   font-size: 13px;
   font-weight: 300;
+}
+
+#target {
+  width: 345px;
 }

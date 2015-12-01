@@ -3,21 +3,21 @@
 {% block head %}
 
   <title>Class Info</title>
-  <meta charset=utf-8/>
-
-
 
 {% endblock %}
 
 {% block body %}
 
   <!-- Basic Class info: Language, Level, Days, Times, Start, End -->
+
+<div id="basic-class" class="col-sm-6 col-md-5 col-lg-6">
+
 <div>
-  <h3>{{ returned_classes.class_name }}</h3>
+  <h1>{{ returned_classes.class_name }}</h1>
 </div>
 
 <div>
-  <h5>This class is currently rated at: {{ rate_format }}</h5>
+  <h3>Class Rating: {{ rate_format }}</h3>
 </div>
 
 {% if user_info.is_teacher == 0 %}
@@ -47,16 +47,15 @@
   </div>
 
   <div>
-    <h5>Schedule: {{ days_split }}. From {{ starttime }} to {{ endtime }}</h5>
+    <h5>{{ days_split }}: {{ starttime }} - {{ endtime }}</h5>
   </div>
 
   <div>
-    <h5>First Day: {{ startdate }}</h5>
-
+    <h5>{{ startdate }} - 
     {% if returned_classes.end_date == "" %}
-      <h5>This class is ongoing</h5>
+      This class is ongoing
     {% else %}
-      <h5>Last Day: {{ enddate }}</h5>
+      {{ enddate }}</h5>
     {% endif %}
   </div>
 
@@ -75,9 +74,7 @@
 
   </div>
 
-  <div>
-    <h5>Location: {{ returned_classes.address }} </h5>
-  </div>
+<br>
 
   <div>
     <h5>The students:</h5>
@@ -89,29 +86,39 @@
       {% endfor %}
       </ul>
 
+<br>
+
     <h5>The teacher:</h5>
-      <ul>
         {% for stu in all_class %}
         {% if stu.is_teacher == 1 %}
-        <li>{{ stu.username }} Some info on your teacher: {{ stu.bio }}</li>
+        <h4>{{ stu.username }}:  {{ stu.bio }}</h4>
         {% endif %}
         {% endfor %}
-        </ul>
 
   </div>
 
-  <div id="class-reviews">
-    {% if user_info.is_teacher == 0 %}
+<br>
+
+    <div id="reviews">
+      <h5>Reviews:</h5>
         {% if returned_classes.hide_reviews == 0 %}
-        <h5>Reviews:</h5>
-        <ul>
-          {% for review in reviews %}
-          <li>{{ review.review }}</li>
-          {% endfor %}
-        </ul>
+            <ul class="list-group">
+            {% for review in reviews %}
+                <li class="list-group-item">{{ review.review }}</li>
+            {% endfor %}
+            </ul>
         {% endif %}
-    {% endif %}    
-  </div>
+
+        {% if returned_classes.hide_reviews == 1 %}
+            {%  if user_info.is_teacher == 1 %}
+            <ul class="list-group">
+              {% for review in reviews %}
+                <li class="list-group-item">{{ review.review }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+        {% endif %}
+    </div>
 
   {% if user_info.is_teacher == 1 %}
       {% if returned_classes.hide_reviews == 0 %}
@@ -137,8 +144,6 @@
 
 
 
-
-
 <script>
 $('#input-1').prop('checked', false);
 
@@ -154,13 +159,17 @@ $('#input-1').prop('checked', false);
 
   </div>  
 
+</div> <!--for the columns-->
+
+<div class="col-sm-6 col-md-5 col-md-offset-2 col-lg-6 col-lg-offset-0">
+
+  <div>
+    <h5>Location: {{ returned_classes.address }} </h5>
+  </div>
 
     <div id="map" style="width: 400px; height: 400px"></div>
 
-<!--     {% if user_info.is_teacher == 0 %}
-    <div id="stripe-div">
-    <button type="stripe" class="btn btn-primary" name="stripe" id="stripe">Pay for your class</button>
-    {% endif %} -->
+
 
 
 <!-- JAVASCRIPT -->
@@ -237,6 +246,8 @@ $('#input-1').prop('checked', false);
 
   </script>
   <!-- <script src="/static/testing.js"></script> -->
+
+</div> <!-- for the columns -->
 
 
   {% endblock %}

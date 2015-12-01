@@ -19,56 +19,57 @@
 
 <div id="create-image">
 
-<h3 class="title">Create a Profile<h3>
+<!-- <div class="row"> -->
+<div class="col-lg-6 col-lg-offset-4 col-md-6 col-md-ofset-4 col-xs-12 text-left">
+
+<h1 class="title">Create a Profile<h1>
 
 <form method="POST" action="/new-profile">
 
     <!-- Email -->
   <div class="form-group">
-    Email address:
+    <h3 class="subtitle" for="class-name">Email address: </h3>
     <input type="email" name="email" class="form-control" placeholder="Email">
   </div>
 
 
     <!-- First name -->
   <div class="form-group">
-    <label for="exampleInputName2">First Name</label>
-    <input type="text" class="form-control" name="fname" placeholder="Monster">
+    <h3 class="subtitle" for="form-group">First Name</h3>
+    <input type="text" class="form-control" name="fname" placeholder="Jane">
   </div>
 
 
     <!-- Last name -->
   <div class="form-group">
-    <label for="exampleInputName2">Last Name</label>
-    <input type="text" class="form-control" name="lname" placeholder="Om nom nom">
+    <h3 class="subtitle" for="form-group">Last Name</h3>
+    <input type="text" class="form-control" name="lname" placeholder="Doe">
   </div>
 
 
   <!-- Username -->
   <div class="form-group">
-    <label for="exampleInputName2">What would you like your username to be?</label>
+    <h3 class="subtitle" for="form-group">What would you like your username to be?</h3>
     <input type="text" class="form-control" name="username" placeholder="think hard...">
   </div>
 
   <!-- Password -->
   <div class="form-group">
-    Password:
+    <h3 class="subtitle" for="form-group">Password: </h3>
     <input type="password" name="password" class="form-control" placeholder="Password" pattern="[a-zA-Z0-9]{5,}" title="Minmimum 5 letters or numbers." required>
   </div>
 
 
   <!-- Bio -->
-  <div>Tell us about yourself:
+  <div>
+    <h3 class="subtitle" for="form-group">Tell us about yourself: </h3>
   <textarea class="form-control" name="bio" rows="3"></textarea>
 </div>
 
 
   <!-- Is teacher/student -->
   <div>
-    <label class="dinosaur">Check this if you are a teacher</label>
-      <label>
-        <input type="checkbox" name="optionsRadios" id="teacher" value="1">
-      </label>
+    <h3 class="subtitle" label for="form-group">Check this if you are a teacher          <input type="checkbox" name="optionsRadios" id="teacher" value="1"></h3>
     </div>
 
   <!-- Submit button -->
@@ -77,5 +78,7 @@
 </form>
 
 </div>
+</div>
+<!-- </div> -->
 
 {% endblock %}

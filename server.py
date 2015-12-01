@@ -36,11 +36,13 @@ def welcome():
     return render_template("home.html", user_username=user_username)
 
 
+
 @app.route('/login')
 def loginpage():
     """Page where users can log in"""
 
     return render_template("login.html", id_class=None)
+
 
 
 @app.route('/login-visitor')
@@ -75,6 +77,7 @@ def check_login():
         url = '/profile/' + str(user_username)
 
         return redirect(url)
+
 
 
 @app.route('/login-success-visitor', methods=["POST"])
@@ -170,6 +173,28 @@ def profile(user_username):
 
 
     return render_template("profile.html", user_email=user_email, user_classes=user_classes, user_username=user_username)
+
+
+@app.route('/settings/<user_username>')
+def settings(user_username):
+    """Profile page renders user information if user is logged in"""
+
+
+    session_id = session["user_id"]
+    print "session_id"
+    print session_id
+
+    user_email = db.session.query(User).filter(User.user_id == session_id).first()
+    print "user_email"
+    print user_email
+
+    user_classes = db.session.query(Classroom).join(ClassUser).filter(ClassUser.user_id == session_id).all()
+    print user_classes
+    print "bonitinha"
+
+
+    return render_template("settings.html", user_email=user_email, user_classes=user_classes, user_username=user_username)
+
 
 
 @app.route('/logout')
@@ -661,9 +686,12 @@ def class_submission():
     db.session.commit()
 
     user_account = User.query.filter_by(user_id=session["user_id"]).first()
+    print "USER_ACCOUNT: ", user_account
     user_username = user_account.username
 
+
     add_teach = ClassUser(user_id=user_account.user_id, class_id=newclass.class_id)
+    print "ADD_TEACH: ", add_teach
 
     db.session.add(add_teach)
     db.session.commit()

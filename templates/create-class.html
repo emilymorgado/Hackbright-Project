@@ -17,7 +17,7 @@
    <!-- meta and style relate to the map -->
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="static/map.css">
+
 
 
 {% endblock %}
@@ -25,19 +25,22 @@
 
 {% block body %}
 
-  <h3>Create a Class</h3>
+<!-- <div class="row"> -->
+<div id="basic-class" class="col-sm-6 col-md-5 col-lg-6">
+
+  <h1>Create a Class</h1>
 
   <form method="POST" action="/created-results" id="create-class">
 
     <!-- Name -->
     <div class="form-group">
-      <label for="class-name">Give your class a title: </label>
+      <h3 class="subtitle" for="class-name">Give your class a title: </h3>
       <input type="text" class="form-control" name="class-name" id="class-name" placeholder="Something catchy">
     </div>
     
     <!-- Language -->
     <div class="form-group">
-      Language: 
+      <h3 class="subtitle" for="class-name">Language: </h3>
       <select id="languagetype" name="languagetype" class="form-control">
           <option value="Portuguese">Portuguese</option>
           <option value="Spanish">Spanish</option>
@@ -45,11 +48,12 @@
           <option value="Korean">Korean</option>
           <option value="French">French</option>
       </select>
+    </div>
 
 
       <!-- Level -->
       <div class="form-group">
-        Level: 
+        <h3 class="subtitle" for="class-name">Level: </h3> 
         <select name="leveltype" id="leveltype" class="form-control">
             <option value="Beginning">Beginner</option>
             <option value="Pre-Intermediate">Pre-Intermediate</option>
@@ -58,12 +62,13 @@
             <option value="Advanced">Advanced</option>
             <option value="Native Speaking">Native Speaker</option>
             <option value="Mixed">Mixed Levels</option>
+        </select>
       </div>
 
 
       <!-- Min num of Students -->
       <div class="form-group">
-        Minimum number of students for class to run: 
+        <h3 class="subtitle" for="class-name">Minimum number of students for class to run: </h3>
           <input type="text" name="min" id="min" class="min-students">
       </div>
 
@@ -79,42 +84,45 @@
 
       <!-- Max num of Students -->
       <div class="form-group">
-        Maximum number of students that can join: 
+        <h3 class="subtitle" for="class-name">Maximum number of students that can join: </h3>
           <input type="text" name="max" id="max" class="max-students">
       </div>
 
 
       <!-- Days -->
       <div class="form-group" id="days">
-          Days:
-        <input type="checkbox" id="Monday" name="days" value="Monday">Monday
-        <input type="checkbox" id="Tuesday" name="days" value="Tuesday">Tuesday
-        <input type="checkbox" id="Wednesday" name="days" value="Wednesday">Wednesday
-        <input type="checkbox" id="Thursday" name="days" value="Thursday">Thursday
-        <input type="checkbox" id="Friday" name="days" value="Friday">Friday
-        <input type="checkbox" id="Saturday" name="days" value="Saturday">Saturday
-        <input type="checkbox" id="Sunday" name="days" value="Sunday">Sunday
+          <h3 class="subtitle" for="class-name">Days: </h3>
+        <input type="checkbox" id="Monday" name="days" value="Monday"><span> Monday</span>
+        <input type="checkbox" id="Tuesday" name="days" value="Tuesday"><span> Tuesday</span>
+        <input type="checkbox" id="Wednesday" name="days" value="Wednesday"><span> Wednesday</span>
+        <input type="checkbox" id="Thursday" name="days" value="Thursday"><span> Thursday</span>
+        <input type="checkbox" id="Friday" name="days" value="Friday"><span> Friday</span>
+        <input type="checkbox" id="Saturday" name="days" value="Saturday"><span> Saturday</span>
+        <input type="checkbox" id="Sunday" name="days" value="Sunday"><span> Sunday</span>
       </div>
 
 
       <!-- Start Date -->
-      <p>Start Date: <input type="date" id="start" name="start"></p>
+      <h3 class="subtitle" for="class-name">Start Date: </h3><input type="date" id="start" name="start"></p>
 
 
       <!-- End Date -->
-      <p>End Date: <input type="date" id="end" name="end"></p>
+      <h3 class="subtitle" for="class-name">End Date: </h3><input type="date" id="end" name="end"></p>
 
 
       <!-- Start Time  -->
-      <p>Class starts at: <input type="time" class="timepicker" name="starttime" id=
+      <h3 class="subtitle" for="class-name">Class starts at: </h3><input type="time" class="timepicker" name="starttime" id=
       "starttime"></p>
 
+
       <!-- End Time  -->
-      <p>Class ends at: <input type="time" class="timepicker" name="endtime" id=
+      <h3 class="subtitle" for="class-name">Class ends at: </h3><input type="time" class="timepicker" name="endtime" id=
       "endtime"></p>
+
 
       <!-- Price Picker -->
       <div class="form-group">
+        <h3 class="subtitle" for="class-name">Price per student</h3>
           <label class="sr-only" for="pricetype">Amount (in dollars)</label>
           <div class="input-group">
             <div class="input-group-addon">$</div>
@@ -129,30 +137,37 @@
               </select>
           </div>
         </div>
+  </div>
+</div>
 
+
+<div class="col-sm-6 col-md-5 col-md-offset-2 col-lg-6 col-lg-offset-0">
 
         <!-- Map -->
+        <h3 class="subtitle" for="class-name">Class location</h3>
         <input id="pac-input" class="controls" name="address" type="text"
             placeholder="Enter a location">
         </div>
         <input type="hidden" name="lat" id="lat">
         <input type="hidden" name="lng" id="lng">
-        <div id="map"></div>
+        <div id="map" style="width: 400px; height: 400px"></div>
+
+<br>
 
       
           <!-- Submission Button -->
     <div>
-      <button type="submit" class="btn btn-primary" name="createit" id="createit" value="Create it!">Create it!</button>
+      <button type="submit" class="btn btn-default" name="createit" id="createit" value="Create it!">Create it!</button>
     </div>
    </form>
+  </div>
+</div>
 
 
    <script src="static/map.js"></script>
 
    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=false&libraries=places&callback=initMap"></script>
 
-
- 
 
       <script>
 

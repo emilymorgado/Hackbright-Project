@@ -17,12 +17,14 @@
   <div id="basic-class" class="col-sm-6 col-md-5 col-lg-6">
     
     <div>
-      <h3>{{ returned_classes.class_name }}</h3>
+      <h1>{{ returned_classes.class_name }}</h1>
     </div>
 
     <div>
       <h3>Rating: {{ rate_format }}</h3>
     </div>
+
+  <br>
 
     <div>
       <h5 id="class-info">{{ returned_classes.language }} Class, {{ returned_classes.level }} Level</h5>
@@ -58,6 +60,8 @@
       {% endif %}
     </div>
 
+<br>
+
     <div>
       <h5>The students:</h5>
         <ul>
@@ -68,26 +72,28 @@
         {% endfor %}
         </ul>
 
+<br>
+
       <h5>The teacher:</h5>
-        <ul>
           {% for stu in all_class %}
           {% if stu.is_teacher == 1 %}
-          <li>{{ stu.username }} Some info on your teacher: {{ stu.bio }}</li>
+          <h4>{{ stu.username }}:  {{ stu.bio }}</h4>
           {% endif %}
           {% endfor %}
-        </ul>
 
     </div>
 
-    <div id="reviews">  
-      {% if returned_classes.hide_reviews == 0 %}
+<br>
+
+    <div id="reviews">
       <h5>Reviews:</h5>
-      <ul>
-        {% for review in reviews %}
-        <li>{{ review.review }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
+        {% if returned_classes.hide_reviews == 0 %}
+        <ul class="list-group">
+          {% for review in reviews %}
+          <li class="list-group-item">{{ review.review }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}  
     </div>
 
 
@@ -112,6 +118,8 @@
         <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
       </form>
       {% endif %}
+
+<br>
 
         <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
         <a href="/search"><button class="btn btn-default" name="return-search" id="return-search">Not what I wanted</button></a>

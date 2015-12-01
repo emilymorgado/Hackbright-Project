@@ -9,12 +9,31 @@
 
 {% block body %}
 
-<div id="spiral">
 
 <div class="row">
-  <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-ofset-3 col-xs-12 text-center">
+<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-ofset-3 col-xs-12 text-center">
 
-    <br><br><br><br>
+
+<br><br><br>
+
+<h1 class="homepage">Login.</h1>
+<p class="homepage">Find your perfect class.</p>
+
+<!-- <br>
+
+<a class="btn btn-default" href="/search" role="button">Search for Classes!</a>
+
+</br></br> -->
+
+</div>
+</div>
+
+
+<div class="row">
+<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-ofset-3 col-xs-12 text-center">
+<!-- 
+    <br><br><br> -->
+    <br>
 
     {% if id_class %}
     <form method="POST" action="/login-success-visitor" class="form-inline">
@@ -25,23 +44,31 @@
 
 <!-- Inspirational lines that are randomly selected here!!!!  -->
 
-      <h1 class="homepage">Reach for the stars</h1>
+      <!-- <h1 class="homepage">Reach for the stars</h1> -->
       <div class="form-group">
         <label class="sr-only" type="email">Email address:</label>
         <input type="email" class="form-control" name="email" placeholder="Email">
       </div> </br></br>
+
       <div class="form-group">
         <label class="sr-only" type="text">Password:</label>
         <input type="password" class="form-control" name="password" placeholder="Password">
       </div>
+
       <input type="hidden" name="id-class" value="{{ id_class }}">
       <button id="log" type="submit" class="btn btn-default">Sign in</button>
-    </form>
-    </form>
 
-    <h3 class="homepage">Don't have an account? Create one <a href="/create-profile">here</a><h3>
-    </div>
+    </form>
+  </form>
 
+
+<h3 class="homepage">Don't have an account? Create one
+<a class="btn btn-default" href="/create-profile" role="button">here</a><h3>
+</div>
+
+
+
+</div>
 </div>
 
 {% endblock %}
