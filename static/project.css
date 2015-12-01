@@ -33,13 +33,6 @@ h5 {
 }
 
 
-/*.title {
-  font-family: 'Courgette', cursive;
-  font-size: 35px;
-  color: blue;
-}*/
-
-
 .subtitle {
  font-family: 'PT Sans', sans-serif;
  font-size: 24px;
@@ -60,10 +53,6 @@ span {
 }
 
 
-#reviews {
-  background-image: url(/satic/grundge_wall.png);
-  opacity: 0.5;
-}
 
 .list-group-item {
   color: #4d4d4d;
@@ -134,16 +123,3 @@ a :hover{
 .padding {
   padding: 10px;
 }
-
-
-/*#review {
-  height: 50px;
-  width: 500px;
-  background-color: yellow;
-}*/
-
-
-
-
-
-

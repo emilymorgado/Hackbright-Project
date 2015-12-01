@@ -1,0 +1,165 @@
+{% extends 'base.html' %} 
+
+{% block head %}
+
+<meta charset=utf-8/>
+<link rel="stylesheet" type="text/css" src="static/map.css">
+
+{% endblock %}
+
+{% block body %}
+
+  <!-- Alert box for AJAX call when user clicks on Join button -->
+  <div id="results-show" class="alert alert-success" role="alert" hidden></div>  
+  
+    <!-- Basic Class info -->
+  <div id="basic-class" class="col-sm-6 col-md-5 col-lg-6">
+    
+    <div>
+      <h1>{{ returned_classes.class_name }}</h1>
+    </div>
+
+    <div>
+      <h3>Rating: {{ rate_format }}</h3>
+    </div>
+
+  <br>  
+
+    <div>
+      <h5 id="class-info">{{ returned_classes.language }} Class, {{ returned_classes.level }} Level</h5>
+    </div>
+
+
+    <div>
+      <h5>Schedule: {{ days_split }} from {{ starttime }} to {{ endtime }}</h5>
+    </div>
+
+    <div>
+      <h5>First Day: {{ startdate }}</h5>
+
+        {% if returned_classes.end_date == "" %}
+        <h5>This class is ongoing</h5>
+
+        {% else %}
+        <h5>Last Day: {{ enddate }}</h5>
+
+        {% endif %}
+    </div>
+
+    <div>
+      <h5>For: {{ returned_classes.min_students }} - {{ returned_classes.max_students }} students.</h5>
+    </div>
+
+    <div>
+      {% if returned_classes.cost == 0 %}
+        <h5>Costs: Free!</h5>
+      {% else %}
+        <h5>Costs: ${{ returned_classes.cost }}/{{ returned_classes.per_time }}</h5>
+      {% endif %}
+    </div>
+
+<br>
+
+    <div>
+      <h5>The students:</h5>
+        <ul>
+          {% for stu in all_class %}
+          {% if stu.is_teacher == 0 %}
+              <li>{{ stu.username }}</li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+
+<br>
+
+      <h5>The teacher:</h5>
+          {% for stu in all_class %}
+          {% if stu.is_teacher == 1 %}
+            <h4>{{ stu.username }}:  {{ stu.bio }}</h4>
+          {% endif %}
+          {% endfor %}
+
+    </div>
+
+<br>
+
+    <div id="reviews">
+      <h5>Reviews:</h5>
+            {% if returned_classes.hide_reviews == 0 %}
+            <ul class="list-group">
+              {% for review in reviews %}
+              <li class="list-group-item">{{ review.review }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}  
+    </div>
+
+
+    <div>
+      
+
+        <input type="hidden" name="id-class" id="id-class" value={{ returned_classes.class_id }}>
+        <a href="/search"><button class="btn btn-default" name="return-search" id="return-search">Start a new search</button></a>
+    </div> 
+  </div> 
+
+
+
+
+
+<div class="col-sm-6 col-md-5 col-md-offset-2 col-lg-6 col-lg-offset-0">
+  
+  <div>
+    <h5>Location: {{ returned_classes.address }} </h5>
+  </div>
+
+  <div id="map" style="width: 400px; height: 400px"></div>
+</div>
+
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EdKesWy05EUiKhvZCLt-KKCy7GybmTo&signed_in=false&libraries=places&callback=initMap"></script>
+
+<!-- <script src="https://code.jquery.com/jquery.js"></script> -->
+
+<script>
+function initMap() {
+  var classId = $('#id-class').val()
+  $.get('/map.json', {"class_id": classId}, makeMap);
+  function makeMap(data){
+    console.log(data);
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 37.7576793, lng: -122.4365721},
+      zoom: 14
+    });
+    geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ 'address': data }, function(results, status) {
+      console.log(results[0].geometry.location);
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+          map.setCenter(results[0].geometry.location);
+          var infowindow = new google.maps.InfoWindow({
+            content: '<b>' + data + '</b>',
+            size: new google.maps.Size(150, 50)
+          });
+          var marker = new google.maps.Marker({
+            position: results[0].geometry.location,
+            map: map,
+            title: data
+          });
+          google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map, marker);
+          });
+        } else {
+          alert("No results found");
+        }
+      } else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+    });  
+  }
+}
+</script>
+
+
+
+
+{% endblock %}

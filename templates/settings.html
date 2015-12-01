@@ -1,0 +1,31 @@
+{% extends 'base.html' %} 
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="padding">
+<h1> Your account information: </h1>
+<ul style="list-style: none">
+    <li>Full name: {{ user_email.fname }} {{ user_email.lname }}</li>
+    <li>Username: {{ user_email.username }}</li>
+    <li>Email: {{ user_email.email }}</li>
+    
+    {% if user_email.is_teacher == True %}
+        <li>You're currently a teacher</li>
+    
+    {% else %}
+        <li>You're currently a student</li>
+    
+    {% endif %}
+        <li>Your Bio:  {{ user_email.bio }}</li>
+        <li></li>
+</ul>
+
+<button type="submit" class="btn btn-default" name="createit" id="createit" value="Create it!">Update Info</button>
+
+</div>
+
+{% endblock %}

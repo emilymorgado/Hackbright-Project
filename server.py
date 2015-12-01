@@ -156,7 +156,7 @@ def new_profile_confirmation():
 
 @app.route('/profile/<user_username>')
 def profile(user_username):
-    """Profile page renders user information if user is logged in"""
+    """Profile page renders the classes the user is teaching/taking"""
 
 
     session_id = session["user_id"]
@@ -177,7 +177,7 @@ def profile(user_username):
 
 @app.route('/settings/<user_username>')
 def settings(user_username):
-    """Profile page renders user information if user is logged in"""
+    """Settings page renders user information"""
 
 
     session_id = session["user_id"]
@@ -846,7 +846,7 @@ def calculate_base_price(per_time, counter, duration, price):
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
-    app.debug = True
+    app.debug = False
 
     connect_to_db(app)
 
