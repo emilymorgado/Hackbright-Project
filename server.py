@@ -193,7 +193,8 @@ def settings(user_username):
     print "bonitinha"
 
 
-    return render_template("settings.html", user_email=user_email, user_classes=user_classes, user_username=user_username)
+    return render_template("settings.html", user_email=user_email, user_classes=user_classes, 
+                                            user_username=user_username)
 
 
 
